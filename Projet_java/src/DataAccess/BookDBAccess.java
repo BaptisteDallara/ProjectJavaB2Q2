@@ -182,6 +182,70 @@ public class BookDBAccess implements BookDataAccess{
         }
     }
 
+    public Genre getGenre(String genderName){
+            try{
+            ResultSet data = getData("select * from genre where name = '" + genderName + "'");
+            Genre genre = null;
+            while (data.next()){
+                genre = new Genre(data.getString("name"));
+            }
+            return genre;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    public Type getType(String typeName){
+        try{
+            ResultSet data = getData("select * from type where name = '" + typeName + "'");
+            Type type = null;
+            while (data.next()){
+                type = new Type(data.getString("name"));
+            }
+            return type;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+    public Edition getEdition(String editionName){
+        try{
+            ResultSet data = getData("select * from edition where name = '" + editionName + "'");
+            Edition edition = null;
+            while (data.next()){
+                Country country = new Country(data.getString("country"));
+                edition = new Edition(data.getInt("editionId"),data.getString("name"),country);
+            }
+            return edition;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+    public Language getLanguage(String languageName){
+        try{
+            ResultSet data = getData("select * from language where name = '" + languageName + "'");
+            Language language = null;
+            while (data.next()){
+                language = new Language(data.getString("name"));
+            }
+            return language;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    public Serie getSerie(String serieName){
+        try{
+            ResultSet data = getData("select * from serie where name = '" + serieName + "'");
+            Serie serie = null;
+            while (data.next()){
+                serie = new Serie(data.getInt("serieId"),data.getString("name"));
+            }
+            return serie;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     public Contributor getContributeur(ResultSet data) throws SQLException{
         Contributor contributor = new Contributor(data.getInt("personId"),data.getString("firstName"),data.getString("lastName"));
         if(data.getString("birthday") != null){

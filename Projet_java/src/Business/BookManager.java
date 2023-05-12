@@ -40,6 +40,22 @@ public class BookManager {
     public ArrayList<Contributor> showDrawer(){
         return dao.showDrawer();
     }
+    public Genre getGenre(String genderName){
+        return dao.getGenre(genderName);
+    }
+    public Serie getSerie(String serieName){
+        return dao.getSerie(serieName);
+    }
+    public Edition getEdition(String editionName){
+        return dao.getEdition(editionName);
+    }
+    public Language getLanguage(String languageName){
+        return dao.getLanguage(languageName);
+    }
+
+    public Type getType(String typeName){
+        return dao.getType(typeName);
+    }
     public Contributor searchContributor(String firstName, String lastName,String personType){
         return dao.searchContributor(firstName, lastName,personType);
     }

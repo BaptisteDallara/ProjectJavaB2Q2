@@ -25,7 +25,7 @@ public class Book {
                 Type type,Language originalLanguage,Serie serie,Edition edition){
         author = new ArrayList<Contributor>();
         drawer = new ArrayList<Contributor>();
-        this.bookId = bookId;
+        setBookId(bookId);
         this.title = title;
         this.publicationDate = publicationDate;
         this.recommendedAge = recommendedAge;
@@ -41,7 +41,9 @@ public class Book {
                 Type type,Language originalLanguage,Edition edition){
         this(bookId,title,publicationDate,recommendedAge,isDiscontinued,genre,type,originalLanguage,null,edition);
     }
-
+    public void setBookId(Integer bookId){
+        this.bookId = bookId;
+    }
     public Genre getGenre() {
         return genre;
     }

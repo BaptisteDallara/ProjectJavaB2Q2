@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CreateBookController {
@@ -34,15 +35,6 @@ public class CreateBookController {
 
     @FXML
     private ComboBox<String> authorCBox;
-
-    @FXML
-    private Button btnAddAuthor;
-
-    @FXML
-    private Button btnAddBook;
-
-    @FXML
-    private Button btnAddDrawer;
 
     @FXML
     private DatePicker inputPubDate;
@@ -86,6 +78,36 @@ public class CreateBookController {
         }
     }
 
+    /*
+
+    public void addBook(){
+        String title = inputTitle.getText();
+        String recAge = inputRecAge.getText();
+        String pubDate = inputPubDate.getValue().toString();
+        String language = languageCBox.getValue();
+        String edition = editionCBox.getValue();
+        String genre = genreCBox.getValue();
+        String type = typeCBox.getValue();
+        String serie = serieCBox.getValue();
+        Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
+        if(title != null && recAge != null && pubDate != null && language != null && edition != null && genre != null && type != null){
+            Genre genre1 = bookManager.getGenre(genre);
+            Type type1 = bookManager.getType(type);
+            Serie serie1 = bookManager.getSerie(serie);
+            Language language1 = bookManager.getLanguage(language);
+            Edition edition1 = bookManager.getEdition(edition);
+            Book book = new Book(4,title, LocalDate.parse(pubDate),Integer.parseInt(recAge),isDiscontinued, genre1, type1,language1,serie1,edition1);
+            for(Contributor author : authors){
+                book.addAuthor(author);
+            }
+            for(Contributor drawer : drawers){
+                book.addDrawer(drawer);
+            }
+            bookManager.addBook(book);
+            System.out.println("livre ajouté avec succès");
+        }
+    }*/
+
 
     public void initTabViewAuth(){
         columnAuthorFName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -104,6 +126,9 @@ public class CreateBookController {
             String[] authorNameSplit = authorName.split(" ");
             String firstName = authorNameSplit[0];
             String lastName = authorNameSplit[1];
+            if(authorNameSplit.length > 2 && authorNameSplit[2] != null){
+                lastName += " " + authorNameSplit[2];
+            }
             Contributor author = bookManager.searchContributor(firstName, lastName, "Author");
             if(!authors.contains(author)) {
                 authors.add(author);
@@ -118,6 +143,9 @@ public class CreateBookController {
             String[] drawerNameSplit = drawerName.split(" ");
             String firstName = drawerNameSplit[0];
             String lastName = drawerNameSplit[1];
+            if(drawerNameSplit.length > 2 &&drawerNameSplit[2] != null){
+                lastName += " " + drawerNameSplit[2];
+            }
             Contributor drawer = bookManager.searchContributor(firstName, lastName, "Drawer");
             if(!drawers.contains(drawer)) {
                 drawers.add(drawer);

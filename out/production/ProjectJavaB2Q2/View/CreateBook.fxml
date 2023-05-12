@@ -29,7 +29,7 @@
       <TextField fx:id="inputRecAge" layoutX="190.0" layoutY="83.0" />
       <Label layoutX="190.0" layoutY="65.0" prefHeight="18.0" prefWidth="150.0" text="Recommended Age" />
       <CheckBox fx:id="isDiscontinuedCheck" layoutX="190.0" layoutY="123.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="150.0" text="Is Discontinued" />
-      <Button fx:id="btnAddBook" layoutX="15.0" layoutY="336.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="77.0" text="Add Book" textAlignment="CENTER" />
+      <Button fx:id="btnAddBook" layoutX="15.0" layoutY="336.0" mnemonicParsing="false" onAction="#addBook" prefHeight="26.0" prefWidth="77.0" text="Add Book" textAlignment="CENTER" />
       <TableView fx:id="tableViewAuth" layoutX="265.0" layoutY="172.0" prefHeight="186.0" prefWidth="158.0">
         <columns>
           <TableColumn fx:id="columnAuthorFName" text="Author" />
