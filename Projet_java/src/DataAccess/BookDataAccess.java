@@ -17,6 +17,7 @@ public interface BookDataAccess {
     public ArrayList<Type> showType();
     public ArrayList<Serie> showSerie();
     public Contributor getContributeur(ResultSet data) throws SQLException;
+    public Contributor searchContributor(String firstName, String lastName,String personType);
 
     public ArrayList<Contributor> showAuthor();
     public ArrayList<Contributor> showDrawer();

@@ -40,6 +40,9 @@ public class BookManager {
     public ArrayList<Contributor> showDrawer(){
         return dao.showDrawer();
     }
+    public Contributor searchContributor(String firstName, String lastName,String personType){
+        return dao.searchContributor(firstName, lastName,personType);
+    }
 
 
 }

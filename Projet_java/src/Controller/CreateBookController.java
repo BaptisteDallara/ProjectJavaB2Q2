@@ -4,6 +4,7 @@ import Business.BookManager;
 import Model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
@@ -13,8 +14,20 @@ public class CreateBookController {
     private ComboBox<String> editionCBox;
 
     @FXML
+    private TableView<Contributor> tableViewAuthDraw;
+
+    @FXML
     private ComboBox<String> genreCBox;
 
+    @FXML
+    private TableColumn<Contributor, String> columnAuthorFName;
+    @FXML
+    private TableColumn<Contributor, String> columnAuthorLName;
+
+    @FXML
+    private TableColumn<Contributor, String> columnDrawerFName;
+    @FXML
+    private TableColumn<Contributor, String> columnDrawerLName;
     @FXML
     private ComboBox<String> DrawerCBox;
 
@@ -51,65 +64,105 @@ public class CreateBookController {
     @FXML
     private ComboBox<String> typeCBox;
 
+    private ArrayList<Contributor> authors = new ArrayList<>();
+    private ArrayList<Contributor> drawers = new ArrayList<>();
+    private BookManager bookManager;
+
     public void initialize(){
         try {
-            BookManager bookManager = new BookManager();
-            initCBoxLanguage(bookManager);
-            initCBoxEdition(bookManager);
-            initCBoxGenre(bookManager);
-            initCBoxType(bookManager);
-            initCBoxSerie(bookManager);
-            initCBoxAuthor(bookManager);
-            initCBoxDrawer(bookManager);
+            bookManager = new BookManager();
+            initCBoxLanguage();
+            initCBoxEdition();
+            initCBoxGenre();
+            initCBoxType();
+            initCBoxSerie();
+            initCBoxAuthor();
+            initCBoxDrawer();
             
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
-    public void initCBoxAuthor(BookManager bookManager){
+
+
+    public void initTabViewAuth(){
+        columnAuthorFName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        columnAuthorLName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tableViewAuthDraw.getItems().setAll(authors);
+    }
+
+    public void initTabViewDrawer(){
+        columnDrawerFName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        columnDrawerLName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tableViewAuthDraw.getItems().setAll(drawers);
+    }
+    public void addAuthor(){
+        String authorName = authorCBox.getValue();
+        if(authorName != null) {
+            String[] authorNameSplit = authorName.split(" ");
+            String firstName = authorNameSplit[0];
+            String lastName = authorNameSplit[1];
+            Contributor author = bookManager.searchContributor(firstName, lastName, "Author");
+            authors.add(author);
+            initTabViewAuth();
+        }
+    }
+
+    public void addDrawer(){
+        String drawerName = DrawerCBox.getValue();
+        if(drawerName != null) {
+            String[] drawerNameSplit = drawerName.split(" ");
+            String firstName = drawerNameSplit[0];
+            String lastName = drawerNameSplit[1];
+            Contributor drawer = bookManager.searchContributor(firstName, lastName, "Drawer");
+            drawers.add(drawer);
+            initTabViewDrawer();
+        }
+    }
+    public void initCBoxAuthor(){
         ArrayList<Contributor> contributors = bookManager.showAuthor();
         for(Contributor contributor : contributors){
             authorCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
         }
     }
 
-    public void initCBoxDrawer(BookManager bookManager){
+    public void initCBoxDrawer(){
         ArrayList<Contributor> contributors = bookManager.showDrawer();
         for(Contributor contributor : contributors){
             DrawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
         }
     }
 
-    public void initCBoxSerie(BookManager bookManager){
+    public void initCBoxSerie(){
         ArrayList<Serie> series = bookManager.showSerie();
         for(Serie serie : series){
             serieCBox.getItems().add(serie.getName());
         }
     }
 
-    public void initCBoxEdition(BookManager bookManager){
+    public void initCBoxEdition(){
         ArrayList<Edition> editions = bookManager.showEdition();
         for(Edition edition : editions){
             editionCBox.getItems().add(edition.getName());
         }
     }
 
-    public void initCBoxLanguage(BookManager bookManager){
+    public void initCBoxLanguage(){
         ArrayList<Language> languages = bookManager.showLanguage();
         for(Language language : languages){
             languageCBox.getItems().add(language.getName());
         }
     }
 
-    public void initCBoxGenre(BookManager bookManager){
+    public void initCBoxGenre(){
         ArrayList<Genre> genres = bookManager.showGenre();
         for(Genre genre : genres){
             genreCBox.getItems().add(genre.getName());
         }
     }
 
-    public void initCBoxType(BookManager bookManager){
+    public void initCBoxType(){
         ArrayList<Type> types = bookManager.showType();
         for(Type type : types){
             typeCBox.getItems().add(type.getName());

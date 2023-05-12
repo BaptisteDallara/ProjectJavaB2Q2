@@ -22,6 +22,11 @@ public class MainController {
     public void onCreateBookClick(){
         changingSecondScene("../View/CreateBook.fxml");
     }
+
+    @FXML
+    public void onAuthorClick(){
+        changingSecondScene("../View/DisplayAuthor.fxml");
+    }
     @FXML
     public void changingSecondScene(String scene){
         try {

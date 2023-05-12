@@ -141,9 +141,22 @@ public class BookDBAccess implements BookDataAccess{
         }
     }
 
+    public Contributor searchContributor(String firstName, String lastName, String personType){
+        try{
+            ResultSet data = getData("select * from person where firstName = '" + firstName + "' and lastName = '" + lastName + "' and personType = '" + personType + "'");
+            Contributor contributor = null;
+            while (data.next()){
+                contributor = getContributeur(data);
+            }
+            return contributor;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     public ArrayList<Contributor> showAuthor(){
         try{
-            ResultSet data = getData("select * from person where personType = 'author'");
+            ResultSet data = getData("select * from person where personType = 'Author'");
             ArrayList<Contributor> authors = new ArrayList<>();
             while (data.next()){
                 Contributor author = getContributeur(data);
@@ -157,7 +170,7 @@ public class BookDBAccess implements BookDataAccess{
 
     public ArrayList<Contributor> showDrawer(){
         try{
-            ResultSet data = getData("select * from person where personType = 'drawer'");
+            ResultSet data = getData("select * from person where personType = 'Drawer'");
             ArrayList<Contributor> drawers = new ArrayList<>();
             while (data.next()){
                 Contributor drawer = getContributeur(data);

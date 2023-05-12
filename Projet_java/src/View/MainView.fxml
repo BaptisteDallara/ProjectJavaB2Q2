@@ -25,7 +25,7 @@
             <Menu mnemonicParsing="false" text="Contributor">
               <items>
                 <MenuItem mnemonicParsing="false" text="Add Contributor" />
-                  <MenuItem mnemonicParsing="false" text="Author" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAuthorClick" text="Author" />
                   <MenuItem mnemonicParsing="false" text="Drawer" />
               </items>
             </Menu>
