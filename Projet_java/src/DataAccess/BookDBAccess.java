@@ -140,4 +140,47 @@ public class BookDBAccess implements BookDataAccess{
             throw new RuntimeException(exception);
         }
     }
+
+    public ArrayList<Contributor> showAuthor(){
+        try{
+            ResultSet data = getData("select * from person where personType = 'author'");
+            ArrayList<Contributor> authors = new ArrayList<>();
+            while (data.next()){
+                Contributor author = getContributeur(data);
+                authors.add(author);
+            }
+            return authors;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    public ArrayList<Contributor> showDrawer(){
+        try{
+            ResultSet data = getData("select * from person where personType = 'drawer'");
+            ArrayList<Contributor> drawers = new ArrayList<>();
+            while (data.next()){
+                Contributor drawer = getContributeur(data);
+                drawers.add(drawer);
+            }
+            return drawers;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    public Contributor getContributeur(ResultSet data) throws SQLException{
+        Contributor author = new Contributor(data.getInt("personId"),data.getString("firstName"),data.getString("lastName"));
+        if(data.getString("birthday") != null){
+            author.setBirthday(java.time.LocalDate.parse(data.getString("birthday")));
+        }
+        if(data.getString("death") != null){
+            author.setDeath(java.time.LocalDate.parse(data.getString("death")));
+        }
+        if(data.getString("nationality") != null){
+            Country nationality = new Country(data.getString("nationality"));
+            author.setNationality(nationality);
+        }
+        return author;
+    }
 }

@@ -8,8 +8,8 @@ public class Contributor extends Person{
 
     public Contributor(Integer personId,String firstName,String lastName,LocalDate birthday,LocalDate death,Country nationality){
         super(personId,firstName,lastName,birthday);
-        this.death = death;
-        this.nationality = nationality;
+        setDeath(death);
+        setNationality(nationality);
     }
     public Contributor(Integer personId,String firstName,String lastName,LocalDate birthday,Country nationality){
         this(personId,firstName,lastName,birthday,null,nationality);
@@ -18,5 +18,12 @@ public class Contributor extends Person{
         this(personId,firstName,lastName,null,null,null);
     }
 
+    public void setDeath(LocalDate death) {
+        this.death = death;
+    }
+
+    public void setNationality(Country nationality){
+        this.nationality = nationality;
+    }
 
 }

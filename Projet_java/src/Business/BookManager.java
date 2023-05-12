@@ -1,4 +1,4 @@
-package Buisness;
+package Business;
 
 import DataAccess.BookDBAccess;
 import DataAccess.BookDataAccess;
@@ -33,6 +33,12 @@ public class BookManager {
 
     public ArrayList<Serie> showSerie(){
         return dao.showSerie();
+    }
+    public ArrayList<Contributor> showAuthor(){
+        return dao.showAuthor();
+    }
+    public ArrayList<Contributor> showDrawer(){
+        return dao.showDrawer();
     }
 
 

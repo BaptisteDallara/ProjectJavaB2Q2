@@ -19,5 +19,16 @@ public abstract class Person {
         this(personId,firstName,lastName,null);
     }
 
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
 
 }

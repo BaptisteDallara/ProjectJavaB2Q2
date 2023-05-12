@@ -1,6 +1,6 @@
 package Controller;
 
-import Buisness.BookManager;
+import Business.BookManager;
 import Model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,10 +16,10 @@ public class CreateBookController {
     private ComboBox<String> genreCBox;
 
     @FXML
-    private ComboBox<Contributor> DrawerCBox;
+    private ComboBox<String> DrawerCBox;
 
     @FXML
-    private ComboBox<Contributor> authorCBox;
+    private ComboBox<String> authorCBox;
 
     @FXML
     private Button btnAddAuthor;
@@ -59,10 +59,25 @@ public class CreateBookController {
             initCBoxGenre(bookManager);
             initCBoxType(bookManager);
             initCBoxSerie(bookManager);
+            initCBoxAuthor(bookManager);
+            initCBoxDrawer(bookManager);
             
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+        }
+    }
+    public void initCBoxAuthor(BookManager bookManager){
+        ArrayList<Contributor> contributors = bookManager.showAuthor();
+        for(Contributor contributor : contributors){
+            authorCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+        }
+    }
+
+    public void initCBoxDrawer(BookManager bookManager){
+        ArrayList<Contributor> contributors = bookManager.showDrawer();
+        for(Contributor contributor : contributors){
+            DrawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
         }
     }
 
