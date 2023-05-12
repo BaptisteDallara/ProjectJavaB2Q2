@@ -14,8 +14,9 @@ public class CreateBookController {
     private ComboBox<String> editionCBox;
 
     @FXML
-    private TableView<Contributor> tableViewAuthDraw;
-
+    private TableView<Contributor> tableViewAuth;
+    @FXML
+    private TableView<Contributor> tableViewDraw;
     @FXML
     private ComboBox<String> genreCBox;
 
@@ -89,13 +90,13 @@ public class CreateBookController {
     public void initTabViewAuth(){
         columnAuthorFName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnAuthorLName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        tableViewAuthDraw.getItems().setAll(authors);
+        tableViewAuth.getItems().setAll(authors);
     }
 
     public void initTabViewDrawer(){
         columnDrawerFName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         columnDrawerLName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        tableViewAuthDraw.getItems().setAll(drawers);
+        tableViewDraw.getItems().setAll(drawers);
     }
     public void addAuthor(){
         String authorName = authorCBox.getValue();
@@ -104,8 +105,10 @@ public class CreateBookController {
             String firstName = authorNameSplit[0];
             String lastName = authorNameSplit[1];
             Contributor author = bookManager.searchContributor(firstName, lastName, "Author");
-            authors.add(author);
-            initTabViewAuth();
+            if(!authors.contains(author)) {
+                authors.add(author);
+                initTabViewAuth();
+            }
         }
     }
 
@@ -116,8 +119,10 @@ public class CreateBookController {
             String firstName = drawerNameSplit[0];
             String lastName = drawerNameSplit[1];
             Contributor drawer = bookManager.searchContributor(firstName, lastName, "Drawer");
-            drawers.add(drawer);
-            initTabViewDrawer();
+            if(!drawers.contains(drawer)) {
+                drawers.add(drawer);
+                initTabViewDrawer();
+            }
         }
     }
     public void initCBoxAuthor(){

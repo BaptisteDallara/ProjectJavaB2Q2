@@ -183,17 +183,17 @@ public class BookDBAccess implements BookDataAccess{
     }
 
     public Contributor getContributeur(ResultSet data) throws SQLException{
-        Contributor author = new Contributor(data.getInt("personId"),data.getString("firstName"),data.getString("lastName"));
+        Contributor contributor = new Contributor(data.getInt("personId"),data.getString("firstName"),data.getString("lastName"));
         if(data.getString("birthday") != null){
-            author.setBirthday(java.time.LocalDate.parse(data.getString("birthday")));
+            contributor.setBirthday(java.time.LocalDate.parse(data.getString("birthday")));
         }
         if(data.getString("death") != null){
-            author.setDeath(java.time.LocalDate.parse(data.getString("death")));
+            contributor.setDeath(java.time.LocalDate.parse(data.getString("death")));
         }
         if(data.getString("nationality") != null){
             Country nationality = new Country(data.getString("nationality"));
-            author.setNationality(nationality);
+            contributor.setNationality(nationality);
         }
-        return author;
+        return contributor;
     }
 }

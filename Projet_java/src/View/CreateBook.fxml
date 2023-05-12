@@ -30,12 +30,10 @@
       <Label layoutX="190.0" layoutY="65.0" prefHeight="18.0" prefWidth="150.0" text="Recommended Age" />
       <CheckBox fx:id="isDiscontinuedCheck" layoutX="190.0" layoutY="123.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="150.0" text="Is Discontinued" />
       <Button fx:id="btnAddBook" layoutX="15.0" layoutY="336.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="77.0" text="Add Book" textAlignment="CENTER" />
-      <TableView fx:id="tableViewAuthDraw" layoutX="270.0" layoutY="172.0" prefHeight="186.0" prefWidth="316.0">
+      <TableView fx:id="tableViewAuth" layoutX="265.0" layoutY="172.0" prefHeight="186.0" prefWidth="158.0">
         <columns>
           <TableColumn fx:id="columnAuthorFName" text="Author" />
             <TableColumn fx:id="columnAuthorLName" />
-          <TableColumn fx:id="columnDrawerFName" text="Drawer" />
-            <TableColumn fx:id="columnDrawerLName" />
         </columns>
       </TableView>
       <Label layoutX="386.0" layoutY="16.0" prefHeight="18.0" prefWidth="150.0" text="Author" />
@@ -44,5 +42,11 @@
       <ComboBox fx:id="DrawerCBox" layoutX="386.0" layoutY="105.0" prefWidth="150.0" />
       <Button fx:id="btnAddAuthor" layoutX="497.0" layoutY="70.0" mnemonicParsing="false" onAction="#addAuthor" text="Add" />
       <Button fx:id="btnAddDrawer" layoutX="497.0" layoutY="141.0" mnemonicParsing="false" onAction="#addDrawer" text="Add" />
+      <TableView fx:id="tableViewDraw" layoutX="423.0" layoutY="172.0" prefHeight="186.0" prefWidth="158.0">
+         <columns>
+          <TableColumn fx:id="columnDrawerFName" text="Drawer" />
+            <TableColumn fx:id="columnDrawerLName" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

@@ -26,4 +26,9 @@ public class Contributor extends Person{
         this.nationality = nationality;
     }
 
+    @Override
+    public String toString(){
+        return super.toString();
+    }
+
 }
