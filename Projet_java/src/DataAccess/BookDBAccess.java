@@ -37,7 +37,8 @@ public class BookDBAccess implements BookDataAccess{
     public void addBook(Book book){
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
-            String sql = "insert into book (?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into book (title,originalLanguage,edition,genre,type,publicationDate," +
+                    "recommendedAge,isDiscontinued,serie) values (?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, book.getTitle());
             statement.setString(2,book.getOriginalLanguage().getName());
@@ -49,16 +50,13 @@ public class BookDBAccess implements BookDataAccess{
             statement.setInt(7,book.getRecommendedAge());
             statement.setBoolean(8, book.getDiscontinued());
             if(book.getSerie() != null){
-                sql = "update book set serie = ? where bookId = ?";
-                statement = connection.prepareStatement(sql);
-                statement.setInt(1,book.getSerie().getSerieId());
-                statement.setInt(2,book.getBookId());
+                statement.setInt(9,book.getSerie().getSerieId());
             }
-            else{
+            else {
                 statement.setNull(9,java.sql.Types.INTEGER);
             }
             statement.executeUpdate();
-            //connection.close();
+            statement.close();
         }
         catch (SQLException exception){
             System.out.println(exception.getMessage());

@@ -103,6 +103,7 @@ public class CreateBookController {
             }
             bookManager.addBook(book);
             System.out.println("livre ajouté avec succès");
+            this.initialize();
         }
     }
 
