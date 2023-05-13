@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class BookDBAccess implements BookDataAccess{
@@ -24,10 +25,22 @@ public class BookDBAccess implements BookDataAccess{
     }
     @Override
     public ArrayList<Book> getAllBook(){
-        // don't forget try catch and exceptions
         try {
-            Connection connection = SingletonConnexion.getUniqueConnexion();
-            return null;
+            ResultSet data = getData("select * from book");
+            ArrayList<Book> books = new ArrayList<>();
+            while (data.next()) {
+                Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                        data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),getGenre(data.getString("genre")),
+                        getType(data.getString("type")),getLanguage(data.getString("originalLanguage")),
+                        getEdition(data.getInt("edition")));
+                if(data.getInt("serie") != 0) {
+                    book.setSerie(getSerie(data.getInt("serie")));
+                }
+                book.setBookId(data.getInt("bookId"));
+                //add book author and drawer to finish the display
+                books.add(book);
+            }
+            return books;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -56,6 +69,7 @@ public class BookDBAccess implements BookDataAccess{
                 statement.setNull(9,java.sql.Types.INTEGER);
             }
             statement.executeUpdate();
+            //add the new Contributor to the DB
             statement.close();
         }
         catch (SQLException exception){
@@ -89,7 +103,8 @@ public class BookDBAccess implements BookDataAccess{
             ArrayList<Edition> editions = new ArrayList<>();
             while (data.next()){
                 Country country = new Country(data.getString("country"));
-                Edition edition = new Edition(data.getInt("editionId"),data.getString("name"),country);
+                Edition edition = new Edition(data.getString("name"),country);
+                edition.setEditionId(data.getInt("editionId"));
                 editions.add(edition);
             }
             return editions;
@@ -131,7 +146,8 @@ public class BookDBAccess implements BookDataAccess{
             ResultSet data = getData("select * from serie");
             ArrayList<Serie> series = new ArrayList<>();
             while (data.next()){
-                Serie serie = new Serie(data.getInt("serieId"),data.getString("name"));
+                Serie serie = new Serie(data.getString("name"));
+                serie.setSerieId(data.getInt("serieId"));
                 series.add(serie);
             }
             return series;
@@ -212,7 +228,22 @@ public class BookDBAccess implements BookDataAccess{
             Edition edition = null;
             while (data.next()){
                 Country country = new Country(data.getString("country"));
-                edition = new Edition(data.getInt("editionId"),data.getString("name"),country);
+                edition = new Edition(data.getString("name"),country);
+                edition.setEditionId(data.getInt("editionId"));
+            }
+            return edition;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+    public Edition getEdition(Integer editionId){
+        try{
+            ResultSet data = getData("select * from edition where editionId = '" + editionId + "'");
+            Edition edition = null;
+            while (data.next()){
+                Country country = new Country(data.getString("country"));
+                edition = new Edition(data.getString("name"),country);
+                edition.setEditionId(data.getInt("editionId"));
             }
             return edition;
         } catch (SQLException exception) {
@@ -237,7 +268,21 @@ public class BookDBAccess implements BookDataAccess{
             ResultSet data = getData("select * from serie where name = '" + serieName + "'");
             Serie serie = null;
             while (data.next()){
-                serie = new Serie(data.getInt("serieId"),data.getString("name"));
+                serie = new Serie(data.getString("name"));
+                serie.setSerieId(data.getInt("serieId"));
+            }
+            return serie;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+    public Serie getSerie(Integer serieId){
+        try{
+            ResultSet data = getData("select * from serie where serieId = '" + serieId + "'");
+            Serie serie = null;
+            while (data.next()){
+                serie = new Serie(data.getString("name"));
+                serie.setSerieId(data.getInt("serieId"));
             }
             return serie;
         } catch (SQLException exception) {
@@ -246,7 +291,8 @@ public class BookDBAccess implements BookDataAccess{
     }
 
     public Contributor getContributeur(ResultSet data) throws SQLException{
-        Contributor contributor = new Contributor(data.getInt("personId"),data.getString("firstName"),data.getString("lastName"));
+        Contributor contributor = new Contributor(data.getString("firstName"),data.getString("lastName"));
+        contributor.setPersonId(data.getInt("personId"));
         if(data.getString("birthday") != null){
             contributor.setBirthday(java.time.LocalDate.parse(data.getString("birthday")));
         }

@@ -3,11 +3,13 @@ package Model;
 public class Serie {
     private Integer serieId;
     private String name;
-    public Serie(Integer serieId,String name){
-        this.serieId = serieId;
+    public Serie(String name){
         this.name = name;
     }
 
+    public Integer setSerieId(Integer serieId){
+        return this.serieId = serieId;
+    }
     public Integer getSerieId() {
         return serieId;
     }

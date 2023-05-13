@@ -12,8 +12,8 @@ public class Book {
     private LocalDate publicationDate;
     private Integer recommendedAge;
     private Boolean isDiscontinued;
-    private ArrayList<Contributor> author;
-    private ArrayList<Contributor> drawer;
+    private ArrayList<Contributor> authors;
+    private ArrayList<Contributor> drawers;
     private Genre genre;
     private Type type;
     private Language originalLanguage;
@@ -23,8 +23,8 @@ public class Book {
 
     public Book(String title,LocalDate publicationDate,Integer recommendedAge,Boolean isDiscontinued,Genre genre,
                 Type type,Language originalLanguage,Serie serie,Edition edition){
-        author = new ArrayList<Contributor>();
-        drawer = new ArrayList<Contributor>();
+        authors = new ArrayList<Contributor>();
+        drawers = new ArrayList<Contributor>();
         this.title = title;
         this.publicationDate = publicationDate;
         this.recommendedAge = recommendedAge;
@@ -42,6 +42,38 @@ public class Book {
     }
     public void setBookId(Integer bookId){
         this.bookId = bookId;
+    }
+
+    public String getEditionName(){
+        return edition.getName();
+    }
+
+    public String getAuthorList(){
+        String authorList = "";
+        for(Contributor author : authors){
+            authorList += author.toString() + ", ";
+        }
+        System.out.println(authorList);
+        return authorList;
+    }
+
+    public String getDrawerList(){
+        String drawerList = "";
+        for(Contributor drawer : drawers){
+            drawerList += drawer.toString() + ", ";
+        }
+        System.out.println(drawerList);
+        return drawerList;
+    }
+
+    public void setSerie(Serie serie){
+        this.serie = serie;
+    }
+
+    public String getSerieName(){
+        if(serie == null)
+            return "";
+        return serie.getName();
     }
     public Genre getGenre() {
         return genre;
@@ -83,11 +115,11 @@ public class Book {
         return isDiscontinued;
     }
 
-    public void addAuthor(Contributor ... authors){
-        author.addAll(Arrays.asList(authors));
+    public void addAuthor(Contributor ... authorsList){
+        authors.addAll(Arrays.asList(authorsList));
     }
-    public void addDrawer(Contributor ... drawers){
-        drawer.addAll(Arrays.asList(drawers));
+    public void addDrawer(Contributor ... drawersList){
+        drawers.addAll(Arrays.asList(drawersList));
     }
 
 

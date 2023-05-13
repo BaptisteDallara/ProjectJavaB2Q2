@@ -5,10 +5,12 @@ public class Edition {
     private String name;
     private Country location;
 
-    public Edition(Integer editionId,String name,Country location){
-        this.editionId = editionId;
+    public Edition(String name,Country location){
         this.name = name;
         this.location = location;
+    }
+    public Integer setEditionId(Integer editionId){
+        return this.editionId = editionId;
     }
 
     public String getName() {

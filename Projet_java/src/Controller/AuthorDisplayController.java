@@ -46,7 +46,8 @@ public class AuthorDisplayController {
             System.out.println("hello");
             ResultSet data = statement.executeQuery();
             while (data.next()) {
-                Contributor author = new Contributor(data.getInt("personId"), data.getString("firstName"), data.getString("lastName"));
+                Contributor author = new Contributor( data.getString("firstName"), data.getString("lastName"));
+                author.setPersonId(data.getInt("personId"));
                 System.out.println(author.getFirstName());
                 authors.add(author);
             }
