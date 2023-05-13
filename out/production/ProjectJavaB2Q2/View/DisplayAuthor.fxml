@@ -9,22 +9,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AuthorDisplayController">
    <children>
       <TableView fx:id="authorTable" layoutX="39.0" layoutY="50.0" prefHeight="291.0" prefWidth="522.0">
         <columns>
-          <TableColumn fx:id="columnFirstName" prefWidth="96.0" text="First Name" />
-            <TableColumn prefWidth="88.79998779296875" text="Last Name" />
+          <TableColumn fx:id="columnAuthorFName" prefWidth="96.0" text="First Name" />
+            <TableColumn fx:id="columnAuthorLName" prefWidth="88.79998779296875" text="Last Name" />
             <TableColumn minWidth="0.0" prefWidth="118.39990234375" text="Nationality" />
             <TableColumn prefWidth="123.2000732421875" text="Birthday" />
             <TableColumn prefWidth="93.60000000000002" text="Death" />
         </columns>
       </TableView>
       <TextField fx:id="inputAuthor" layoutX="39.0" layoutY="24.0" prefHeight="24.0" prefWidth="150.0" promptText="Author name" />
-      <Button fx:id="btnSearchAuthor" contentDisplay="CENTER" layoutX="189.0" layoutY="24.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0">
+      <Button fx:id="btnSearchAuthor" contentDisplay="CENTER" layoutX="189.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefHeight="26.0" prefWidth="29.0">
          <cursor>
-            <Cursor fx:constant="NONE" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">

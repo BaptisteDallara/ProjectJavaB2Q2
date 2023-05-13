@@ -21,11 +21,10 @@ public class Book {
     private Serie serie;
     private Edition edition;
 
-    public Book(Integer bookId,String title,LocalDate publicationDate,Integer recommendedAge,Boolean isDiscontinued,Genre genre,
+    public Book(String title,LocalDate publicationDate,Integer recommendedAge,Boolean isDiscontinued,Genre genre,
                 Type type,Language originalLanguage,Serie serie,Edition edition){
         author = new ArrayList<Contributor>();
         drawer = new ArrayList<Contributor>();
-        setBookId(bookId);
         this.title = title;
         this.publicationDate = publicationDate;
         this.recommendedAge = recommendedAge;
@@ -37,9 +36,9 @@ public class Book {
         this.edition = edition;
     }
 
-    public Book(Integer bookId,String title,LocalDate publicationDate,Integer recommendedAge,Boolean isDiscontinued,Genre genre,
+    public Book(String title,LocalDate publicationDate,Integer recommendedAge,Boolean isDiscontinued,Genre genre,
                 Type type,Language originalLanguage,Edition edition){
-        this(bookId,title,publicationDate,recommendedAge,isDiscontinued,genre,type,originalLanguage,null,edition);
+        this(title,publicationDate,recommendedAge,isDiscontinued,genre,type,originalLanguage,null,edition);
     }
     public void setBookId(Integer bookId){
         this.bookId = bookId;

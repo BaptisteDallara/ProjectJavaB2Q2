@@ -78,8 +78,6 @@ public class CreateBookController {
         }
     }
 
-    /*
-
     public void addBook(){
         String title = inputTitle.getText();
         String recAge = inputRecAge.getText();
@@ -96,7 +94,7 @@ public class CreateBookController {
             Serie serie1 = bookManager.getSerie(serie);
             Language language1 = bookManager.getLanguage(language);
             Edition edition1 = bookManager.getEdition(edition);
-            Book book = new Book(4,title, LocalDate.parse(pubDate),Integer.parseInt(recAge),isDiscontinued, genre1, type1,language1,serie1,edition1);
+            Book book = new Book(title, LocalDate.parse(pubDate),Integer.parseInt(recAge),isDiscontinued, genre1, type1,language1,serie1,edition1);
             for(Contributor author : authors){
                 book.addAuthor(author);
             }
@@ -106,7 +104,7 @@ public class CreateBookController {
             bookManager.addBook(book);
             System.out.println("livre ajouté avec succès");
         }
-    }*/
+    }
 
 
     public void initTabViewAuth(){

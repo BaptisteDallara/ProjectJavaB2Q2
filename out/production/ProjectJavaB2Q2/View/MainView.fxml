@@ -17,29 +17,23 @@
           <Menu mnemonicParsing="false" text="Book">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#onCreateBookClick" text="Add Book" />
-              <MenuItem mnemonicParsing="false" text="Search Book" />
-                  <MenuItem mnemonicParsing="false" text="Add Exemplar" />
-                  <MenuItem mnemonicParsing="false" text="Search Exemplar" />
+              <MenuItem mnemonicParsing="false" text="Edit Book" />
+                  <MenuItem mnemonicParsing="false" text="Delete Book" />
+                  <MenuItem mnemonicParsing="false" text="List Book" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Contributor">
+            <Menu mnemonicParsing="false" text="Research">
               <items>
-                <MenuItem mnemonicParsing="false" text="Add Contributor" />
-                  <MenuItem mnemonicParsing="false" onAction="#onAuthorClick" text="Author" />
-                  <MenuItem mnemonicParsing="false" text="Drawer" />
+                <MenuItem mnemonicParsing="false" text="Author" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAuthorClick" text="Serie" />
+                  <MenuItem mnemonicParsing="false" text="Lending" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Borrower">
+          <Menu mnemonicParsing="false" text="Business">
             <items>
-              <MenuItem mnemonicParsing="false" text="Search Borrower" />
+              <MenuItem mnemonicParsing="false" text="Add Lending" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Lending">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Search Lend" />
-                  <MenuItem mnemonicParsing="false" text="Add Lend" />
-              </items>
-            </Menu>
         </menus>
       </MenuBar>
       <AnchorPane fx:id="secondaryPane" blendMode="SRC_ATOP" layoutX="7.0" layoutY="26.0" prefHeight="374.0" prefWidth="594.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0" />

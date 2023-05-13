@@ -37,26 +37,27 @@ public class BookDBAccess implements BookDataAccess{
     public void addBook(Book book){
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
-            String sql = "insert into book (bookId,title,originalLanguage,edition,genre," +
-                        "type,publicationDate,recommendedAge,isDiscontinued)";
+            String sql = "insert into book (?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,book.getBookId());
-            statement.setString(2, book.getTitle());
-            statement.setString(3,book.getOriginalLanguage().getName());
-            statement.setInt(4,book.getEdition().getEditionId());
-            statement.setString(5,book.getGenre().getName());
-            statement.setString(6,book.getType().getName());
+            statement.setString(1, book.getTitle());
+            statement.setString(2,book.getOriginalLanguage().getName());
+            statement.setInt(3,book.getEdition().getEditionId());
+            statement.setString(4,book.getGenre().getName());
+            statement.setString(5,book.getType().getName());
             java.sql.Date sqlPubDate = java.sql.Date.valueOf(book.getPublicationDate());
-            statement.setDate(7,sqlPubDate);
-            statement.setInt(8,book.getRecommendedAge());
-            statement.setBoolean(9, book.getDiscontinued());
+            statement.setDate(6,sqlPubDate);
+            statement.setInt(7,book.getRecommendedAge());
+            statement.setBoolean(8, book.getDiscontinued());
             if(book.getSerie() != null){
                 sql = "update book set serie = ? where bookId = ?";
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1,book.getSerie().getSerieId());
                 statement.setInt(2,book.getBookId());
-                statement.executeUpdate();
             }
+            else{
+                statement.setNull(9,java.sql.Types.INTEGER);
+            }
+            statement.executeUpdate();
             //connection.close();
         }
         catch (SQLException exception){
