@@ -39,6 +39,11 @@ public class MainController {
     }
 
     @FXML
+    public void onEditBookClick() {
+        changingSecondScene("../View/EditBookView.fxml");
+    }
+
+    @FXML
     public void changingSecondScene(String scene){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));

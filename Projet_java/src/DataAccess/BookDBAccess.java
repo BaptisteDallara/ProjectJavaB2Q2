@@ -24,12 +24,53 @@ public class BookDBAccess implements BookDataAccess{
         }
     }
     @Override
+    public Book getBook(String bookName){
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from book where title = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,bookName);
+            ResultSet data = statement.executeQuery();
+            data.next();
+            Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                    data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),getGenre(data.getString("genre")),
+                    getType(data.getString("type")),getLanguage(data.getString("originalLanguage")),
+                    getEdition(data.getInt("edition")));
+            if(data.getInt("serie") != 0) {
+                book.setSerie(getSerie(data.getInt("serie")));
+            }
+            book.setBookId(data.getInt("bookId"));
+            String sqlContribution = "select * from contribution where book = ?";
+            PreparedStatement statementContribution = connection.prepareStatement(sqlContribution);
+            statementContribution.setInt(1,book.getBookId());
+            ResultSet dataContribution = statementContribution.executeQuery();
+            while(dataContribution.next()){
+                String sqlContributor = "select * from person where personId = ?";
+                PreparedStatement statementContributor = connection.prepareStatement(sqlContributor);
+                statementContributor.setInt(1,dataContribution.getInt("person"));
+                ResultSet dataContributor = statementContributor.executeQuery();
+                dataContributor.next();
+                if(dataContributor.getString("personType").equals("Author")){
+                    book.addAuthor(getContributeur(dataContributor));
+                }
+                if(dataContributor.getString("personType").equals("Drawer")){
+                    book.addDrawer(getContributeur(dataContributor));
+                }
+            }
+            return book;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
     public ArrayList<Book> getAllBook(){
         try {
             ResultSet data = getData("select * from book");
             ArrayList<Book> books = new ArrayList<>();
             while (data.next()) {
-                Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                String title = data.getString("title");
+                Book book = new Book(title, LocalDate.parse(data.getString("publicationDate")),
                         data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),getGenre(data.getString("genre")),
                         getType(data.getString("type")),getLanguage(data.getString("originalLanguage")),
                         getEdition(data.getInt("edition")));
@@ -37,9 +78,16 @@ public class BookDBAccess implements BookDataAccess{
                     book.setSerie(getSerie(data.getInt("serie")));
                 }
                 book.setBookId(data.getInt("bookId"));
-                ResultSet dataContribution = getData("select * from contribution where book = " + book.getBookId());
+                Connection connection = SingletonConnexion.getUniqueConnexion();
+                String sqlContribution = "select * from contribution where book = ?";
+                PreparedStatement statementContribution = connection.prepareStatement(sqlContribution);
+                statementContribution.setInt(1,book.getBookId());
+                ResultSet dataContribution = statementContribution.executeQuery();
                 while(dataContribution.next()){
-                    ResultSet dataContributor = getData("select * from person where personId = " + dataContribution.getInt("person"));
+                    String sqlContributor = "select * from person where personId = ?";
+                    PreparedStatement statementContributor = connection.prepareStatement(sqlContributor);
+                    statementContributor.setInt(1,dataContribution.getInt("person"));
+                    ResultSet dataContributor = statementContributor.executeQuery();
                     dataContributor.next();
                     if(dataContributor.getString("personType").equals("Author")){
                         book.addAuthor(getContributeur(dataContributor));
@@ -80,10 +128,12 @@ public class BookDBAccess implements BookDataAccess{
                 statement.setNull(9,java.sql.Types.INTEGER);
             }
             statement.executeUpdate();
-            statement.close();
-            ResultSet data = getData("select * from book where title = '" + book.getTitle()+ "'");
+            String sql2 = "select * from book where title = ?";
+            PreparedStatement statement2 = connection.prepareStatement(sql2);
+            statement2.setString(1, book.getTitle());
+            ResultSet data = statement2.executeQuery();
             data.next();
-            Integer bookId = data.getInt("bookId");
+            int bookId = data.getInt("bookId");
             for(Contributor author : book.getAuthors()) {
                 addContribution(bookId,author.getPersonId());
             }
@@ -93,6 +143,7 @@ public class BookDBAccess implements BookDataAccess{
         }
         catch (SQLException exception){
             System.out.println(exception.getMessage());
+            throw new RuntimeException(exception);
         }
 
     }
@@ -254,7 +305,13 @@ public class BookDBAccess implements BookDataAccess{
 
     public Contributor searchContributor(String firstName, String lastName, String personType){
         try{
-            ResultSet data = getData("select * from person where firstName = '" + firstName + "' and lastName = '" + lastName + "' and personType = '" + personType + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from person where firstName = ? and lastName = ? and personType = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, personType);
+            ResultSet data = statement.executeQuery();
             Contributor contributor = null;
             while (data.next()){
                 contributor = getContributeur(data);
@@ -268,7 +325,10 @@ public class BookDBAccess implements BookDataAccess{
 
     public ArrayList<Contributor> showAuthor(){
         try{
-            ResultSet data = getData("select * from person where personType = 'Author'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from person where personType = ?");
+            statement.setString(1, "Author");
+            ResultSet data = statement.executeQuery();
             ArrayList<Contributor> authors = new ArrayList<>();
             while (data.next()){
                 Contributor author = getContributeur(data);
@@ -282,7 +342,10 @@ public class BookDBAccess implements BookDataAccess{
 
     public ArrayList<Contributor> showDrawer(){
         try{
-            ResultSet data = getData("select * from person where personType = 'Drawer'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from person where personType = ?");
+            statement.setString(1, "Drawer");
+            ResultSet data = statement.executeQuery();
             ArrayList<Contributor> drawers = new ArrayList<>();
             while (data.next()){
                 Contributor drawer = getContributeur(data);
@@ -295,8 +358,11 @@ public class BookDBAccess implements BookDataAccess{
     }
 
     public Genre getGenre(String genderName){
-            try{
-            ResultSet data = getData("select * from genre where name = '" + genderName + "'");
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from genre where name = ?");
+            statement.setString(1, genderName);
+            ResultSet data = statement.executeQuery();
             Genre genre = null;
             while (data.next()){
                 genre = new Genre(data.getString("name"));
@@ -309,7 +375,10 @@ public class BookDBAccess implements BookDataAccess{
 
     public Type getType(String typeName){
         try{
-            ResultSet data = getData("select * from type where name = '" + typeName + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from type where name = ?");
+            statement.setString(1, typeName);
+            ResultSet data = statement.executeQuery();
             Type type = null;
             while (data.next()){
                 type = new Type(data.getString("name"));
@@ -322,7 +391,10 @@ public class BookDBAccess implements BookDataAccess{
 
     public Edition getEdition(Integer editionId){
         try{
-            ResultSet data = getData("select * from edition where editionId = '" + editionId + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from edition where editionId = ?");
+            statement.setInt(1, editionId);
+            ResultSet data = statement.executeQuery();
             Edition edition = null;
             while (data.next()){
                 Country country = new Country(data.getString("country"));
@@ -337,7 +409,10 @@ public class BookDBAccess implements BookDataAccess{
 
     public Edition getEdition(String editionName){
         try{
-            ResultSet data = getData("select * from edition where name = '" + editionName + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from edition where name = ?");
+            statement.setString(1, editionName);
+            ResultSet data = statement.executeQuery();
             Edition edition = null;
             while (data.next()){
                 Country country = new Country(data.getString("country"));
@@ -352,7 +427,10 @@ public class BookDBAccess implements BookDataAccess{
     
     public Language getLanguage(String languageName){
         try{
-            ResultSet data = getData("select * from language where name = '" + languageName + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from language where name = ?");
+            statement.setString(1, languageName);
+            ResultSet data = statement.executeQuery();
             Language language = null;
             while (data.next()){
                 language = new Language(data.getString("name"));
@@ -365,7 +443,10 @@ public class BookDBAccess implements BookDataAccess{
 
     public Serie getSerie(String serieName){
         try{
-            ResultSet data = getData("select * from serie where name = '" + serieName + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from serie where name = ?");
+            statement.setString(1, serieName);
+            ResultSet data = statement.executeQuery();
             Serie serie = null;
             while (data.next()){
                 serie = new Serie(data.getString("name"));
@@ -378,7 +459,10 @@ public class BookDBAccess implements BookDataAccess{
     }
     public Serie getSerie(Integer serieId){
         try{
-            ResultSet data = getData("select * from serie where serieId = '" + serieId + "'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from serie where serieId = ?");
+            statement.setInt(1, serieId);
+            ResultSet data = statement.executeQuery();
             Serie serie = null;
             while (data.next()){
                 serie = new Serie(data.getString("name"));

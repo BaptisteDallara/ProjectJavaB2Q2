@@ -48,13 +48,15 @@ public class Book {
         return edition.getName();
     }
 
+
+
     public String getAuthorList(){
         String authorList = "";
         if(authors.size() > 0) {
             for (Contributor author : authors) {
                 authorList += author.toString() + ", ";
             }
-            authorList.substring(authorList.length());
+            authorList.substring(authorList.length() - 2);
         }
         return authorList;
     }
@@ -65,7 +67,7 @@ public class Book {
             for (Contributor drawer : drawers) {
                 drawerList += drawer.toString() + ", ";
             }
-            drawerList.substring(drawerList.length());
+            drawerList.substring(drawerList.length() - 2);
         }
         return drawerList;
     }

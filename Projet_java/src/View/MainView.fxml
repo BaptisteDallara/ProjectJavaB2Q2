@@ -17,7 +17,7 @@
           <Menu mnemonicParsing="false" text="Book">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#onCreateBookClick" text="Add Book" />
-              <MenuItem mnemonicParsing="false" text="Edit Book" />
+              <MenuItem mnemonicParsing="false" onAction="#onEditBookClick" text="Edit Book" />
                   <MenuItem mnemonicParsing="false" onAction="#onDeleteBookClick" text="Delete Book" />
                   <MenuItem mnemonicParsing="false" onAction="#onListBookClick" text="List Book" />
             </items>

@@ -1,7 +1,6 @@
 package DataAccess;
 
 import Model.*;
-import DataAccess.BookDataAccess;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +25,10 @@ public class AuthorDBAccess implements AuthorDataAccess{
 
     public ArrayList<Contributor> getAllAuthor(){
         try {
-            ResultSet data = getData("select * from person where personType = 'Author'");
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from person where personType = ?");
+            statement.setString(1, "Author");
+            ResultSet data = statement.executeQuery();
             ArrayList<Contributor> auteurs = new ArrayList<>();
             while (data.next()) {
                 Contributor author = new Contributor(data.getString("firstName"), data.getString("lastName"));
@@ -53,17 +55,16 @@ public class AuthorDBAccess implements AuthorDataAccess{
             if(authorNameSplit.length > 2 && authorNameSplit[2] != null){
                 authorLastName += " " + authorNameSplit[2];
             }
-
+            Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select distinct serie.serieId, serie.name from serie ");
             sql.append("inner join book on serie.serieId = book.serie ");
             sql.append("inner join contribution on book.bookId = contribution.book ");
             sql.append("inner join person on person.personId = contribution.person ");
-            sql.append("where person.firstName = '");
-            sql.append(authorFirstName);
-            sql.append("' and person.lastName = '");
-            sql.append(authorLastName);
-            sql.append("'");
-            ResultSet data = getData(sql.toString());
+            sql.append("where person.firstName = ? and person.lastName = ?");
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
+            statement.setString(1, authorFirstName);
+            statement.setString(2, authorLastName);
+            ResultSet data = statement.executeQuery();
             ArrayList<Serie> series = new ArrayList<>();
             while (data.next()) {
                 Serie serie = new Serie(data.getString("name"));
@@ -85,18 +86,17 @@ public class AuthorDBAccess implements AuthorDataAccess{
             }
 
             if (serie != null) {
+                Connection connection = SingletonConnexion.getUniqueConnexion();
                 StringBuilder sql = new StringBuilder("select distinct * from book ");
                 sql.append("inner join contribution on book.bookId = contribution.book ");
                 sql.append("inner join person on person.personId = contribution.person ");
                 sql.append("inner join serie on serie.serieId = book.serie ");
-                sql.append("where person.firstName = '");
-                sql.append(authorFirstName);
-                sql.append("' and person.lastName = '");
-                sql.append(authorLastName);
-                sql.append("' and serie.name = '");
-                sql.append(serie);
-                sql.append("'");
-                ResultSet data = getData(sql.toString());
+                sql.append("where person.firstName = ? and person.lastName = ? and serie.name = ?");
+                PreparedStatement statement = connection.prepareStatement(sql.toString());
+                statement.setString(1, authorFirstName);
+                statement.setString(2, authorLastName);
+                statement.setString(3, serie);
+                ResultSet data = statement.executeQuery();
                 ArrayList<Book> books = new ArrayList<>();
                 while (data.next()) {
                     Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
@@ -110,15 +110,15 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 }
             return books;
             } else {
+                Connection connection = SingletonConnexion.getUniqueConnexion();
                 StringBuilder sql = new StringBuilder("select distinct * from book ");
                 sql.append("inner join contribution on book.bookId = contribution.book ");
                 sql.append("inner join person on person.personId = contribution.person ");
-                sql.append("where person.firstName = '");
-                sql.append(authorFirstName);
-                sql.append("' and person.lastName = '");
-                sql.append(authorLastName);
-                sql.append("'");
-                ResultSet data = getData(sql.toString());
+                sql.append("where person.firstName = ? and person.lastName = ?");
+                PreparedStatement statement = connection.prepareStatement(sql.toString());
+                statement.setString(1, authorFirstName);
+                statement.setString(2, authorLastName);
+                ResultSet data = statement.executeQuery();
                 ArrayList<Book> books = new ArrayList<>();
                 while (data.next()) {
                     Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),

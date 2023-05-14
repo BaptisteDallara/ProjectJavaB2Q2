@@ -25,6 +25,7 @@ public interface BookDataAccess {
     public Edition getEdition(Integer editionId);
     public Language getLanguage(String languageName);
     public void addContribution(Integer bookId, Integer contributorId);
+    public Book getBook(String bookName);
     public ArrayList<Contributor> showAuthor();
     public ArrayList<Contributor> showDrawer();
 
