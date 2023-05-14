@@ -20,6 +20,10 @@ public class BookManager {
         dao.addBook(book);
     }
 
+    public void deleteBook(Book book){
+            dao.deleteBook(book);
+    }
+
     public ArrayList<Language> showLanguage(){
         return dao.showLanguage();
     }

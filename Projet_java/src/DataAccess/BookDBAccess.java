@@ -118,6 +118,61 @@ public class BookDBAccess implements BookDataAccess{
     }
     @Override
     public void deleteBook(Book book) {
+        try{
+            deleteContributionFromBook(book);
+            deleteLendingFromBook(book);
+            deleteExemplarFromBook(book);
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "delete from book where bookId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, book.getBookId());
+            statement.executeUpdate();
+            statement.close();
+        }
+        catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    public void deleteExemplarFromBook(Book book){
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "delete from exemplar where book = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, book.getBookId());
+            statement.executeUpdate();
+            statement.close();
+        }
+        catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    public void deleteLendingFromBook(Book book){
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "delete from lending where exemplar in (select exemplarId from exemplar where book = ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, book.getBookId());
+            statement.executeUpdate();
+            statement.close();
+        }
+        catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+    }
+    public void deleteContributionFromBook(Book book) {
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "delete from contribution where book = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, book.getBookId());
+            statement.executeUpdate();
+            statement.close();
+        }
+        catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
     }
     @Override
     public ArrayList<Language> showLanguage(){

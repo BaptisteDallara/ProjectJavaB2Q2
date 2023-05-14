@@ -34,6 +34,11 @@ public class MainController {
     }
 
     @FXML
+    public void onDeleteBookClick() {
+        changingSecondScene("../View/DeleteBook.fxml");
+    }
+
+    @FXML
     public void changingSecondScene(String scene){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));
