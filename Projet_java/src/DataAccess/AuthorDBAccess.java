@@ -84,7 +84,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
             }
 
             if (serie != null) {
-                StringBuilder sql = new StringBuilder("select distinct *, from book ");
+                StringBuilder sql = new StringBuilder("select distinct * from book ");
                 sql.append("inner join contribution on book.bookId = contribution.book ");
                 sql.append("inner join person on person.personId = contribution.person ");
                 sql.append("inner join serie on serie.serieId = book.serie ");
@@ -103,7 +103,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
                     bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
                     bookManager.getEdition(data.getInt("edition")));
                     book.setBookId(data.getInt("bookId"));
-                    if (!books.contains(book)) {
+                    if (!listContains(books, book.getTitle())) {
                         books.add(book);
                     }
                 }
@@ -125,7 +125,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
                     bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
                     bookManager.getEdition(data.getInt("edition")));
                     book.setBookId(data.getInt("bookId"));
-                    if (!books.contains(book)) {
+                    if (!listContains(books, book.getTitle())) {
                         books.add(book);
                     }
                 }
@@ -135,5 +135,14 @@ public class AuthorDBAccess implements AuthorDataAccess{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Boolean listContains(ArrayList<Book> books,String title){
+        for(Book book : books){
+            if(book.getTitle().equals(title)){
+                return true;
+            }
+        }
+        return false;
     }
 }

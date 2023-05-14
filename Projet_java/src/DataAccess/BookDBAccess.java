@@ -44,7 +44,7 @@ public class BookDBAccess implements BookDataAccess{
                     if(dataContributor.getString("personType").equals("Author")){
                         book.addAuthor(getContributeur(dataContributor));
                     }
-                    else if(dataContributor.getString("personType").equals("Drawer")){
+                    if(dataContributor.getString("personType").equals("Drawer")){
                         book.addDrawer(getContributeur(dataContributor));
                     }
                 }
@@ -85,10 +85,10 @@ public class BookDBAccess implements BookDataAccess{
             data.next();
             Integer bookId = data.getInt("bookId");
             for(Contributor author : book.getAuthors()) {
-                addContribution(bookId, author.getLastName());
+                addContribution(bookId,author.getPersonId());
             }
             for(Contributor drawer : book.getDrawers()) {
-                addContribution(bookId, drawer.getLastName());
+                addContribution(bookId,drawer.getPersonId());
             }
         }
         catch (SQLException exception){
@@ -98,13 +98,13 @@ public class BookDBAccess implements BookDataAccess{
     }
 
     @Override
-    public void addContribution(Integer bookId, String contributorLName){
+    public void addContribution(Integer bookId, Integer contributorId){
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into contribution (book,person) values (?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, bookId);
-            ResultSet data = getData("select * from person where lastName = '" + contributorLName + "'");
+            ResultSet data = getData("select * from person where personId = '"+ contributorId + "'");
             data.next();
             Contributor contributor = getContributeur(data);
             statement.setInt(2,contributor.getPersonId());

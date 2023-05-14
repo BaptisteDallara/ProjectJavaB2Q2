@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AuthorDisplayController">
    <children>
-      <Button layoutX="163.0" layoutY="36.0" mnemonicParsing="false" onAction="#onButtonSearchClicked" prefHeight="9.0" prefWidth="7.0">
+      <Button layoutX="500.0" layoutY="36.0" mnemonicParsing="false" onAction="#onButtonSearchClicked" prefHeight="9.0" prefWidth="7.0">
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -21,13 +21,14 @@
          </graphic>
       </Button>
       <Separator layoutY="96.0" prefHeight="0.0" prefWidth="600.0" />
-      <ComboBox fx:id="searchBook" layoutX="13.0" layoutY="99.0" onAction="#initBook" prefWidth="150.0" promptText="Book" />
-      <TableView layoutX="109.0" layoutY="149.0" prefHeight="200.0" prefWidth="382.0">
+      <ComboBox fx:id="searchBook" layoutX="350.0" layoutY="36.0" onMouseClicked="#initBook" prefWidth="150.0" promptText="Book" />
+      <TableView layoutX="14.0" layoutY="99.0" prefHeight="254.0" prefWidth="159.0">
         <columns>
-          <TableColumn fx:id="resultSearch" prefWidth="191.20001220703125" text="ResultSearch" />
-          <TableColumn fx:id="tableName" prefWidth="190.4000244140625" text="TableName" />
+          <TableColumn fx:id="resultSearch" prefWidth="83.20001220703125" text="ResultSearch" />
+          <TableColumn fx:id="tableName" prefWidth="72.800048828125" text="TableName" />
         </columns>
       </TableView>
       <ComboBox fx:id="searchAuthor" layoutX="14.0" layoutY="36.0" prefWidth="150.0" promptText="Author" />
+      <ComboBox fx:id="searchSerie" layoutX="179.0" layoutY="36.0" onMouseClicked="#initSerie" prefWidth="150.0" promptText="Serie" />
    </children>
 </AnchorPane>
