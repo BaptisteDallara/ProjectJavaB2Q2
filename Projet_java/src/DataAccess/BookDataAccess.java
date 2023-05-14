@@ -22,6 +22,7 @@ public interface BookDataAccess {
     public Type getType(String typeName);
     public Serie getSerie(String serieName);
     public Edition getEdition(String editionName);
+    public Edition getEdition(Integer editionId);
     public Language getLanguage(String languageName);
     public void addContribution(Integer bookId, String contributorLName);
     public ArrayList<Contributor> showAuthor();

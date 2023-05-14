@@ -52,6 +52,11 @@ public class BookManager {
     public Edition getEdition(String editionName){
         return dao.getEdition(editionName);
     }
+
+    public Edition getEdition(Integer editionId){
+        return dao.getEdition(editionId);
+    }
+
     public Language getLanguage(String languageName){
         return dao.getLanguage(languageName);
     }

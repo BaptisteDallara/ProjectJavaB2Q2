@@ -4,11 +4,12 @@ package Controller;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 
-import Business.AuthorManager;
+import Business.*;
 import javafx.scene.control.*;
 import Model.*;
 
-import javafx.event.ActionEvent;
+import javafx.event.*;
+import javafx.scene.input.MouseEvent;
 
 public class AuthorDisplayController {
 
@@ -21,6 +22,7 @@ public class AuthorDisplayController {
     @FXML
     private ComboBox<String> searchSerie;
 
+
     @FXML
     private ComboBox<String> searchBook;
 
@@ -28,15 +30,42 @@ public class AuthorDisplayController {
     private TableColumn<Book, String> tableName;
 
     private AuthorManager authorManager;
-    @FXML
+    private BookManager bookManager;
 
+    @FXML
     public void initialize(){
         authorManager = new AuthorManager();
+        bookManager = new BookManager();
         initCBoxAuthor();
     }
 
     @FXML
-    void onButtonSearchClicked(ActionEvent event) {
+    public void initCBoxAuthor(){
+        ArrayList<Contributor> authors = authorManager.getAllAuthor();
+        for(Contributor author : authors){
+            searchAuthor.getItems().add(author.getFirstName() + " " + author.getLastName());
+        }
+    }
+
+    @FXML
+    public void initSerie(MouseEvent event) {
+        ArrayList<Serie> series = authorManager.getAllSeries(searchAuthor.getValue());
+        for(Serie serie : series){
+            searchSerie.getItems().add(serie.getName());
+        }
+    }
+
+    @FXML
+    public void initBook(MouseEvent event){
+        ArrayList<Book> books = authorManager.getAllBooks(searchAuthor.getValue(), searchSerie.getValue(), bookManager);
+        for(Book book : books){
+            searchBook.getItems().add(book.getTitle());
+        }
+    }
+
+
+    @FXML
+    public void onButtonSearchClicked(ActionEvent event) {
         /*try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "SELECT * FROM person WHERE personType = 'Author' AND lastName = ? AND firstName = ?";
@@ -53,17 +82,5 @@ public class AuthorDisplayController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }*/
-    }
-    @FXML
-    void initBook(ActionEvent event){
-
-    }
-
-    @FXML
-    public void initCBoxAuthor(){
-        ArrayList<Contributor> authors = authorManager.getAllAuthor();
-        for(Contributor author : authors){
-            searchAuthor.getItems().add(author.getFirstName() + " " + author.getLastName());
-        }
     }
 }

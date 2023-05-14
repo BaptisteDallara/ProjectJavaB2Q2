@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Model.*;
+import Business.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class AuthorDBAccess implements AuthorDataAccess{
+    
+    public ResultSet getData(String sql){
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet data = statement.executeQuery();
+            return data;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     public ArrayList<Contributor> getAllAuthor(){
         try {
             ResultSet data = getData("select * from person where personType = 'Author'");
@@ -30,14 +43,85 @@ public class AuthorDBAccess implements AuthorDataAccess{
     public void deleteAuthor(Contributor author){
 
     }
-    public ResultSet getData(String sql){
-        try{
-            Connection connection = SingletonConnexion.getUniqueConnexion();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet data = statement.executeQuery();
-            return data;
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+    
+    public ArrayList<Serie> getAllSeries(String author){
+        try {
+            String authorFirstName = author.split(" ")[0];
+            String authorLastName = author.split(" ")[1];
+
+            StringBuilder sql = new StringBuilder("select distinct serie.serieId, serie.name from serie ");
+            sql.append("inner join book on serie.serieId = book.serie ");
+            sql.append("inner join contribution on book.bookId = contribution.book ");
+            sql.append("inner join person on person.personId = contribution.person ");
+            sql.append("where person.firstName = '");
+            sql.append(authorFirstName);
+            sql.append("' and person.lastName = '");
+            sql.append(authorLastName);
+            sql.append("'");
+            ResultSet data = getData(sql.toString());
+            ArrayList<Serie> series = new ArrayList<>();
+            while (data.next()) {
+                Serie serie = new Serie(data.getString("name"));
+                series.add(serie);
+            }
+            return series;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager){
+        try {
+            String authorFirstName = author.split(" ")[0];
+            String authorLastName = author.split(" ")[1];
+
+            if (serie != null) {
+                StringBuilder sql = new StringBuilder("select distinct *, from book ");
+                sql.append("inner join contribution on book.bookId = contribution.book ");
+                sql.append("inner join person on person.personId = contribution.person ");
+                sql.append("inner join serie on serie.serieId = book.serie ");
+                sql.append("where person.firstName = '");
+                sql.append(authorFirstName);
+                sql.append("' and person.lastName = '");
+                sql.append(authorLastName);
+                sql.append("' and serie.name = '");
+                sql.append(serie);
+                sql.append("'");
+                ResultSet data = getData(sql.toString());
+                ArrayList<Book> books = new ArrayList<>();
+                while (data.next()) {
+                    Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                    data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),bookManager.getGenre(data.getString("genre")),
+                    bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
+                    bookManager.getEdition(data.getInt("edition")));
+                    book.setBookId(data.getInt("bookId"));
+                    books.add(book);
+                }
+            return books;
+            } else {
+                StringBuilder sql = new StringBuilder("select distinct * from book ");
+                sql.append("inner join contribution on book.bookId = contribution.book ");
+                sql.append("inner join person on person.personId = contribution.person ");
+                sql.append("where person.firstName = '");
+                sql.append(authorFirstName);
+                sql.append("' and person.lastName = '");
+                sql.append(authorLastName);
+                sql.append("'");
+                ResultSet data = getData(sql.toString());
+                ArrayList<Book> books = new ArrayList<>();
+                while (data.next()) {
+                    Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                    data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),bookManager.getGenre(data.getString("genre")),
+                    bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
+                    bookManager.getEdition(data.getInt("edition")));
+                    book.setBookId(data.getInt("bookId"));
+                    books.add(book);
+                }
+            return books;
+            }
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

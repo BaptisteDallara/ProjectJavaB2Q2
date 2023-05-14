@@ -264,20 +264,7 @@ public class BookDBAccess implements BookDataAccess{
             throw new RuntimeException(exception);
         }
     }
-    public Edition getEdition(String editionName){
-        try{
-            ResultSet data = getData("select * from edition where name = '" + editionName + "'");
-            Edition edition = null;
-            while (data.next()){
-                Country country = new Country(data.getString("country"));
-                edition = new Edition(data.getString("name"),country);
-                edition.setEditionId(data.getInt("editionId"));
-            }
-            return edition;
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+
     public Edition getEdition(Integer editionId){
         try{
             ResultSet data = getData("select * from edition where editionId = '" + editionId + "'");
@@ -292,6 +279,22 @@ public class BookDBAccess implements BookDataAccess{
             throw new RuntimeException(exception);
         }
     }
+
+    public Edition getEdition(String editionName){
+        try{
+            ResultSet data = getData("select * from edition where name = '" + editionName + "'");
+            Edition edition = null;
+            while (data.next()){
+                Country country = new Country(data.getString("country"));
+                edition = new Edition(data.getString("name"),country);
+                edition.setEditionId(data.getInt("editionId"));
+            }
+            return edition;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+    
     public Language getLanguage(String languageName){
         try{
             ResultSet data = getData("select * from language where name = '" + languageName + "'");
