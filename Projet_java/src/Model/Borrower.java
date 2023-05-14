@@ -7,7 +7,7 @@ public class Borrower extends Person{
     private String email;
 
     public Borrower(Integer personId, String firstName, String lastName, LocalDate birthday,Integer phoneNumber,String email){
-        super(personId,firstName,lastName,birthday);
+        super(firstName,lastName,birthday);
         this.phoneNumber = phoneNumber;
         this.email = email;
     }

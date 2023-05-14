@@ -26,7 +26,7 @@
       <ComboBox layoutX="13.0" layoutY="99.0" onAction="#onComboBoxClicked" prefWidth="150.0" />
       <TableView layoutX="109.0" layoutY="149.0" prefHeight="200.0" prefWidth="382.0">
         <columns>
-          <TableColumn fx:id="restultSearch" prefWidth="191.20001220703125" text="ResultSearch" />
+          <TableColumn fx:id="resultSearch" prefWidth="191.20001220703125" text="ResultSearch" />
           <TableColumn fx:id="tableName" prefWidth="190.4000244140625" text="TableName" />
         </columns>
       </TableView>

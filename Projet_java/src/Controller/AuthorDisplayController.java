@@ -43,7 +43,7 @@ public class AuthorDisplayController {
                 Contributor author = new Contributor( data.getString("firstName"), data.getString("lastName"));
                 author.setPersonId(data.getInt("personId"));
                 System.out.println(author.getFirstName());
-                authors.add(author);
+                System.out.println(author.getLastName());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
