@@ -25,6 +25,4 @@ public class Contributor extends Person{
     public void setNationality(Country nationality){
         this.nationality = nationality;
     }
-
-
 }

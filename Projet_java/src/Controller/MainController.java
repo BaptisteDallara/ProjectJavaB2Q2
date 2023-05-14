@@ -27,6 +27,12 @@ public class MainController {
     public void onListBookClick() {
         changingSecondScene("../View/BookListView.fxml");
     }
+
+    @FXML
+    public void onSearchAuthorClick() {
+        changingSecondScene("../View/ResearchAuthor.fxml");
+    }
+
     @FXML
     public void changingSecondScene(String scene){
         try {

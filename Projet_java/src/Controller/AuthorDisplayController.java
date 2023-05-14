@@ -1,38 +1,42 @@
 package Controller;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.ResultSet;
-
-import DataAccess.SingletonConnexion;
 import javafx.fxml.FXML;
+
+import Business.AuthorManager;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import Model.*;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.*;
 
 public class AuthorDisplayController {
 
     @FXML
-    private TextField authorFName;
+    private TableColumn<?, ?> resultSearch;
 
     @FXML
-    private TextField authorLName;
+    private ComboBox<String> searchAuthor;
 
     @FXML
-    private TableColumn<?, ?> restultSearch;
+    private ComboBox<String> searchSerie;
+
+    @FXML
+    private ComboBox<String> searchBook;
 
     @FXML
     private TableColumn<?, ?> tableName;
 
+    private AuthorManager authorManager;
+
+    public void initialize(){
+        authorManager = new AuthorManager();
+        initCBoxAuthor();
+    }
+
     @FXML
     void onButtonSearchClicked(ActionEvent event) {
-        try {
+        /*try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "SELECT * FROM person WHERE personType = 'Author' AND lastName = ? AND firstName = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -47,12 +51,13 @@ public class AuthorDisplayController {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }*/
+    }
+
+    public void initCBoxAuthor(){
+        ArrayList<Contributor> authors = authorManager.getAllAuthor();
+        for(Contributor author : authors){
+            searchAuthor.getItems().add(author.getFirstName() + " " + author.getLastName());
         }
     }
-
-    @FXML
-    void onComboBoxClicked(ActionEvent event) {
-
-    }
-
 }
