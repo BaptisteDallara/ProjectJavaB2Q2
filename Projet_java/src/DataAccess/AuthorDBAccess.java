@@ -46,8 +46,12 @@ public class AuthorDBAccess implements AuthorDataAccess{
     
     public ArrayList<Serie> getAllSeries(String author){
         try {
-            String authorFirstName = author.split(" ")[0];
-            String authorLastName = author.split(" ")[1];
+            String[] authorNameSplit = author.split(" ");
+            String authorFirstName = authorNameSplit[0];
+            String authorLastName = authorNameSplit[1];
+            if(authorNameSplit.length > 2 && authorNameSplit[2] != null){
+                authorLastName += " " + authorNameSplit[2];
+            }
 
             StringBuilder sql = new StringBuilder("select distinct serie.serieId, serie.name from serie ");
             sql.append("inner join book on serie.serieId = book.serie ");
@@ -72,8 +76,12 @@ public class AuthorDBAccess implements AuthorDataAccess{
 
     public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager){
         try {
-            String authorFirstName = author.split(" ")[0];
-            String authorLastName = author.split(" ")[1];
+            String[] authorNameSplit = author.split(" ");
+            String authorFirstName = authorNameSplit[0];
+            String authorLastName = authorNameSplit[1];
+            if(authorNameSplit.length > 2 && authorNameSplit[2] != null){
+                authorLastName += " " + authorNameSplit[2];
+            }
 
             if (serie != null) {
                 StringBuilder sql = new StringBuilder("select distinct *, from book ");
@@ -95,7 +103,9 @@ public class AuthorDBAccess implements AuthorDataAccess{
                     bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
                     bookManager.getEdition(data.getInt("edition")));
                     book.setBookId(data.getInt("bookId"));
-                    books.add(book);
+                    if (!books.contains(book)) {
+                        books.add(book);
+                    }
                 }
             return books;
             } else {
@@ -115,7 +125,9 @@ public class AuthorDBAccess implements AuthorDataAccess{
                     bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
                     bookManager.getEdition(data.getInt("edition")));
                     book.setBookId(data.getInt("bookId"));
-                    books.add(book);
+                    if (!books.contains(book)) {
+                        books.add(book);
+                    }
                 }
             return books;
             }

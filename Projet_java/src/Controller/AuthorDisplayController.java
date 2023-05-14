@@ -31,6 +31,8 @@ public class AuthorDisplayController {
 
     private AuthorManager authorManager;
     private BookManager bookManager;
+    private ArrayList<Serie> series;
+    private ArrayList<Book> books;
 
     @FXML
     public void initialize(){
@@ -49,7 +51,8 @@ public class AuthorDisplayController {
 
     @FXML
     public void initSerie(MouseEvent event) {
-        ArrayList<Serie> series = authorManager.getAllSeries(searchAuthor.getValue());
+        searchSerie.getItems().clear();
+        series = authorManager.getAllSeries(searchAuthor.getValue());
         for(Serie serie : series){
             searchSerie.getItems().add(serie.getName());
         }
@@ -57,10 +60,12 @@ public class AuthorDisplayController {
 
     @FXML
     public void initBook(MouseEvent event){
-        ArrayList<Book> books = authorManager.getAllBooks(searchAuthor.getValue(), searchSerie.getValue(), bookManager);
+        searchBook.getItems().clear();
+        books = authorManager.getAllBooks(searchAuthor.getValue(), searchSerie.getValue(), bookManager);
         for(Book book : books){
             searchBook.getItems().add(book.getTitle());
         }
+        books.clear();
     }
 
 
