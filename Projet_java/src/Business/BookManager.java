@@ -12,6 +12,9 @@ public class BookManager {
     public BookManager(){
         this.dao = new BookDBAccess();
     }
+    public ArrayList<Book> getAllBook(){
+        return dao.getAllBook();
+    }
 
     public void addBook(Book book){
         dao.addBook(book);

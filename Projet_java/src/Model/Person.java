@@ -8,15 +8,18 @@ public abstract class Person {
     private String lastName;
     private LocalDate birthday;
 
-    public Person(Integer personId,String firstName,String lastName,LocalDate birthday){
-        this.personId = personId;
+    public Person(String firstName,String lastName,LocalDate birthday){
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
     }
 
-    public Person(Integer personId,String firstName,String lastName){
-        this(personId,firstName,lastName,null);
+    public Person(String firstName,String lastName){
+        this(firstName,lastName,null);
+    }
+
+    public void setPersonId(Integer personId){
+        this.personId = personId;
     }
 
     public void setBirthday(LocalDate birthday) {

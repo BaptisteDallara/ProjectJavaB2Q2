@@ -40,7 +40,10 @@ public class AuthorDisplayController {
             statement.setString(2, authorFName.getText());
             ResultSet data = statement.executeQuery();
             while (data.next()) {
-
+                Contributor author = new Contributor( data.getString("firstName"), data.getString("lastName"));
+                author.setPersonId(data.getInt("personId"));
+                System.out.println(author.getFirstName());
+                authors.add(author);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

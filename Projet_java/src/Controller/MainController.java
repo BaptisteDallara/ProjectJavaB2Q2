@@ -14,7 +14,7 @@ public class MainController {
     private AnchorPane secondaryPane;
 
     @FXML
-    public void onHomeClick() throws IOException {
+    public void onHomeClick() {
         changingSecondScene("../View/HomeView.fxml");
     }
     @FXML
@@ -24,8 +24,8 @@ public class MainController {
     }
 
     @FXML
-    public void onAuthorClick(){
-        changingSecondScene("../View/DisplayAuthor.fxml");
+    public void onListBookClick() {
+        changingSecondScene("../View/BookListView.fxml");
     }
     @FXML
     public void changingSecondScene(String scene){
