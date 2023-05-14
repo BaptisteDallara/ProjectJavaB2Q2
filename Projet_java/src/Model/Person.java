@@ -22,6 +22,10 @@ public abstract class Person {
         this.personId = personId;
     }
 
+    public Integer getPersonId(){
+        return personId;
+    }
+
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }

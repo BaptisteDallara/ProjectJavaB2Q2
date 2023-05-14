@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="authorFName" layoutX="14.0" layoutY="48.0" promptText="FirstName" />
+      <Button layoutX="324.0" layoutY="48.0" mnemonicParsing="false" onAction="#onButtonSearchClicked" prefHeight="9.0" prefWidth="7.0">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icon/loop-icon-1024x1024-9c5qko4q.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Separator layoutY="96.0" prefHeight="0.0" prefWidth="600.0" />
+      <ComboBox layoutX="13.0" layoutY="99.0" onAction="#onComboBoxClicked" prefWidth="150.0" />
+      <TableView layoutX="109.0" layoutY="149.0" prefHeight="200.0" prefWidth="382.0">
+        <columns>
+          <TableColumn fx:id="resultSearch" prefWidth="191.20001220703125" text="ResultSearch" />
+          <TableColumn fx:id="tableName" prefWidth="190.4000244140625" text="TableName" />
+        </columns>
+      </TableView>
+      <TextField fx:id="authorLName" layoutX="174.0" layoutY="48.0" promptText="LastName" />
+   </children>
+</AnchorPane>

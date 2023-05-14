@@ -23,7 +23,7 @@ public interface BookDataAccess {
     public Serie getSerie(String serieName);
     public Edition getEdition(String editionName);
     public Language getLanguage(String languageName);
-
+    public void addContribution(Integer bookId, String contributorLName);
     public ArrayList<Contributor> showAuthor();
     public ArrayList<Contributor> showDrawer();
 

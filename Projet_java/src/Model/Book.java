@@ -115,6 +115,14 @@ public class Book {
         return isDiscontinued;
     }
 
+    public ArrayList<Contributor> getAuthors() {
+        return authors;
+    }
+
+    public ArrayList<Contributor> getDrawers() {
+        return drawers;
+    }
+
     public void addAuthor(Contributor ... authorsList){
         authors.addAll(Arrays.asList(authorsList));
     }

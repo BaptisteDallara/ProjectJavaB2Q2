@@ -69,7 +69,35 @@ public class BookDBAccess implements BookDataAccess{
                 statement.setNull(9,java.sql.Types.INTEGER);
             }
             statement.executeUpdate();
-            //add the new Contributor to the DB
+            statement.close();
+            ResultSet data = getData("select * from book where title = '" + book.getTitle()+ "'");
+            data.next();
+            Integer bookId = data.getInt("bookId");
+            for(Contributor author : book.getAuthors()) {
+                addContribution(bookId, author.getLastName());
+            }
+            for(Contributor drawer : book.getDrawers()) {
+                addContribution(bookId, drawer.getLastName());
+            }
+        }
+        catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+
+    }
+
+    @Override
+    public void addContribution(Integer bookId, String contributorLName){
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "insert into contribution (book,person) values (?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, bookId);
+            ResultSet data = getData("select * from person where lastName = '" + contributorLName + "'");
+            data.next();
+            Contributor contributor = getContributeur(data);
+            statement.setInt(2,contributor.getPersonId());
+            statement.executeUpdate();
             statement.close();
         }
         catch (SQLException exception){
