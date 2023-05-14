@@ -13,7 +13,7 @@ import javafx.event.ActionEvent;
 public class AuthorDisplayController {
 
     @FXML
-    private TableColumn<?, ?> resultSearch;
+    private TableColumn<Book, String> resultSearch;
 
     @FXML
     private ComboBox<String> searchAuthor;
@@ -25,9 +25,10 @@ public class AuthorDisplayController {
     private ComboBox<String> searchBook;
 
     @FXML
-    private TableColumn<?, ?> tableName;
+    private TableColumn<Book, String> tableName;
 
     private AuthorManager authorManager;
+    @FXML
 
     public void initialize(){
         authorManager = new AuthorManager();
@@ -53,7 +54,12 @@ public class AuthorDisplayController {
             System.out.println(e.getMessage());
         }*/
     }
+    @FXML
+    void initBook(ActionEvent event){
 
+    }
+
+    @FXML
     public void initCBoxAuthor(){
         ArrayList<Contributor> authors = authorManager.getAllAuthor();
         for(Contributor author : authors){

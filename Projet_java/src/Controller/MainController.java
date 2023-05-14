@@ -42,7 +42,7 @@ public class MainController {
 
         }
         catch (IOException exception){
-
+            System.out.println(exception.getMessage());
         }
     }
 
