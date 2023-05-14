@@ -37,11 +37,22 @@ public class BookDBAccess implements BookDataAccess{
                     book.setSerie(getSerie(data.getInt("serie")));
                 }
                 book.setBookId(data.getInt("bookId"));
-                //add book author and drawer to finish the display
+                ResultSet dataContribution = getData("select * from contribution where book = " + book.getBookId());
+                while(dataContribution.next()){
+                    ResultSet dataContributor = getData("select * from person where personId = " + dataContribution.getInt("person"));
+                    dataContributor.next();
+                    if(dataContributor.getString("personType").equals("Author")){
+                        book.addAuthor(getContributeur(dataContributor));
+                    }
+                    else if(dataContributor.getString("personType").equals("Drawer")){
+                        book.addDrawer(getContributeur(dataContributor));
+                    }
+                }
                 books.add(book);
             }
             return books;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -119,6 +130,7 @@ public class BookDBAccess implements BookDataAccess{
             }
             return languages;
         } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
             throw new RuntimeException(exception);
         }
     }
@@ -180,6 +192,7 @@ public class BookDBAccess implements BookDataAccess{
             }
             return series;
         } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
             throw new RuntimeException(exception);
         }
     }
@@ -193,6 +206,7 @@ public class BookDBAccess implements BookDataAccess{
             }
             return contributor;
         } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
             throw new RuntimeException(exception);
         }
     }

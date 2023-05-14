@@ -50,19 +50,23 @@ public class Book {
 
     public String getAuthorList(){
         String authorList = "";
-        for(Contributor author : authors){
-            authorList += author.toString() + ", ";
+        if(authors.size() > 0) {
+            for (Contributor author : authors) {
+                authorList += author.toString() + ", ";
+            }
+            authorList.substring(authorList.length());
         }
-        System.out.println(authorList);
         return authorList;
     }
 
     public String getDrawerList(){
         String drawerList = "";
-        for(Contributor drawer : drawers){
-            drawerList += drawer.toString() + ", ";
+        if(drawers.size() > 0) {
+            for (Contributor drawer : drawers) {
+                drawerList += drawer.toString() + ", ";
+            }
+            drawerList.substring(drawerList.length());
         }
-        System.out.println(drawerList);
         return drawerList;
     }
 

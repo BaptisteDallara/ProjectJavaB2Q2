@@ -37,7 +37,6 @@ public class ListBookController {
         SerieColumn.setCellValueFactory(new PropertyValueFactory<>("serieName"));
         authorNameColumn.setCellValueFactory(new PropertyValueFactory<>("authorList"));
         DrawerNameColumn.setCellValueFactory(new PropertyValueFactory<>("drawerList"));
-        //need to add contribution to the methode getAllBook
         tabViewBook.getItems().addAll(bookManager.getAllBook());
     }
 
