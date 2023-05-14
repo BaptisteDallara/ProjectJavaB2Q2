@@ -2,9 +2,13 @@ package Controller;
 
 
 import java.util.ArrayList;
+
+import Business.AuthorManager;
+import DataAccess.BookDBAccess;
+import DataAccess.BookDataAccess;
 import javafx.fxml.FXML;
 
-import Business.*;
+
 import javafx.scene.control.*;
 import Model.*;
 
@@ -30,14 +34,14 @@ public class AuthorDisplayController {
     private TableColumn<Book, String> tableName;
 
     private AuthorManager authorManager;
-    private BookManager bookManager;
+    private BookDataAccess bookManager;
     private ArrayList<Serie> series;
     private ArrayList<Book> books;
 
     @FXML
     public void initialize(){
         authorManager = new AuthorManager();
-        bookManager = new BookManager();
+        bookManager = new BookDBAccess();
         initCBoxAuthor();
     }
 

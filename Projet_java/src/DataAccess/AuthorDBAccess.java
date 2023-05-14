@@ -1,7 +1,7 @@
 package DataAccess;
 
 import Model.*;
-import Business.*;
+import DataAccess.BookDataAccess;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 
 public class AuthorDBAccess implements AuthorDataAccess{
     
@@ -74,7 +75,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
         }
     }
 
-    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager){
+    public ArrayList<Book> getAllBooks(String author, String serie, BookDataAccess bookManager){
         try {
             String[] authorNameSplit = author.split(" ");
             String authorFirstName = authorNameSplit[0];

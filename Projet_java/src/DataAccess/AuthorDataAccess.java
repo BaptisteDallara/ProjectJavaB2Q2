@@ -14,5 +14,5 @@ public interface AuthorDataAccess {
     public void deleteAuthor(Contributor author);
     public ResultSet getData(String sql);
     public ArrayList<Serie> getAllSeries(String author);
-    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager);
+    public ArrayList<Book> getAllBooks(String author, String serie, BookDataAccess bookManager);
 }
