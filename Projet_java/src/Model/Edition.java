@@ -12,6 +12,9 @@ public class Edition {
     public Integer setEditionId(Integer editionId){
         return this.editionId = editionId;
     }
+    public Country getCountry() {
+        return location;
+    }
 
     public String getName() {
         return name;

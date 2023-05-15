@@ -64,6 +64,12 @@ public class BookManager {
     public Edition getEdition(Integer editionId){
         return dao.getEdition(editionId);
     }
+    public void deleteEdition(Edition edition){
+        dao.deleteEdition(edition);
+    }
+    public void deleteSerie(Serie serie){
+        dao.deleteSerie(serie);
+    }
 
     public Book getBook(String bookName){
         return dao.getBook(bookName);

@@ -184,6 +184,54 @@ public class BookDBAccess implements BookDataAccess{
             System.out.println(exception.getMessage());
         }
     }
+    public void deleteSerie(Serie serie) {
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from book where serie = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, serie.getSerieId());
+            ResultSet data = statement.executeQuery();
+            while (data.next()) {
+                Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                        data.getInt("recommendedAge"), data.getBoolean("isDiscontinued"), getGenre(data.getString("genre")),
+                        getType(data.getString("type")), getLanguage(data.getString("originalLanguage")),
+                        getEdition(data.getInt("edition")));
+                book.setBookId(data.getInt("bookId"));
+                deleteBook(book);
+            }
+            sql = "delete from serie where serieId = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, serie.getSerieId());
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+    public void deleteEdition(Edition edition){
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from book where edition = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, edition.getEditionId());
+            ResultSet data = statement.executeQuery();
+            while (data.next()) {
+                Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                        data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),getGenre(data.getString("genre")),
+                        getType(data.getString("type")),getLanguage(data.getString("originalLanguage")),
+                        getEdition(data.getInt("edition")));
+                book.setBookId(data.getInt("bookId"));
+                deleteBook(book);
+            }
+            sql = "delete from edition where editionId = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, edition.getEditionId());
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
 
     public void updateBook (Book book){
         try{
@@ -216,6 +264,7 @@ public class BookDBAccess implements BookDataAccess{
             for(Contributor drawer : book.getDrawers()) {
                 addContribution(book.getBookId(),drawer.getPersonId());
             }
+            statement.close();
         }
         catch (SQLException exception){
             System.out.println(exception.getMessage());
@@ -353,6 +402,7 @@ public class BookDBAccess implements BookDataAccess{
             while (data.next()){
                 contributor = getContributeur(data);
             }
+            statement.close();
             return contributor;
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
@@ -371,6 +421,7 @@ public class BookDBAccess implements BookDataAccess{
                 Contributor author = getContributeur(data);
                 authors.add(author);
             }
+            statement.close();
             return authors;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -388,6 +439,7 @@ public class BookDBAccess implements BookDataAccess{
                 Contributor drawer = getContributeur(data);
                 drawers.add(drawer);
             }
+            statement.close();
             return drawers;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -404,6 +456,7 @@ public class BookDBAccess implements BookDataAccess{
             while (data.next()){
                 genre = new Genre(data.getString("name"));
             }
+            statement.close();
             return genre;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -420,6 +473,7 @@ public class BookDBAccess implements BookDataAccess{
             while (data.next()){
                 type = new Type(data.getString("name"));
             }
+            statement.close();
             return type;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -438,6 +492,7 @@ public class BookDBAccess implements BookDataAccess{
                 edition = new Edition(data.getString("name"),country);
                 edition.setEditionId(data.getInt("editionId"));
             }
+            statement.close();
             return edition;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -456,6 +511,7 @@ public class BookDBAccess implements BookDataAccess{
                 edition = new Edition(data.getString("name"),country);
                 edition.setEditionId(data.getInt("editionId"));
             }
+            statement.close();
             return edition;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -472,6 +528,7 @@ public class BookDBAccess implements BookDataAccess{
             while (data.next()){
                 language = new Language(data.getString("name"));
             }
+            statement.close();
             return language;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -489,6 +546,7 @@ public class BookDBAccess implements BookDataAccess{
                 serie = new Serie(data.getString("name"));
                 serie.setSerieId(data.getInt("serieId"));
             }
+            statement.close();
             return serie;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -505,6 +563,7 @@ public class BookDBAccess implements BookDataAccess{
                 serie = new Serie(data.getString("name"));
                 serie.setSerieId(data.getInt("serieId"));
             }
+            statement.close();
             return serie;
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
