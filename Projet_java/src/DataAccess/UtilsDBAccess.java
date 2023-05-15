@@ -11,7 +11,20 @@ import java.util.ArrayList;
 public class UtilsDBAccess implements UtilsDataAccess{
 
     public ArrayList<Country> getAllContries(){
-        return null;
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from country";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet data = statement.executeQuery();
+            ArrayList<Country> countries = new ArrayList<>();
+            while(data.next()){
+                countries.add(new Country(data.getString("name")));
+            }
+            return countries;
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+            throw new RuntimeException(exception);
+        }
     }
 
     public void addSerie(Serie serie) {

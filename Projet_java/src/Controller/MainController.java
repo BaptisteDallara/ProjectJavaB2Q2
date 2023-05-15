@@ -12,13 +12,16 @@ public class MainController {
     private AnchorPane primaryPane;
     @FXML
     private AnchorPane secondaryPane;
+    @FXML
+    public void initialize(){
+        changingSecondScene("../View/HomeView.fxml");
+    }
 
     @FXML
     public void onHomeClick() {
         changingSecondScene("../View/HomeView.fxml");
     }
     @FXML
-
     public void onCreateBookClick(){
         changingSecondScene("../View/CreateBook.fxml");
     }
