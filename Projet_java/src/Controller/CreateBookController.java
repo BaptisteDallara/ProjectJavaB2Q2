@@ -85,31 +85,37 @@ public class CreateBookController {
     }
 
     public void addBook(){
-        if(!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(Integer.parseInt(inputRecAge.getText()) > 99) && !(Integer.parseInt(inputRecAge.getText()) < 1)
-                && !languageCBox.getValue().isEmpty()
-                && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
-            String title = inputTitle.getText();
-            String recAge = inputRecAge.getText();
-            String pubDate = inputPubDate.getValue().toString();
-            Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
-            Genre genre1 = bookManager.getGenre(genreCBox.getValue());
-            Type type1 = bookManager.getType(typeCBox.getValue());
-            Serie serie1 = bookManager.getSerie(serieCBox.getValue());
-            Language language1 = bookManager.getLanguage(languageCBox.getValue());
-            Edition edition1 = bookManager.getEdition(editionCBox.getValue());
-            Book book = new Book(title, LocalDate.parse(pubDate), parseInt(recAge), isDiscontinued, genre1, type1, language1, serie1, edition1);
-            for (Contributor author : authors) {
-                book.addAuthor(author);
-            }
-            for (Contributor drawer : drawers) {
-                book.addDrawer(drawer);
-            }
-            bookManager.addBook(book);
-            outputMessage.setText("Success !");
-            clearAllSelection();
-        } else {
+        try {
+            if (!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(Integer.parseInt(inputRecAge.getText()) > 99) && !(Integer.parseInt(inputRecAge.getText()) < 1)
+                    && !languageCBox.getValue().isEmpty()
+                    && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
+                String title = inputTitle.getText();
+                String recAge = inputRecAge.getText();
+                String pubDate = inputPubDate.getValue().toString();
+                Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
+                Genre genre1 = bookManager.getGenre(genreCBox.getValue());
+                Type type1 = bookManager.getType(typeCBox.getValue());
+                Serie serie1 = bookManager.getSerie(serieCBox.getValue());
+                Language language1 = bookManager.getLanguage(languageCBox.getValue());
+                Edition edition1 = bookManager.getEdition(editionCBox.getValue());
+                Book book = new Book(title, LocalDate.parse(pubDate), parseInt(recAge), isDiscontinued, genre1, type1, language1, serie1, edition1);
+                for (Contributor author : authors) {
+                    book.addAuthor(author);
+                }
+                for (Contributor drawer : drawers) {
+                    book.addDrawer(drawer);
+                }
+                bookManager.addBook(book);
+                outputMessage.setText("Success !");
+                clearAllSelection();
+            } else {
                 outputMessage.setText("Error : Invalid input");
             }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            outputMessage.setText("Error : Invalid input");
+        }
     }
 
     public void clearAllSelection(){
