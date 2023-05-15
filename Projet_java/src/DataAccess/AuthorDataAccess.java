@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Business.BookManager;
-
 public interface AuthorDataAccess {
     public ArrayList<Contributor> getAllAuthor();
     public void addAuthor(Contributor author);
@@ -15,4 +13,5 @@ public interface AuthorDataAccess {
     public ResultSet getData(String sql);
     public ArrayList<Serie> getAllSeries(String author);
     public ArrayList<Book> getAllBooks(String author, String serie, BookDataAccess bookManager);
+    public ArrayList<ResultResearch> getSearchBookAuthor (String author, String serie, String book);
 }

@@ -25,11 +25,7 @@ public class AuthorManager {
         return dao.getAllBooks(author, serie, bookDao);
     }
 
-    public void addAuthor(Contributor author){
-        dao.addAuthor(author);
-    }
-
-    public void deleteAuthor(Contributor author){
-        dao.deleteAuthor(author);
+    public ArrayList<ResultResearch> getSearchBookAuthor (String author, String serie, String book){
+        return dao.getSearchBookAuthor(author, serie, book);
     }
 }

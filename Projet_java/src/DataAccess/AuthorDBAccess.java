@@ -146,4 +146,74 @@ public class AuthorDBAccess implements AuthorDataAccess{
         }
         return false;
     }
+
+    public ArrayList<ResultResearch> getSearchBookAuthor(String author, String serie, String book) {
+        try {
+            String[] authorNameSplit = author.split(" ");
+            String authorFirstName = authorNameSplit[0];
+            String authorLastName = authorNameSplit[1];
+            if(authorNameSplit.length > 2 && authorNameSplit[2] != null){
+                authorLastName += " " + authorNameSplit[2];
+            }
+
+            if (serie != null) {
+                Connection connection = SingletonConnexion.getUniqueConnexion();
+                StringBuilder sql = new StringBuilder("select distinct title, edition.name, exemplar.language from book ");
+                sql.append("inner join contribution on book.bookId = contribution.book ");
+                sql.append("inner join person on person.personId = contribution.person ");
+                sql.append("inner join serie on serie.serieId = book.serie ");
+                sql.append("inner join edition on edition.editionId = book.edition ");
+                sql.append("inner join exemplar on exemplar.book = book.bookId ");
+                sql.append("where person.firstName = ? and person.lastName = ? and serie.name = ? and book.title = ?");
+                PreparedStatement statement = connection.prepareStatement(sql.toString());
+                statement.setString(1, authorFirstName);
+                statement.setString(2, authorLastName);
+                statement.setString(3, serie);
+                statement.setString(4, book);
+                ResultSet data = statement.executeQuery();
+                data.next();
+                SearchBookAuthor searchBookAuthor = new SearchBookAuthor(data.getString(1), data.getString(2), data.getString(3));
+                while (data.next()) {
+                    searchBookAuthor.setLanguage(data.getString(3));
+                }
+                ArrayList<ResultResearch> resultResearchs = new ArrayList<>();
+                ResultResearch resultTitle = new ResultResearch(searchBookAuthor.getTitle());
+                resultResearchs.add(resultTitle);
+                ResultResearch resultEdition = new ResultResearch(searchBookAuthor.getEdition());
+                resultResearchs.add(resultEdition);
+                ResultResearch resultLanguage = new ResultResearch(searchBookAuthor.getLanguage());
+                resultResearchs.add(resultLanguage);
+                return resultResearchs;
+            } else {
+                Connection connection = SingletonConnexion.getUniqueConnexion();
+                StringBuilder sql = new StringBuilder("select distinct title, edition.name, exemplar.language from book ");
+                sql.append("inner join contribution on book.bookId = contribution.book ");
+                sql.append("inner join person on person.personId = contribution.person ");
+                sql.append("inner join edition on edition.editionId = book.edition ");
+                sql.append("inner join exemplar on exemplar.book = book.bookId ");
+                sql.append("where person.firstName = ? and person.lastName = ? and book.title = ?");
+                PreparedStatement statement = connection.prepareStatement(sql.toString());
+                statement.setString(1, authorFirstName);
+                statement.setString(2, authorLastName);
+                statement.setString(3, book);
+                ResultSet data = statement.executeQuery();
+                data.next();
+                SearchBookAuthor searchBookAuthor = new SearchBookAuthor(data.getString(1), data.getString(2), data.getString(3));
+                while (data.next()) {
+                    searchBookAuthor.setLanguage(data.getString("language.name"));
+                }
+                ArrayList<ResultResearch> resultResearchs = new ArrayList<>();
+                ResultResearch resultTitle = new ResultResearch(searchBookAuthor.getTitle());
+                resultResearchs.add(resultTitle);
+                ResultResearch resultEdition = new ResultResearch(searchBookAuthor.getEdition());
+                resultResearchs.add(resultEdition);
+                ResultResearch resultLanguage = new ResultResearch(searchBookAuthor.getLanguage());
+                resultResearchs.add(resultLanguage);
+                return resultResearchs;
+            }
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
