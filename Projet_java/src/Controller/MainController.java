@@ -37,6 +37,11 @@ public class MainController {
     }
 
     @FXML
+    public void onSearchSerieClick() {
+        changingSecondScene("../View/ResearchSerie.fxml");
+    }
+
+    @FXML
     public void onDeleteBookClick() {
         changingSecondScene("../View/DeleteBook.fxml");
     }

@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 public class AuthorManager {
     private AuthorDataAccess dao;
-    private BookDataAccess bookDao;
 
     public AuthorManager(){
         this.dao = new AuthorDBAccess();
-        this.bookDao = new BookDBAccess();
     }
+
     public ArrayList<Contributor> getAllAuthor(){
         return dao.getAllAuthor();
     }
@@ -21,7 +20,7 @@ public class AuthorManager {
         return dao.getAllSeries(author);
     }
 
-    public ArrayList<Book> getAllBooks(String author, String serie, BookDataAccess bookDao){
+    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookDao){
         return dao.getAllBooks(author, serie, bookDao);
     }
 

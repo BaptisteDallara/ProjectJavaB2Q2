@@ -3,11 +3,8 @@ package Controller;
 
 import java.util.ArrayList;
 
-import com.mysql.cj.xdevapi.Table;
-
 import Business.AuthorManager;
-import DataAccess.BookDBAccess;
-import DataAccess.BookDataAccess;
+import Business.BookManager;
 import javafx.fxml.FXML;
 
 
@@ -52,7 +49,7 @@ public class AuthorDisplayController {
 
 
     private AuthorManager authorManager;
-    private BookDataAccess bookManager;
+    private BookManager bookManager;
     private ArrayList<Serie> series;
     private ArrayList<Book> books;
     private ArrayList<ResultResearch> resultResearch;
@@ -61,7 +58,7 @@ public class AuthorDisplayController {
     @FXML
     public void initialize(){
         authorManager = new AuthorManager();
-        bookManager = new BookDBAccess();
+        bookManager = new BookManager();
         initCBoxAuthor();
     }
 
@@ -107,23 +104,26 @@ public class AuthorDisplayController {
     @FXML
     public void onButtonSearchClicked(ActionEvent event) {
         try {
-            labelTable.setText(null);
-            resultTable.getItems().clear();
-            tableName.getItems().clear();
+            if (searchAuthor.getValue() == null || searchBook.getValue() == null){
+                labelTable.setText("Please select an author and a book and perhaps a serie"); 
+            } else {
+                labelTable.setText(null);
+                resultTable.getItems().clear();
+                tableName.getItems().clear();
 
-            tableNames = new ArrayList<>();
-            tableNames.add(new ResultResearch("Book"));
-            tableNames.add(new ResultResearch("Edition"));
-            tableNames.add(new ResultResearch("Exemplar"));
-            resultResearch = authorManager.getSearchBookAuthor(searchAuthor.getValue(), searchSerie.getValue(), searchBook.getValue());
+                tableNames = new ArrayList<>();
+                tableNames.add(new ResultResearch("Book"));
+                tableNames.add(new ResultResearch("Edition"));
+                tableNames.add(new ResultResearch("Exemplar"));
+                resultResearch = authorManager.getSearchBookAuthor(searchAuthor.getValue(), searchSerie.getValue(), searchBook.getValue());
             
-            resultSearch.setCellValueFactory(new PropertyValueFactory<>("result"));
-            columnName.setCellValueFactory(new PropertyValueFactory<>("result"));
-            resultTable.getItems().addAll(resultResearch);
-            tableName.getItems().addAll(tableNames);
-
+                resultSearch.setCellValueFactory(new PropertyValueFactory<>("result"));
+                columnName.setCellValueFactory(new PropertyValueFactory<>("result"));
+                resultTable.getItems().addAll(resultResearch);
+                tableName.getItems().addAll(tableNames);
+            }
         } catch (Exception e) {
-            labelTable.setText("Please select an author and a book and maybe a serie");
+            labelTable.setText("This book don't have any exemplar");
         }
     }
 }

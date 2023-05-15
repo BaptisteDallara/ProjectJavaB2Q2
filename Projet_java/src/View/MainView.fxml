@@ -27,7 +27,7 @@
             <Menu mnemonicParsing="false" text="Research">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onSearchAuthorClick" text="Author" />
-                  <MenuItem mnemonicParsing="false" text="Serie" />
+                  <MenuItem mnemonicParsing="false" onAction="#onSearchSerieClick" text="Serie" />
                   <MenuItem mnemonicParsing="false" text="Lending" />
               </items>
             </Menu>

@@ -2,7 +2,6 @@ package Controller;
 
 import Business.BookManager;
 import Model.*;
-import com.sun.jdi.IntegerType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;

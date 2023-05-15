@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import Business.BookManager;
+
 
 public class AuthorDBAccess implements AuthorDataAccess{
     
@@ -76,7 +78,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
         }
     }
 
-    public ArrayList<Book> getAllBooks(String author, String serie, BookDataAccess bookManager){
+    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager){
         try {
             String[] authorNameSplit = author.split(" ");
             String authorFirstName = authorNameSplit[0];
