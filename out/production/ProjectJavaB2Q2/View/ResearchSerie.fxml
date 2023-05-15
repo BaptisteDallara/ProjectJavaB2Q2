@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SerieResearch">
+   <children>
+      <ComboBox fx:id="serieCB" layoutX="14.0" layoutY="60.0" prefWidth="150.0" promptText="Serie" />
+      <Label layoutX="14.0" layoutY="21.0" prefHeight="18.0" prefWidth="766.0" text="Choose a serie to get his book, author, drawer and edition" />
+      <Button fx:id="buttonSerie" layoutX="165.0" layoutY="60.0" mnemonicParsing="false" onAction="#onSearchSerieClicked" prefHeight="26.0" prefWidth="32.0">
+         <graphic>
+            <ImageView fitHeight="19.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icon/loop-icon-1024x1024-9c5qko4q.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TableView fx:id="resultTable" layoutX="15.0" layoutY="106.0" prefHeight="200.0" prefWidth="371.0">
+        <columns>
+          <TableColumn fx:id="resultColumn" prefWidth="370.3999940872192" text="ResultResearch" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tableName" layoutX="386.0" layoutY="106.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="199.20001220703125" text="TableName" />
+        </columns>
+      </TableView>
+      <Label fx:id="labelSearchSerie" layoutX="197.0" layoutY="65.0" prefHeight="18.0" prefWidth="440.0" />
+   </children>
+</AnchorPane>

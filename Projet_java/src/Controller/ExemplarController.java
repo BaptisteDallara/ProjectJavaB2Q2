@@ -2,18 +2,15 @@ package Controller;
 
 import Business.BookManager;
 import Business.ExemplarManager;
-import Model.Book;
-import Model.Exemplar;
-import Model.Language;
-import Model.Status;
+import Model.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
+
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 
 public class ExemplarController {
 
@@ -60,6 +57,9 @@ public class ExemplarController {
     private ComboBox<String> stateCBox;
 
     @FXML
+    private Label outputMessage;
+
+    @FXML
     private TableView<Exemplar> tabViewExemplar;
 
     private ExemplarManager exemplarManager;
@@ -74,6 +74,35 @@ public class ExemplarController {
         initStateCBox();
         initLanguageCBox();
         initTabViewExemplar();
+    }
+
+    @FXML
+    public void addExemplar() {
+        try {
+            if(!bookCBox.getValue().isEmpty() && !languageCBox.getValue().isEmpty() && !stateCBox.getValue().isEmpty() &&
+                    !inputNbPages.getText().isEmpty() && !inputPrice.getText().isEmpty() && !inputPriceLending.getText().isEmpty() &&
+                    !inputRoomPos.getText().isEmpty() && !inputRackPos.getText().isEmpty() && !inputLinePos.getText().isEmpty()
+                    && !(Integer.parseInt(inputNbPages.getText()) < 0) && !(Double.parseDouble(inputPrice.getText()) < 0) &&
+                    !(Double.parseDouble(inputPriceLending.getText()) < 0) && !(Integer.parseInt(inputRoomPos.getText()) < 0) &&
+                    !(Integer.parseInt(inputRackPos.getText()) < 0) && !(Integer.parseInt(inputLinePos.getText()) < 0)){
+                Book book = bookManager.getBook(bookCBox.getValue());
+                Language language = bookManager.getLanguage(languageCBox.getValue());
+                Status status = new Status(stateCBox.getValue());
+                Storage position = exemplarManager.getPosition(parseInt(inputRoomPos.getText()), parseInt(inputRackPos.getText()),
+                        parseInt(inputLinePos.getText()));
+                Exemplar exemplar = new Exemplar(book, language, parseInt(inputNbPages.getText()), parseDouble(inputPrice.getText()),
+                        parseDouble(inputPriceLending.getText()), status, position);
+                exemplarManager.addExemplar(exemplar);
+                outputMessage.setText("Success");
+                initTabViewExemplar();
+            }
+            else{
+                throw new Exception("Input incorrect");
+            }
+        }
+        catch (Exception e){
+            outputMessage.setText("Input incorrect");
+        }
     }
 
     public void initTabViewExemplar(){

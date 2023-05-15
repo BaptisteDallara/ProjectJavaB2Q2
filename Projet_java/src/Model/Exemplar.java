@@ -14,17 +14,22 @@ public class Exemplar {
 
     private Storage storage;
 
-    public Exemplar(Book book, Language language, Integer nbPages, double price, double lendingPrice, Storage storage){
+    public Exemplar(Book book, Language language, Integer nbPages, double price, double lendingPrice, Status status, Storage storage){
         this.book = book;
         this.language = language;
         this.nbPages = nbPages;
         this.price = price;
         this.lendingPrice = lendingPrice;
+        this.state = status;
         this.storage = storage;
     }
 
     public void setExemplarId(Integer exemplarId) {
         this.exemplarId = exemplarId;
+    }
+
+    public void setLending(Lending lending) {
+        this.lending = lending;
     }
 
     public Integer getExemplarId() {

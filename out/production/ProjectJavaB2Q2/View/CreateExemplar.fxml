@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -20,7 +21,7 @@
       <TextField fx:id="inputRoomPos" layoutX="14.0" layoutY="234.0" promptText="Room position" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="inputRackPos" layoutX="14.0" layoutY="271.0" promptText="Rack position" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="inputLinePos" layoutX="14.0" layoutY="309.0" promptText="Line position" />
-      <Button layoutX="14.0" layoutY="340.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="14.0" layoutY="340.0" mnemonicParsing="false" onAction="#addExemplar" text="Add" />
       <Line endX="100.0" layoutX="81.0" layoutY="15.0" startX="100.0" startY="340.1999816894531" />
       <TableView fx:id="tabViewExemplar" layoutX="190.0" layoutY="14.0" prefHeight="321.0" prefWidth="399.0">
         <columns>
@@ -32,5 +33,6 @@
         </columns>
       </TableView>
       <Button layoutX="364.0" layoutY="340.0" mnemonicParsing="false" onAction="#onDeleteExemplarClick" text="Delete" />
+      <Label fx:id="outputMessage" layoutX="61.0" layoutY="339.0" prefHeight="26.0" prefWidth="102.0" />
    </children>
 </AnchorPane>
