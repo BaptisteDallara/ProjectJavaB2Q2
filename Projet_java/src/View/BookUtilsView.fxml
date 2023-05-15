@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BookUtilsController">
+   <children>
+      <TextField fx:id="inputSerieName" layoutX="14.0" layoutY="14.0" promptText="Serie Name" AnchorPane.leftAnchor="14.0" />
+      <Button layoutX="172.0" layoutY="14.0" mnemonicParsing="false" onAction="#addSerie" text="Add" />
+      <Label fx:id="outputSerieMessage" layoutX="218.0" layoutY="13.0" prefHeight="26.0" prefWidth="135.0" AnchorPane.leftAnchor="226.0" />
+      <TextField fx:id="inputEditionName" layoutX="14.0" layoutY="70.0" promptText="Edition Name" AnchorPane.leftAnchor="14.0" />
+      <Button layoutX="172.0" layoutY="70.0" mnemonicParsing="false" text="Add" />
+      <ComboBox fx:id="countryCBox" layoutX="14.0" layoutY="107.0" prefWidth="150.0" promptText="Country" AnchorPane.leftAnchor="14.0" />
+      <Label fx:id="outputEditionMessage" layoutX="226.0" layoutY="69.0" prefHeight="26.0" prefWidth="135.0" AnchorPane.leftAnchor="226.0" />
+   </children>
+</AnchorPane>

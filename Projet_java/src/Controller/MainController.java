@@ -44,15 +44,19 @@ public class MainController {
     }
 
     @FXML
+    public void onBookUtilsClick() {
+        changingSecondScene("../View/BookUtilsView.fxml");
+    }
+
+    @FXML
     public void changingSecondScene(String scene){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));
             Parent root = fxmlLoader.load();
             secondaryPane.getChildren().setAll(root);
-
         }
         catch (IOException exception){
-            System.out.println(exception.getMessage());
+            System.out.println("Error : " + exception.getMessage());
         }
     }
 
