@@ -6,14 +6,14 @@ public class Borrower extends Person{
     private Integer phoneNumber;
     private String email;
 
-    public Borrower(Integer personId, String firstName, String lastName, LocalDate birthday,Integer phoneNumber,String email){
+    public Borrower(String firstName, String lastName, LocalDate birthday,Integer phoneNumber,String email){
         super(firstName,lastName,birthday);
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
-    public Borrower(Integer personId, String firstName, String lastName,Integer phoneNumber,String email){
-        this(personId,firstName,lastName,null,phoneNumber,email);
+    public Borrower(String firstName, String lastName,Integer phoneNumber,String email){
+        this(firstName,lastName,null,phoneNumber,email);
     }
 
 }

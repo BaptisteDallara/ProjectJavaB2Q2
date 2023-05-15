@@ -3,6 +3,7 @@ package Controller;
 import Business.BookManager;
 import Business.ExemplarManager;
 import Model.*;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -97,7 +98,7 @@ public class ExemplarController {
                 initTabViewExemplar();
             }
             else{
-                throw new Exception("Input incorrect");
+                throw new Exception();
             }
         }
         catch (Exception e){

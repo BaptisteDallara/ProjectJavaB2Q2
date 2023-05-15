@@ -55,6 +55,10 @@ public class MainController {
     public void onBookUtilsClick() {
         changingSecondScene("../View/BookUtilsView.fxml");
     }
+    @FXML
+    public void onAddPersonClick() {
+        changingSecondScene("../View/CreatePerson.fxml");
+    }
 
     @FXML
     public void onAddExemplarClick() {

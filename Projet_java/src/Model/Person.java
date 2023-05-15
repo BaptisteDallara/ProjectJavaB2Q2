@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public abstract class Person {
     private Integer personId;
+
+    private String personType;
     private String firstName;
     private String lastName;
     private LocalDate birthday;
@@ -21,7 +23,13 @@ public abstract class Person {
     public void setPersonId(Integer personId){
         this.personId = personId;
     }
+    public void setPersonType(String personType){
+        this.personType = personType;
+    }
 
+    public String getPersonType(){
+        return personType;
+    }
     public Integer getPersonId(){
         return personId;
     }
@@ -30,12 +38,22 @@ public abstract class Person {
         this.birthday = birthday;
     }
 
+    public String getBirthday(){
+        if(birthday == null){
+            return "";
+        }
+        return birthday.toString();
+    }
     public String getFirstName(){
         return firstName;
     }
 
     public String getLastName(){
         return lastName;
+    }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
     }
     @Override
     public String toString(){
