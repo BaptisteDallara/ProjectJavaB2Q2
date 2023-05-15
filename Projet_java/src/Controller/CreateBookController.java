@@ -93,7 +93,7 @@ public class CreateBookController {
         String type = typeCBox.getValue();
         String serie = serieCBox.getValue();
         Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
-        if(title != null && recAge != null && (parseInt(recAge) > 0) && (parseInt(recAge) < 100)&& pubDate != null && language != null && edition != null && genre != null && type != null){
+        if(title != null && recAge != null && (parseInt(recAge) > 0) && (parseInt(recAge) < 100)&& LocalDate.parse(pubDate) != null && language != null && edition != null && genre != null && type != null){
             Genre genre1 = bookManager.getGenre(genre);
             Type type1 = bookManager.getType(type);
             Serie serie1 = bookManager.getSerie(serie);
