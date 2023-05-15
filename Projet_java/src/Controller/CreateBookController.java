@@ -84,33 +84,34 @@ public class CreateBookController {
     }
 
     public void addBook(){
-        String title = inputTitle.getText();
-        String recAge = inputRecAge.getText();
-        String pubDate = inputPubDate.getValue().toString();
-        String language = languageCBox.getValue();
-        String edition = editionCBox.getValue();
-        String genre = genreCBox.getValue();
-        String type = typeCBox.getValue();
-        String serie = serieCBox.getValue();
-        Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
-        if(title != null && recAge != null && (parseInt(recAge) > 0) && (parseInt(recAge) < 100)&& LocalDate.parse(pubDate) != null && language != null && edition != null && genre != null && type != null){
+        if(!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(parseInt(inputRecAge.getText()) > 99) && !(parseInt(inputRecAge.getText()) < 1) && !languageCBox.getValue().isEmpty()
+                && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
+            String title = inputTitle.getText();
+            String recAge = inputRecAge.getText();
+            String pubDate = inputPubDate.getValue().toString();
+            String language = languageCBox.getValue();
+            String edition = editionCBox.getValue();
+            String genre = genreCBox.getValue();
+            String type = typeCBox.getValue();
+            String serie = serieCBox.getValue();
+            Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
             Genre genre1 = bookManager.getGenre(genre);
             Type type1 = bookManager.getType(type);
             Serie serie1 = bookManager.getSerie(serie);
             Language language1 = bookManager.getLanguage(language);
             Edition edition1 = bookManager.getEdition(edition);
-            Book book = new Book(title, LocalDate.parse(pubDate), parseInt(recAge),isDiscontinued, genre1, type1,language1,serie1,edition1);
-            for(Contributor author : authors){
+            Book book = new Book(title, LocalDate.parse(pubDate), parseInt(recAge), isDiscontinued, genre1, type1, language1, serie1, edition1);
+            for (Contributor author : authors) {
                 book.addAuthor(author);
             }
-            for(Contributor drawer : drawers){
+            for (Contributor drawer : drawers) {
                 book.addDrawer(drawer);
             }
             bookManager.addBook(book);
             outputMessage.setText("Success !");
         } else {
-            outputMessage.setText("Error : Invalid input");
-        }
+                outputMessage.setText("Error : Invalid input");
+            }
     }
 
 
