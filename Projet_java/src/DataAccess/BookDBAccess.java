@@ -517,7 +517,27 @@ public class BookDBAccess implements BookDataAccess{
             throw new RuntimeException(exception);
         }
     }
-    
+
+    @Override
+    public Book getBookById(Integer bookId) {
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            PreparedStatement statement = connection.prepareStatement("select * from book where bookId = ?");
+            statement.setInt(1, bookId);
+            ResultSet data = statement.executeQuery();
+            data.next();
+            Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                    data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),getGenre(data.getString("genre")),
+                    getType(data.getString("type")),getLanguage(data.getString("originalLanguage")),
+                    getEdition(data.getInt("edition")));
+            book.setBookId(data.getInt("bookId"));
+            statement.close();
+            return book;
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     public Language getLanguage(String languageName){
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();

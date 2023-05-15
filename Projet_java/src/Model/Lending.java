@@ -12,8 +12,7 @@ public class Lending {
     private LocalDate endDate;
     private Boolean isReturn;
 
-    public Lending(Integer lendingId,Borrower borrower,LocalDate beginDate,LocalDate endDate){
-        this.lendingId = lendingId;
+    public Lending(Borrower borrower,LocalDate beginDate,LocalDate endDate){
         this.borrower = borrower;
         this.exemplars = new ArrayList<Exemplar>();
         this.beginDate = beginDate;
@@ -21,6 +20,9 @@ public class Lending {
         this.isReturn = false;
     }
 
+    public void setLendingId(Integer lendingId) {
+        this.lendingId = lendingId;
+    }
     public void addExemplar(Exemplar ... exemplarsLend){
         exemplars.addAll(Arrays.asList(exemplarsLend));
     }

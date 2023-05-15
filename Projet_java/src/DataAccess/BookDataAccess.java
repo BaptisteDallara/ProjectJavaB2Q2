@@ -26,6 +26,7 @@ public interface BookDataAccess {
     public Language getLanguage(String languageName);
     public void addContribution(Integer bookId, Integer contributorId);
     public Book getBook(String bookName);
+    public Book getBookById(Integer bookId);
     public void deleteEdition(Edition edition);
     public void deleteSerie(Serie serie);
     public void updateBook(Book book);

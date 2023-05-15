@@ -52,6 +52,10 @@ public class MainController {
     }
 
     @FXML
+    public void onAddExemplarClick() {
+        changingSecondScene("../View/CreateExemplar.fxml");
+    }
+    @FXML
     public void changingSecondScene(String scene){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));
