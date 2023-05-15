@@ -69,40 +69,15 @@ public class BookDBAccess implements BookDataAccess{
             ResultSet data = getData("select * from book");
             ArrayList<Book> books = new ArrayList<>();
             while (data.next()) {
-                String title = data.getString("title");
-                Book book = new Book(title, LocalDate.parse(data.getString("publicationDate")),
-                        data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),getGenre(data.getString("genre")),
-                        getType(data.getString("type")),getLanguage(data.getString("originalLanguage")),
-                        getEdition(data.getInt("edition")));
-                if(data.getInt("serie") != 0) {
-                    book.setSerie(getSerie(data.getInt("serie")));
-                }
-                book.setBookId(data.getInt("bookId"));
-                Connection connection = SingletonConnexion.getUniqueConnexion();
-                String sqlContribution = "select * from contribution where book = ?";
-                PreparedStatement statementContribution = connection.prepareStatement(sqlContribution);
-                statementContribution.setInt(1,book.getBookId());
-                ResultSet dataContribution = statementContribution.executeQuery();
-                while(dataContribution.next()){
-                    String sqlContributor = "select * from person where personId = ?";
-                    PreparedStatement statementContributor = connection.prepareStatement(sqlContributor);
-                    statementContributor.setInt(1,dataContribution.getInt("person"));
-                    ResultSet dataContributor = statementContributor.executeQuery();
-                    dataContributor.next();
-                    if(dataContributor.getString("personType").equals("Author")){
-                        book.addAuthor(getContributeur(dataContributor));
-                    }
-                    if(dataContributor.getString("personType").equals("Drawer")){
-                        book.addDrawer(getContributeur(dataContributor));
-                    }
-                }
+                Book book = getBook(data.getString("title"));
                 books.add(book);
-            }
+                }
             return books;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException(e);
+            }
     }
 
     @Override
