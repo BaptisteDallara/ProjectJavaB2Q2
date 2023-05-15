@@ -211,10 +211,28 @@ public class EditBookController {
             book.setDrawers(drawers);
             bookManager.updateBook(book);
             outputMessage.setText("Success");
+            clearAllSelection();
         }
         else {
             outputMessage.setText("Error : Invalid input");
         }
+    }
+
+    public void clearAllSelection(){
+        bookSelected.getSelectionModel().clearSelection();
+        inputTitle.clear();
+        inputRecAge.clear();
+        inputPubDate.setValue(null);
+        isDiscontinuedCheck.setSelected(false);
+        languageCBox.getSelectionModel().clearSelection();
+        editionCBox.getSelectionModel().clearSelection();
+        genreCBox.getSelectionModel().clearSelection();
+        serieCBox.getSelectionModel().clearSelection();
+        typeCBox.getSelectionModel().clearSelection();
+        authorCBox.getSelectionModel().clearSelection();
+        DrawerCBox.getSelectionModel().clearSelection();
+        resetAuthor();
+        resetDrawer();
     }
 
     @FXML

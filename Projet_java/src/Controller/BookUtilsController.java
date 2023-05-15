@@ -78,11 +78,12 @@ public class BookUtilsController {
             Edition edition = new Edition(inputEditionName.getText(), new Country(countryCBox.getSelectionModel().getSelectedItem()));
             utilsManager.addEdition(edition);
             outputEditionMessage.setText("Success");
+            inputEditionName.clear();
+            countryCBox.getSelectionModel().clearSelection();
             initTableViewEdition();
         } else {
             outputEditionMessage.setText("Please enter a name and select a country");
         }
-        countryCBox.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -91,6 +92,7 @@ public class BookUtilsController {
             Serie serie = new Serie(inputSerieName.getText());
             utilsManager.addSerie(serie);
             outputSerieMessage.setText("Success");
+            inputSerieName.clear();
             initTableViewSerie();
         } else {
             outputSerieMessage.setText("Please enter a name");

@@ -109,9 +109,28 @@ public class CreateBookController {
             }
             bookManager.addBook(book);
             outputMessage.setText("Success !");
+            clearAllSelection();
         } else {
                 outputMessage.setText("Error : Invalid input");
             }
+    }
+
+    public void clearAllSelection(){
+        inputTitle.clear();
+        inputRecAge.clear();
+        inputPubDate.setValue(null);
+        isDiscontinuedCheck.setSelected(false);
+        authors.clear();
+        drawers.clear();
+        initTabViewAuth();
+        initTabViewDrawer();
+        languageCBox.getSelectionModel().clearSelection();
+        editionCBox.getSelectionModel().clearSelection();
+        genreCBox.getSelectionModel().clearSelection();
+        typeCBox.getSelectionModel().clearSelection();
+        serieCBox.getSelectionModel().clearSelection();
+        authorCBox.getSelectionModel().clearSelection();
+        DrawerCBox.getSelectionModel().clearSelection();
     }
 
 
