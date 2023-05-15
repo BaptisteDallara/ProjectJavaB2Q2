@@ -193,27 +193,33 @@ public class EditBookController {
     }
     @FXML
     public void onEditBtnClick(){
-        Book book = bookManager.getBook(bookSelected.getValue());
-        if(!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(parseInt(inputRecAge.getText()) > 99) && !(parseInt(inputRecAge.getText()) < 1) && !languageCBox.getValue().isEmpty()
-                && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
-            book.setTitle(inputTitle.getText());
-            book.setPublicationDate(inputPubDate.getValue());
-            book.setRecommendedAge(parseInt(inputRecAge.getText()));
-            book.setDiscontinued(isDiscontinuedCheck.isSelected());
-            book.setOriginalLanguage(bookManager.getLanguage(languageCBox.getValue()));
-            book.setEdition(bookManager.getEdition(editionCBox.getValue()));
-            book.setGenre(bookManager.getGenre(genreCBox.getValue()));
-            if (serieCBox.getValue() != null) {
-                book.setSerie(bookManager.getSerie(serieCBox.getValue()));
+        try {
+
+            Book book = bookManager.getBook(bookSelected.getValue());
+            if (!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(parseInt(inputRecAge.getText()) > 99) && !(parseInt(inputRecAge.getText()) < 1) && !languageCBox.getValue().isEmpty()
+                    && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
+                book.setTitle(inputTitle.getText());
+                book.setPublicationDate(inputPubDate.getValue());
+                book.setRecommendedAge(parseInt(inputRecAge.getText()));
+                book.setDiscontinued(isDiscontinuedCheck.isSelected());
+                book.setOriginalLanguage(bookManager.getLanguage(languageCBox.getValue()));
+                book.setEdition(bookManager.getEdition(editionCBox.getValue()));
+                book.setGenre(bookManager.getGenre(genreCBox.getValue()));
+                if (serieCBox.getValue() != null) {
+                    book.setSerie(bookManager.getSerie(serieCBox.getValue()));
+                }
+                book.setType(bookManager.getType(typeCBox.getValue()));
+                book.setAuthors(authors);
+                book.setDrawers(drawers);
+                bookManager.updateBook(book);
+                outputMessage.setText("Success");
+                clearAllSelection();
+            } else {
+                outputMessage.setText("Error : Invalid input");
             }
-            book.setType(bookManager.getType(typeCBox.getValue()));
-            book.setAuthors(authors);
-            book.setDrawers(drawers);
-            bookManager.updateBook(book);
-            outputMessage.setText("Success");
-            clearAllSelection();
         }
-        else {
+        catch (Exception e){
+            System.out.println(e.getMessage());
             outputMessage.setText("Error : Invalid input");
         }
     }
