@@ -20,6 +20,10 @@ public class BookManager {
         dao.addBook(book);
     }
 
+    public void updateBook(Book book){
+        dao.updateBook(book);
+    }
+
     public void deleteBook(Book book){
             dao.deleteBook(book);
     }

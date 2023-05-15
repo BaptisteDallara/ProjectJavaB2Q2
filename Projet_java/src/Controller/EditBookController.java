@@ -4,16 +4,12 @@ import Business.BookManager;
 import Model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
+
+import static java.lang.Integer.parseInt;
 
 public class EditBookController {
 
@@ -77,6 +73,8 @@ public class EditBookController {
 
     @FXML
     private ComboBox<String> typeCBox;
+    @FXML
+    private Label outputMessage;
 
     private ArrayList<Contributor> authors = new ArrayList<>();
     private ArrayList<Contributor> drawers = new ArrayList<>();
@@ -87,6 +85,13 @@ public class EditBookController {
         bookManager = new BookManager();
         initCBoxBookSelected();
         bookSelected.setOnAction(event -> initForms());
+        initCBoxAuthor();
+        initCBoxDrawer();
+        initCBoxEdition();
+        initCBoxSerie();
+        initCBoxLanguage();
+        initCBoxGenre();
+        initCBoxType();
     }
 
     @FXML
@@ -107,6 +112,29 @@ public class EditBookController {
         drawers = book.getDrawers();
         initTabViewAuth();
         initTabViewDrawer();
+    }
+
+    public void resetAuthor(){
+        authors.clear();
+        initTabViewAuth();
+    }
+
+    public void resetDrawer(){
+        drawers.clear();
+        initTabViewDrawer();
+    }
+    public void initCBoxSerie(){
+        ArrayList<Serie> series = bookManager.showSerie();
+        for(Serie serie : series){
+            serieCBox.getItems().add(serie.getName());
+        }
+    }
+
+    public void initCBoxEdition(){
+        ArrayList<Edition> editions = bookManager.showEdition();
+        for(Edition edition : editions){
+            editionCBox.getItems().add(edition.getName());
+        }
     }
     public void initTabViewAuth(){
         tableViewAuth.getItems().clear();
@@ -143,14 +171,94 @@ public class EditBookController {
         }
     }
 
-    @FXML
-    void addAuthor(ActionEvent event) {
+    public void initCBoxLanguage(){
+        ArrayList<Language> languages = bookManager.showLanguage();
+        for(Language language : languages){
+            languageCBox.getItems().add(language.getName());
+        }
+    }
 
+    public void initCBoxGenre(){
+        ArrayList<Genre> genres = bookManager.showGenre();
+        for(Genre genre : genres){
+            genreCBox.getItems().add(genre.getName());
+        }
+    }
+
+    public void initCBoxType(){
+        ArrayList<Type> types = bookManager.showType();
+        for(Type type : types){
+            typeCBox.getItems().add(type.getName());
+        }
+    }
+    @FXML
+    public void onEditBtnClick(){
+        Book book = bookManager.getBook(bookSelected.getValue());
+        if(!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(parseInt(inputRecAge.getText()) > 99) && !(parseInt(inputRecAge.getText()) < 1) && !languageCBox.getValue().isEmpty()
+                && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
+            book.setTitle(inputTitle.getText());
+            book.setPublicationDate(inputPubDate.getValue());
+            book.setRecommendedAge(parseInt(inputRecAge.getText()));
+            book.setDiscontinued(isDiscontinuedCheck.isSelected());
+            book.setOriginalLanguage(bookManager.getLanguage(languageCBox.getValue()));
+            book.setEdition(bookManager.getEdition(editionCBox.getValue()));
+            book.setGenre(bookManager.getGenre(genreCBox.getValue()));
+            if (serieCBox.getValue() != null) {
+                book.setSerie(bookManager.getSerie(serieCBox.getValue()));
+            }
+            book.setType(bookManager.getType(typeCBox.getValue()));
+            book.setAuthors(authors);
+            book.setDrawers(drawers);
+            bookManager.updateBook(book);
+            outputMessage.setText("Success");
+        }
+        else {
+            outputMessage.setText("Error : Invalid input");
+        }
     }
 
     @FXML
-    void addDrawer(ActionEvent event) {
+    public void addAuthor(){
+        String authorName = authorCBox.getValue();
+        if(authorName != null) {
+            String[] authorNameSplit = authorName.split(" ");
+            String firstName = authorNameSplit[0];
+            String lastName = authorNameSplit[1];
+            if(authorNameSplit.length > 2 && authorNameSplit[2] != null){
+                lastName += " " + authorNameSplit[2];
+            }
+            Contributor author = bookManager.searchContributor(firstName, lastName, "Author");
+            if(!compareContributorIn(authors,author)) {
+                authors.add(author);
+                initTabViewAuth();
+            }
+        }
+    }
 
+    @FXML
+    public void addDrawer(){
+        String drawerName = DrawerCBox.getValue();
+        if(drawerName != null) {
+            String[] drawerNameSplit = drawerName.split(" ");
+            String firstName = drawerNameSplit[0];
+            String lastName = drawerNameSplit[1];
+            if(drawerNameSplit.length > 2 &&drawerNameSplit[2] != null){
+                lastName += " " + drawerNameSplit[2];
+            }
+            Contributor drawer = bookManager.searchContributor(firstName, lastName, "Drawer");
+            if(!compareContributorIn(drawers,drawer)) {
+                drawers.add(drawer);
+                initTabViewDrawer();
+            }
+        }
+    }
+    public Boolean compareContributorIn(ArrayList<Contributor> contributors, Contributor contributor){
+        for(Contributor contributor1 : contributors){
+            if(contributor1.getPersonId() == contributor.getPersonId()){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

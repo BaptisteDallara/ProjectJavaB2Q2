@@ -185,6 +185,43 @@ public class BookDBAccess implements BookDataAccess{
         }
     }
 
+    public void updateBook (Book book){
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "update book set title = ?, originalLanguage = ?, edition = ?, genre = ?, type = ?, " +
+                    "publicationDate = ?, recommendedAge = ?, isDiscontinued = ?, serie = ? where bookId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, book.getTitle());
+            statement.setString(2,book.getOriginalLanguage().getName());
+            statement.setInt(3,book.getEdition().getEditionId());
+            statement.setString(4,book.getGenre().getName());
+            statement.setString(5,book.getType().getName());
+            java.sql.Date sqlPubDate = java.sql.Date.valueOf(book.getPublicationDate());
+            statement.setDate(6,sqlPubDate);
+            statement.setInt(7,book.getRecommendedAge());
+            statement.setBoolean(8, book.getDiscontinued());
+            if(book.getSerie() != null){
+                statement.setInt(9,book.getSerie().getSerieId());
+            }
+            else {
+                statement.setNull(9,java.sql.Types.INTEGER);
+            }
+            statement.setInt(10,book.getBookId());
+            statement.executeUpdate();
+            statement.close();
+            deleteContributionFromBook(book);
+            for(Contributor author : book.getAuthors()) {
+                addContribution(book.getBookId(),author.getPersonId());
+            }
+            for(Contributor drawer : book.getDrawers()) {
+                addContribution(book.getBookId(),drawer.getPersonId());
+            }
+        }
+        catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+    }
+
     public void deleteExemplarFromBook(Book book){
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();

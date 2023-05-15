@@ -22,7 +22,7 @@
       <ComboBox fx:id="genreCBox" layoutX="15.0" layoutY="188.0" prefWidth="150.0" />
       <Label layoutX="15.0" layoutY="222.0" prefHeight="18.0" prefWidth="150.0" text="Type" />
       <ComboBox fx:id="typeCBox" layoutX="15.0" layoutY="240.0" prefWidth="150.0" />
-      <DatePicker fx:id="inputPubDate" layoutX="15.0" layoutY="298.0" />
+      <DatePicker fx:id="inputPubDate" editable="false" layoutX="15.0" layoutY="298.0" />
       <Label layoutX="15.0" layoutY="273.0" prefHeight="18.0" prefWidth="150.0" text="Publication Date" />
       <Label layoutX="190.0" layoutY="15.0" prefHeight="18.0" prefWidth="150.0" text="Serie" />
       <ComboBox fx:id="serieCBox" layoutX="190.0" layoutY="33.0" prefWidth="150.0" />
@@ -48,5 +48,8 @@
             <TableColumn fx:id="columnDrawerLName" />
          </columns>
       </TableView>
+      <Button layoutX="450.0" layoutY="70.0" mnemonicParsing="false" onAction="#resetAuthor" text="Reset" />
+      <Button layoutX="450.0" layoutY="141.0" mnemonicParsing="false" onAction="#resetDrawer" text="Reset" />
+      <Label fx:id="outputMessage" layoutX="104.0" layoutY="336.0" prefHeight="26.0" prefWidth="143.0" />
    </children>
 </AnchorPane>

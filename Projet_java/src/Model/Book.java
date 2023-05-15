@@ -44,6 +44,46 @@ public class Book {
         this.bookId = bookId;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPublicationDate(LocalDate publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public void setRecommendedAge(Integer recommendedAge) {
+        this.recommendedAge = recommendedAge;
+    }
+
+    public void setDiscontinued(Boolean discontinued) {
+        isDiscontinued = discontinued;
+    }
+
+    public void setAuthors(ArrayList<Contributor> authors) {
+        this.authors = authors;
+    }
+
+    public void setDrawers(ArrayList<Contributor> drawers) {
+        this.drawers = drawers;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setOriginalLanguage(Language originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setEdition(Edition edition) {
+        this.edition = edition;
+    }
+
     public String getEditionName(){
         return edition.getName();
     }

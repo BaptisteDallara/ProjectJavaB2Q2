@@ -4,11 +4,11 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EditBookController">
    <children>
@@ -18,11 +18,11 @@
       <ComboBox fx:id="editionCBox" layoutX="17.0" layoutY="141.0" prefWidth="150.0" promptText="Edition" AnchorPane.leftAnchor="17.0" />
       <ComboBox fx:id="genreCBox" layoutX="17.0" layoutY="177.0" prefWidth="150.0" promptText="Genre" AnchorPane.leftAnchor="17.0" />
       <ComboBox fx:id="typeCBox" layoutX="17.0" layoutY="212.0" prefWidth="150.0" promptText="Type" AnchorPane.leftAnchor="17.0" />
-      <DatePicker fx:id="inputPubDate" layoutX="17.0" layoutY="249.0" promptText="Publication Date" />
+      <DatePicker fx:id="inputPubDate" editable="false" layoutX="17.0" layoutY="249.0" promptText="Publication Date" />
       <ComboBox fx:id="serieCBox" layoutX="191.0" layoutY="36.0" prefWidth="150.0" promptText="Serie" />
       <TextField fx:id="inputRecAge" layoutX="191.0" layoutY="71.0" promptText="Recommended Age" />
       <CheckBox fx:id="isDiscontinuedCheck" layoutX="192.0" layoutY="122.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="150.0" text="Is Discontinued" />
-      <Button fx:id="btnEditBook" layoutX="17.0" layoutY="335.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="77.0" text="Edit Book" textAlignment="CENTER" />
+      <Button fx:id="btnEditBook" layoutX="17.0" layoutY="335.0" mnemonicParsing="false" onAction="#onEditBtnClick" prefHeight="26.0" prefWidth="77.0" text="Edit Book" textAlignment="CENTER" />
       <TableView fx:id="tableViewAuth" layoutX="267.0" layoutY="171.0" prefHeight="186.0" prefWidth="158.0">
          <columns>
             <TableColumn fx:id="columnAuthorFName" text="Author" />
@@ -39,5 +39,8 @@
             <TableColumn fx:id="columnDrawerLName" />
          </columns>
       </TableView>
+      <Button layoutX="453.0" layoutY="69.0" mnemonicParsing="false" onAction="#resetAuthor" text="Reset" />
+      <Button layoutX="453.0" layoutY="140.0" mnemonicParsing="false" onAction="#resetDrawer" text="Reset" />
+      <Label fx:id="outputMessage" layoutX="106.0" layoutY="335.0" prefHeight="26.0" prefWidth="143.0" />
    </children>
 </AnchorPane>

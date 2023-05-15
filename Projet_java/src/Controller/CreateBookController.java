@@ -9,6 +9,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
+
 public class CreateBookController {
 
     @FXML
@@ -57,6 +59,9 @@ public class CreateBookController {
     @FXML
     private ComboBox<String> typeCBox;
 
+    @FXML
+    private Label outputMessage;
+
     private ArrayList<Contributor> authors = new ArrayList<>();
     private ArrayList<Contributor> drawers = new ArrayList<>();
     private BookManager bookManager;
@@ -88,13 +93,13 @@ public class CreateBookController {
         String type = typeCBox.getValue();
         String serie = serieCBox.getValue();
         Boolean isDiscontinued = isDiscontinuedCheck.isSelected();
-        if(title != null && recAge != null && pubDate != null && language != null && edition != null && genre != null && type != null){
+        if(title != null && recAge != null && (parseInt(recAge) > 0) && (parseInt(recAge) < 100)&& pubDate != null && language != null && edition != null && genre != null && type != null){
             Genre genre1 = bookManager.getGenre(genre);
             Type type1 = bookManager.getType(type);
             Serie serie1 = bookManager.getSerie(serie);
             Language language1 = bookManager.getLanguage(language);
             Edition edition1 = bookManager.getEdition(edition);
-            Book book = new Book(title, LocalDate.parse(pubDate),Integer.parseInt(recAge),isDiscontinued, genre1, type1,language1,serie1,edition1);
+            Book book = new Book(title, LocalDate.parse(pubDate), parseInt(recAge),isDiscontinued, genre1, type1,language1,serie1,edition1);
             for(Contributor author : authors){
                 book.addAuthor(author);
             }
@@ -102,7 +107,9 @@ public class CreateBookController {
                 book.addDrawer(drawer);
             }
             bookManager.addBook(book);
-            System.out.println("livre ajouté avec succès");
+            outputMessage.setText("Success !");
+        } else {
+            outputMessage.setText("Error : Invalid input");
         }
     }
 
@@ -128,7 +135,7 @@ public class CreateBookController {
                 lastName += " " + authorNameSplit[2];
             }
             Contributor author = bookManager.searchContributor(firstName, lastName, "Author");
-            if(!authors.contains(author)) {
+            if(!compareContributorIn(authors,author)) {
                 authors.add(author);
                 initTabViewAuth();
             }
@@ -145,11 +152,28 @@ public class CreateBookController {
                 lastName += " " + drawerNameSplit[2];
             }
             Contributor drawer = bookManager.searchContributor(firstName, lastName, "Drawer");
-            if(!drawers.contains(drawer)) {
+            if(!compareContributorIn(drawers,drawer)) {
                 drawers.add(drawer);
                 initTabViewDrawer();
             }
         }
+    }
+    public Boolean compareContributorIn(ArrayList<Contributor> contributors, Contributor contributor){
+        for(Contributor contributor1 : contributors){
+            if(contributor1.getPersonId() == contributor.getPersonId()){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void resetAuthor(){
+        authors.clear();
+        initTabViewAuth();
+    }
+
+    public void resetDrawer(){
+        drawers.clear();
+        initTabViewDrawer();
     }
     public void initCBoxAuthor(){
         ArrayList<Contributor> contributors = bookManager.showAuthor();
