@@ -69,7 +69,7 @@ public class CreatePersonController {
             Person person = tableViewPerson.getSelectionModel().getSelectedItem();
             if (person != null) {
                 personManager.deletePerson(person);
-                outputMessage.setText("Person deleted");
+                outputMessage.setText("Delete");
                 initTableViewPerson();
             }
         } catch (Exception exception) {
@@ -84,35 +84,46 @@ public class CreatePersonController {
             if(!personType.getValue().isEmpty()) {
                 if(!inputFName.getText().isEmpty() && !inputLName.getText().isEmpty()) {
                     if (personType.getValue().equals("Author") || personType.getValue().equals("Drawer")) {
-                        Contributor person = new Contributor(inputFName.getText(),inputLName.getText());
-                        person.setNationality(new Country(nationalityCBox.getValue()));
-                        if(bithDatePicker.getValue() != null){
-                            person.setBirthday(bithDatePicker.getValue());
+                        if(!nationalityCBox.getValue().isEmpty()) {
+                            Contributor person = new Contributor(inputFName.getText(), inputLName.getText());
+                            person.setNationality(new Country(nationalityCBox.getValue()));
+                            if (bithDatePicker.getValue() != null) {
+                                person.setBirthday(bithDatePicker.getValue());
+                            }
+                            if (deathDatePicker.getValue() != null) {
+                                person.setDeath(deathDatePicker.getValue());
+                            }
+                            person.setPersonType(personType.getValue());
+                            personManager.addContributor(person);
+                        } else {
+                            outputMessage.setText("Error : nationality ");
+                            throw new RuntimeException(); // a changer
                         }
-                        if(deathDatePicker.getValue() != null){
-                            person.setDeath(deathDatePicker.getValue());
-                        }
-                        person.setPersonType(personType.getValue());
-                        personManager.addContributor(person);
                     } else {
-                        Borrower person = new Borrower(inputFName.getText(),inputLName.getText(),Integer.parseInt(inputPhoneNumber.getText())
-                                            ,inputEmail.getText());
-                        if(bithDatePicker.getValue() != null){
-                            person.setBirthday(bithDatePicker.getValue());
+                        if(!(Integer.parseInt(inputPhoneNumber.getText()) < 0)&& !inputEmail.getText().isEmpty()) {
+                            Borrower person = new Borrower(inputFName.getText(), inputLName.getText(), Integer.parseInt(inputPhoneNumber.getText())
+                                    , inputEmail.getText());
+                            if (bithDatePicker.getValue() != null) {
+                                person.setBirthday(bithDatePicker.getValue());
+                            }
+                            person.setPersonType(personType.getValue());
+                            personManager.addBorrower(person);
+                        } else {
+                            outputMessage.setText("Error : phone/email");
+                            throw new RuntimeException(); // a changer errorInput
                         }
-                        person.setPersonType(personType.getValue());
-                        personManager.addBorrower(person);
                     }
+                    outputMessage.setText("Success");
+                    clearAllSelection();
+                    initTableViewPerson();
+                } else {
+                    outputMessage.setText("Incorrect Name");
+                    throw new RuntimeException();
                 }
-                outputMessage.setText("Success");
-                clearAllSelection();
-                initTableViewPerson();
-            } else {
-                throw new RuntimeException();
             }
         } catch (Exception exception){
+            outputMessage.setText("Need select type");
             System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
         }
     }
 

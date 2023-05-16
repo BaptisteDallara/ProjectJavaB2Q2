@@ -14,10 +14,10 @@
    <children>
       <TextField fx:id="inputFName" layoutX="14.0" layoutY="82.0" promptText="First Name" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="82.0" />
       <TextField fx:id="inputLName" layoutX="14.0" layoutY="118.0" promptText="Last Name" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="118.0" />
-      <DatePicker fx:id="bithDatePicker" layoutX="14.0" layoutY="192.0" promptText="Birthday" AnchorPane.leftAnchor="14.0" />
+      <DatePicker fx:id="bithDatePicker" editable="false" layoutX="14.0" layoutY="192.0" promptText="Birthday" AnchorPane.leftAnchor="14.0" />
       <ComboBox fx:id="nationalityCBox" layoutX="14.0" layoutY="155.0" prefWidth="150.0" promptText="Nationality" AnchorPane.leftAnchor="14.0" />
       <ComboBox fx:id="personType" layoutX="14.0" layoutY="192.0" onAction="#initForms" prefWidth="150.0" promptText="Person Type" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="46.0" />
-      <DatePicker fx:id="deathDatePicker" layoutX="14.0" layoutY="230.0" promptText="Death" AnchorPane.leftAnchor="14.0" />
+      <DatePicker fx:id="deathDatePicker" editable="false" layoutX="14.0" layoutY="230.0" promptText="Death" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="inputPhoneNumber" layoutX="14.0" layoutY="266.0" promptText="Phone Number" AnchorPane.leftAnchor="14.0" />
       <TextField fx:id="inputEmail" layoutX="14.0" layoutY="302.0" promptText="Email" AnchorPane.leftAnchor="14.0" />
       <Line endX="100.0" layoutX="100.0" layoutY="12.0" startX="100.0" startY="349.8000183105469" />
@@ -32,6 +32,6 @@
         </columns>
       </TableView>
       <Button layoutX="375.0" layoutY="336.0" mnemonicParsing="false" onAction="#onDeleteButtonClick" text="Delete" />
-      <Label fx:id="outputMessage" layoutX="64.0" layoutY="335.0" prefHeight="26.0" prefWidth="74.0" />
+      <Label fx:id="outputMessage" layoutX="64.0" layoutY="335.0" prefHeight="26.0" prefWidth="128.0" />
    </children>
 </AnchorPane>
