@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CreateLendingController {
@@ -38,7 +39,10 @@ public class CreateLendingController {
     private TableColumn<Exemplar, String> priceColumnList;
 
     @FXML
-    private Label retardOutput;
+    private Label delayOutput;
+
+    @FXML
+    private Label totalOutput;
 
     @FXML
     private TableColumn<Exemplar, String> stateColumn;
@@ -68,9 +72,15 @@ public class CreateLendingController {
     }
 
     public void reinitalize() {
+        ouputMessage.setText("");
         currentList = new ArrayList<>();
         if(tableViewBorrower.getSelectionModel().getSelectedItem() != null){
             selectedBorrower = tableViewBorrower.getSelectionModel().getSelectedItem();
+            if(lendingManager.getDelay(selectedBorrower, LocalDate.now())){
+                delayOutput.setText("Delay : yes");
+            } else {
+                delayOutput.setText("Delay : none");
+            }
         }
         initTableViewBorrower();
         initTableViewAvailable();
@@ -85,25 +95,43 @@ public class CreateLendingController {
     }
 
     public void addCurrentList(){
-        Exemplar exemplar = tabViewAvailableEx.getSelectionModel().getSelectedItem();
-        if(exemplar != null){
-            currentList.add(exemplar);
-            tabViewAvailableEx.getItems().remove(exemplar);
-            initTableViewCurrentList();
+        try {
+            if(currentList != null && selectedBorrower != null) {
+                Exemplar exemplar = tabViewAvailableEx.getSelectionModel().getSelectedItem();
+                if (exemplar != null) {
+                    currentList.add(exemplar);
+                    tabViewAvailableEx.getItems().remove(exemplar);
+                    initTableViewCurrentList();
+                }
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e){
+            ouputMessage.setText("Select a borrower");
         }
     }
 
     public void addLending(){
-        if(selectedBorrower != null){
-            for(Exemplar exemplar : currentList){
-                lendingManager.addLending(exemplar, selectedBorrower);
+        try {
+            if (selectedBorrower != null) {
+                Double TotalPrice = 0.0;
+                for (Exemplar exemplar : currentList) {
+                    TotalPrice += exemplar.getLendingPrice();
+                    lendingManager.addLending(exemplar, selectedBorrower);
+                }
+                reinitalize();
+                tableViewBorrower.getSelectionModel().clearSelection();
+                StringBuilder totalText = new StringBuilder("Total : ").append(TotalPrice).append(" €\n");
+                totalText.append("Return date : ");
+                totalText.append(LocalDate.now().plusDays(15));
+                totalOutput.setText(totalText.toString());
+                ouputMessage.setText("Lending added");
+                selectedBorrower = null;
+            } else {
+                throw new Exception();
             }
-            reinitalize();
-            tableViewBorrower.getSelectionModel().clearSelection();
-            selectedBorrower = null;
-        } else {
+        } catch (Exception e){
             ouputMessage.setText("Select a borrower");
-            throw new RuntimeException(); // a modifier
         }
     }
 

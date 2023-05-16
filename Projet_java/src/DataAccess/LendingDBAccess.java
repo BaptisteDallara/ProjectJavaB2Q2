@@ -30,6 +30,21 @@ public class LendingDBAccess implements LendingDataAccess{
     }
 
     @Override
+    public Boolean getDelay(Borrower selectedBorrower,LocalDate date) {
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from lending where reader = ? and isReturned = false and endDate < ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, selectedBorrower.getPersonId());
+            statement.setDate(2, Date.valueOf(date));
+            ResultSet data = statement.executeQuery();
+            return data.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void addLending(Exemplar exemplar, Borrower borrower) {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();

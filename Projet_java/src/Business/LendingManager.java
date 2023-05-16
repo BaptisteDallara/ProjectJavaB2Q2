@@ -18,6 +18,9 @@ public class LendingManager {
         return dao.getAllAvailableExemplar();
     }
 
+    public Boolean getDelay(Borrower selectedBorrower,LocalDate date){
+            return dao.getDelay(selectedBorrower,date); }
+
     public void addLending(Exemplar exemplar,Borrower borrower){
         dao.addLending(exemplar,borrower);
     }
