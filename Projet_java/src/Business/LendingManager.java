@@ -14,6 +14,14 @@ public class LendingManager {
         this.dao = new LendingDBAccess();
     }
 
+    public ArrayList<Exemplar> getAllAvailableExemplar(){
+        return dao.getAllAvailableExemplar();
+    }
+
+    public void addLending(Exemplar exemplar,Borrower borrower){
+        dao.addLending(exemplar,borrower);
+    }
+
     public ArrayList<Borrower> getAllBorrowers(){
         return dao.getAllBorrowers();
     }

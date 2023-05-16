@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateLendingController">
    <children>
       <TableView fx:id="tabViewAvailableEx" layoutX="198.0" layoutY="31.0" prefHeight="138.0" prefWidth="387.0">
@@ -27,8 +26,8 @@
             <TableColumn fx:id="priceColumnList" prefWidth="90.0" text="Price" />
          </columns>
       </TableView>
-      <Button layoutX="546.0" layoutY="175.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="14.0" layoutY="326.0" mnemonicParsing="false" text="Lend" />
+      <Button layoutX="546.0" layoutY="175.0" mnemonicParsing="false" onAction="#addCurrentList" text="Add" />
+      <Button layoutX="14.0" layoutY="326.0" mnemonicParsing="false" onAction="#addLending" text="Lend" />
       <Label fx:id="ouputMessage" layoutX="65.0" layoutY="325.0" prefHeight="26.0" prefWidth="115.0" />
       <Label layoutX="14.0" layoutY="244.0" prefHeight="46.0" prefWidth="150.0" text="Total :" />
       <Label layoutX="198.0" layoutY="197.0" prefHeight="26.0" prefWidth="335.0" text="Current list :" />
@@ -37,6 +36,6 @@
           <TableColumn fx:id="borrowerColumn" prefWidth="149.60001220703126" text="Borrower" />
         </columns>
       </TableView>
-      <Button layoutX="63.0" layoutY="175.0" mnemonicParsing="false" text="Select" />
+      <Button layoutX="63.0" layoutY="175.0" mnemonicParsing="false" onAction="#reinitalize" text="Select" />
    </children>
 </AnchorPane>

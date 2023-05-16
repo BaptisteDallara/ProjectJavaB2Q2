@@ -9,10 +9,12 @@ import java.time.LocalDate;
 
 public class LendingDBAccess implements LendingDataAccess{
 
+    private ExemplarDataAccess exemplarDataAccess = new ExemplarDBAccess();
+    private BookDataAccess bookDataAccess = new BookDBAccess();
     public ArrayList<Borrower> getAllBorrowers() {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
-            StringBuilder sql = new StringBuilder("select distinct firstName, lastName, phoneNumber, email from person where personType = 'Reader'");
+            StringBuilder sql = new StringBuilder("select distinct firstName, lastName, phoneNumber, email, personId from person where personType = 'Reader'");
             PreparedStatement statement = connection.prepareStatement(sql.toString());
             ResultSet data = statement.executeQuery();
             ArrayList<Borrower> readers = new ArrayList<>();
@@ -22,6 +24,53 @@ public class LendingDBAccess implements LendingDataAccess{
                 readers.add(reader);
             }
             return readers;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void addLending(Exemplar exemplar, Borrower borrower) {
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "insert into lending (reader, exemplar, beginDate, endDate, isReturned) values (?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, borrower.getPersonId());
+            statement.setInt(2, exemplar.getExemplarId());
+            statement.setDate(3, Date.valueOf(LocalDate.now()));
+            statement.setDate(4, Date.valueOf(LocalDate.now().plusDays(15)));
+            statement.setBoolean(5, false);
+            statement.executeUpdate();
+            editExemplarLending(exemplar,borrower);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void editExemplarLending(Exemplar exemplar,Borrower borrower){
+        try{
+            Integer lendingId = getLendingId(exemplar,borrower);
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "update exemplar set lending = ? where exemplarId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, lendingId);
+            statement.setInt(2, exemplar.getExemplarId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Integer getLendingId(Exemplar exemplar,Borrower borrower){
+            try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select lendingId from lending where reader = ? and exemplar = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, borrower.getPersonId());
+            statement.setInt(2, exemplar.getExemplarId());
+            ResultSet data = statement.executeQuery();
+            data.next();
+            return data.getInt("lendingId");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,6 +106,30 @@ public class LendingDBAccess implements LendingDataAccess{
             }
             return lendings;
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ArrayList<Exemplar> getAllAvailableExemplar() {
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            StringBuilder sql = new StringBuilder("select * from exemplar where lending is null");
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
+            ResultSet data = statement.executeQuery();
+            ArrayList<Exemplar> exemplars = new ArrayList<>();
+            while (data.next()) {
+                Book book = bookDataAccess.getBookById(data.getInt("book"));
+                Storage position = exemplarDataAccess.getStorage(data.getInt("place"));
+                Status status = new Status(data.getString("state"));
+                Language language = bookDataAccess.getLanguage(data.getString("language"));
+                Exemplar exemplar = new Exemplar(book,language,data.getInt("nbPages"),data.getDouble("price"),
+                        data.getDouble("lendingPrice"),status,position);
+                exemplar.setExemplarId(data.getInt("exemplarId"));
+                exemplars.add(exemplar);
+            }
+            return exemplars;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

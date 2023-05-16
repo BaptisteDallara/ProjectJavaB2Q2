@@ -59,15 +59,52 @@ public class CreateLendingController {
 
     private LendingManager lendingManager;
 
+    private Borrower selectedBorrower;
+
     public void initialize() {
         lendingManager = new LendingManager();
         initTableViewBorrower();
+        initTableViewAvailable();
     }
+
+    public void reinitalize() {
+        currentList = new ArrayList<>();
+        if(tableViewBorrower.getSelectionModel().getSelectedItem() != null){
+            selectedBorrower = tableViewBorrower.getSelectionModel().getSelectedItem();
+        }
+        initTableViewBorrower();
+        initTableViewAvailable();
+        initTableViewCurrentList();
+    }
+
 
     public void initTableViewBorrower() {
         tableViewBorrower.getItems().clear();
         borrowerColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         tableViewBorrower.getItems().addAll(lendingManager.getAllBorrowers());
+    }
+
+    public void addCurrentList(){
+        Exemplar exemplar = tabViewAvailableEx.getSelectionModel().getSelectedItem();
+        if(exemplar != null){
+            currentList.add(exemplar);
+            tabViewAvailableEx.getItems().remove(exemplar);
+            initTableViewCurrentList();
+        }
+    }
+
+    public void addLending(){
+        if(selectedBorrower != null){
+            for(Exemplar exemplar : currentList){
+                lendingManager.addLending(exemplar, selectedBorrower);
+            }
+            reinitalize();
+            tableViewBorrower.getSelectionModel().clearSelection();
+            selectedBorrower = null;
+        } else {
+            ouputMessage.setText("Select a borrower");
+            throw new RuntimeException(); // a modifier
+        }
     }
 
     public void initTableViewAvailable() {
@@ -76,7 +113,7 @@ public class CreateLendingController {
         lendingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("lendingPrice"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("stateString"));
-        //tabViewAvailableEx.setItems().addAll();
+        tabViewAvailableEx.getItems().addAll(lendingManager.getAllAvailableExemplar());
     }
 
     public void initTableViewCurrentList() {
@@ -85,6 +122,6 @@ public class CreateLendingController {
         lendingColumnList.setCellValueFactory(new PropertyValueFactory<>("lendingPrice"));
         priceColumnList.setCellValueFactory(new PropertyValueFactory<>("price"));
         stateColumnList.setCellValueFactory(new PropertyValueFactory<>("stateString"));
-        //tabViewCurrentList.getItems().addAll(currentList); }
+        tabViewCurrentList.getItems().addAll(currentList);
     }
 }
