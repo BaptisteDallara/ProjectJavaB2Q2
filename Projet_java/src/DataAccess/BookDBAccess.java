@@ -578,6 +578,7 @@ public class BookDBAccess implements BookDataAccess{
             Country nationality = new Country(data.getString("nationality"));
             contributor.setNationality(nationality);
         }
+        contributor.setPersonType(data.getString("personType"));
         return contributor;
     }
 }

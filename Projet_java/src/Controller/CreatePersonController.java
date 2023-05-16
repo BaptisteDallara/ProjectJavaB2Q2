@@ -21,10 +21,10 @@ public class CreatePersonController {
     private DatePicker bithDatePicker;
 
     @FXML
-    private TableColumn<Contributor, String> bithdayColumn;
+    private TableColumn<Person, String> bithdayColumn;
 
     @FXML
-    private TableColumn<Contributor, String> deathColumn;
+    private TableColumn<Person, String> deathColumn;
 
     @FXML
     private DatePicker deathDatePicker;
@@ -45,16 +45,16 @@ public class CreatePersonController {
     private ComboBox<String> nationalityCBox;
 
     @FXML
-    private TableColumn<Contributor, String> personColumn;
+    private TableColumn<Person, String> personColumn;
 
     @FXML
     private ComboBox<String> personType;
 
     @FXML
-    private TableColumn<Contributor, String> personTypeColumn;
+    private TableColumn<Person, String> personTypeColumn;
 
     @FXML
-    private TableView<Contributor> tableViewPerson;
+    private TableView<Person> tableViewPerson;
     private PersonManager personManager;
 
     @FXML
@@ -62,8 +62,7 @@ public class CreatePersonController {
         personManager = new PersonManager();
         initNationalityCBox();
         initPersonTypeCBox();
-        //ArrayList<Contributor> contributors = personManager.getContributor();
-        //initTableViewPerson();
+        initTableViewPerson();
     }
 
     public void initTableViewPerson(){
@@ -72,7 +71,7 @@ public class CreatePersonController {
         personTypeColumn.setCellValueFactory(new PropertyValueFactory<>("personType"));
         bithdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
         deathColumn.setCellValueFactory(new PropertyValueFactory<>("death"));
-        tableViewPerson.getItems().addAll(personManager.getContributor());
+        tableViewPerson.getItems().addAll(personManager.getAllPerson());
     }
 
     @FXML

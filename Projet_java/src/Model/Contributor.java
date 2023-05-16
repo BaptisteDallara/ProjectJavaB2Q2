@@ -26,20 +26,6 @@ public class Contributor extends Person{
         this.nationality = nationality;
     }
 
-    @Override
-    public String getFullName(){
-        return super.getFullName();
-    }
-
-    @Override
-    public String getPersonType(){
-        return super.getPersonType();
-    }
-
-    @Override
-    public String getBirthday(){
-        return super.getBirthday();
-    }
 
     public String getDeath(){
         if(death == null){

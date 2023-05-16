@@ -21,7 +21,7 @@ public class PersonManager {
         return personDataAccess.getNationality();
     }
 
-    public ArrayList<Contributor> getContributor(){
-        return personDataAccess.getContributor();
+    public ArrayList<Person> getAllPerson(){
+        return personDataAccess.getAllPerson();
     }
 }

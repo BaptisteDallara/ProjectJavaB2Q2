@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 public interface PersonDataAccess {
     public ArrayList<Country> getNationality();
-    public ArrayList<Contributor> getContributor();
+    public ArrayList<Person> getAllPerson();
 }
