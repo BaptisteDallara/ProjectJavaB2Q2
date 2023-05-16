@@ -96,13 +96,18 @@ public class ExemplarController {
                 exemplarManager.addExemplar(exemplar);
                 outputMessage.setText("Success");
                 initTabViewExemplar();
-            }
-            else{
-                throw new Exception();
+            } else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Input incorrect");
+                alert.showAndWait();
             }
         }
         catch (Exception e){
-            outputMessage.setText("Input incorrect");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while adding exemplar");
+            alert.showAndWait();
         }
     }
 
@@ -116,9 +121,17 @@ public class ExemplarController {
         tabViewExemplar.getItems().addAll(exemplarManager.getAllExemplar()); }
 
     public void initLanguageCBox(){
-        ArrayList<Language> languages = bookManager.showLanguage();
-        for(Language language : languages){
-            languageCBox.getItems().add(language.getName());
+        try {
+            ArrayList<Language> languages = bookManager.showLanguage();
+            for (Language language : languages) {
+                languageCBox.getItems().add(language.getName());
+            }
+        }
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing language combobox");
+            alert.showAndWait();
         }
     }
 
@@ -130,14 +143,22 @@ public class ExemplarController {
     }
 
     public void initBookCBox(){
-        ArrayList<Book> books = bookManager.getAllBook();
-        for(Book book : books){
-            bookCBox.getItems().add(book.getTitle());
+        try {
+            ArrayList<Book> books = bookManager.getAllBook();
+            for (Book book : books) {
+                bookCBox.getItems().add(book.getTitle());
+            }
+        }
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing book combobox");
+            alert.showAndWait();
         }
     }
 
     @FXML
-    void onDeleteExemplarClick() {
+    public void onDeleteExemplarClick() {
         Exemplar exemplar = tabViewExemplar.getSelectionModel().getSelectedItem();
         exemplarManager.deleteExemplar(exemplar);
         initTabViewExemplar();

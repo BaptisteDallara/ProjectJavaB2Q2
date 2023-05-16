@@ -26,6 +26,7 @@ public class BookUtilsController {
 
     @FXML
     private Label outputSerieMessage;
+
     @FXML
     private TableColumn<?, ?> editionColumn;
     @FXML
@@ -50,39 +51,71 @@ public class BookUtilsController {
     }
 
     public void initTableViewEdition(){
-        tableViewEdition.getItems().clear();
-        editionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableViewEdition.getItems().addAll(bookManager.showEdition());
+        try {
+            tableViewEdition.getItems().clear();
+            editionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tableViewEdition.getItems().addAll(bookManager.showEdition());
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the editions");
+            alert.showAndWait();
+        }
     }
 
     public void initTableViewSerie(){
-        tableViewSerie.getItems().clear();
-        serieColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableViewSerie.getItems().addAll(bookManager.showSerie());
+        try {
+            tableViewSerie.getItems().clear();
+            serieColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tableViewSerie.getItems().addAll(bookManager.showSerie());
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the series");
+            alert.showAndWait();
+        }
     }
 
     public void onDeleteEditionClick(){
-        Edition edition = tableViewEdition.getSelectionModel().getSelectedItem();
-        bookManager.deleteEdition(edition);
-        tableViewEdition.getItems().remove(edition);
+        try {
+            Edition edition = tableViewEdition.getSelectionModel().getSelectedItem();
+            bookManager.deleteEdition(edition);
+            tableViewEdition.getItems().remove(edition);
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when deleting the edition");
+            alert.showAndWait();
+        }
     }
 
     public void onDeleteSerieClick(){
-        Serie serie = tableViewSerie.getSelectionModel().getSelectedItem();
-        bookManager.deleteSerie(serie);
-        tableViewSerie.getItems().remove(serie);
+        try {
+            Serie serie = tableViewSerie.getSelectionModel().getSelectedItem();
+            bookManager.deleteSerie(serie);
+            tableViewSerie.getItems().remove(serie);
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when deleting the serie");
+            alert.showAndWait();
+        }
     }
+
     @FXML
     public void addEdition(){
-        if(!inputEditionName.getText().isEmpty() && !countryCBox.getSelectionModel().isEmpty()) {
+        try {
             Edition edition = new Edition(inputEditionName.getText(), new Country(countryCBox.getSelectionModel().getSelectedItem()));
             utilsManager.addEdition(edition);
             outputEditionMessage.setText("Success");
             inputEditionName.clear();
             countryCBox.getSelectionModel().clearSelection();
             initTableViewEdition();
-        } else {
-            outputEditionMessage.setText("Please enter a name and select a country");
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Please enter a name and select a country");
+            alert.showAndWait();
         }
     }
 
@@ -100,7 +133,7 @@ public class BookUtilsController {
     }
 
     public void initCBoxCountry(){
-        ArrayList<Country> countries = utilsManager.getAllContries();
+        ArrayList<Country> countries = utilsManager.getAllCountries();
         for(Country country : countries){
             countryCBox.getItems().add(country.getName());
         }

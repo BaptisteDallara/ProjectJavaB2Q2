@@ -4,6 +4,7 @@ import Business.BookManager;
 import Model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,19 +36,32 @@ public class DeleteBookController {
     private BookManager bookManager;
 
     public void initialize(){
-        bookManager = new BookManager();
-        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        editionColumn.setCellValueFactory(new PropertyValueFactory<>("editionName"));
-        SerieColumn.setCellValueFactory(new PropertyValueFactory<>("serieName"));
-        authorNameColumn.setCellValueFactory(new PropertyValueFactory<>("authorList"));
-        DrawerNameColumn.setCellValueFactory(new PropertyValueFactory<>("drawerList"));
-        tabViewBook.getItems().addAll(bookManager.getAllBook());
+        try {
+            bookManager = new BookManager();
+            titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+            editionColumn.setCellValueFactory(new PropertyValueFactory<>("editionName"));
+            SerieColumn.setCellValueFactory(new PropertyValueFactory<>("serieName"));
+            authorNameColumn.setCellValueFactory(new PropertyValueFactory<>("authorList"));
+            DrawerNameColumn.setCellValueFactory(new PropertyValueFactory<>("drawerList"));
+            tabViewBook.getItems().addAll(bookManager.getAllBook());
+        } catch (Exception exception) {
+            Alert  alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the books");
+            alert.showAndWait();
+        }
     }
 
     public void onDeleteClick(){
-        Book book = tabViewBook.getSelectionModel().getSelectedItem();
-        bookManager.deleteBook(book);
-        tabViewBook.getItems().remove(book);
+        try {
+            Book book = tabViewBook.getSelectionModel().getSelectedItem();
+            bookManager.deleteBook(book);
+            tabViewBook.getItems().remove(book);
+        } catch (Exception exception) {
+            Alert  alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when deleting the book");
+            alert.showAndWait();
+        }
     }
-
 }

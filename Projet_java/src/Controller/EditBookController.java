@@ -14,7 +14,7 @@ import static java.lang.Integer.parseInt;
 public class EditBookController {
 
     @FXML
-    private ComboBox<String> DrawerCBox;
+    private ComboBox<String> drawerCBox;
 
     @FXML
     private ComboBox<String> authorCBox;
@@ -96,22 +96,29 @@ public class EditBookController {
 
     @FXML
     public void initForms(){
-        Book book = bookManager.getBook(bookSelected.getValue());
-        inputTitle.setText(book.getTitle());
-        inputPubDate.setValue(book.getPublicationDate());
-        inputRecAge.setText(book.getRecommendedAge().toString());
-        isDiscontinuedCheck.setSelected(book.getDiscontinued());
-        languageCBox.setValue(book.getOriginalLanguage().getName());
-        editionCBox.setValue(book.getEdition().getName());
-        genreCBox.setValue(book.getGenre().getName());
-        if(book.getSerie() != null){
-            serieCBox.setValue(book.getSerie().getName());
+        try {
+            Book book = bookManager.getBook(bookSelected.getValue());
+            inputTitle.setText(book.getTitle());
+            inputPubDate.setValue(book.getPublicationDate());
+            inputRecAge.setText(book.getRecommendedAge().toString());
+            isDiscontinuedCheck.setSelected(book.getDiscontinued());
+            languageCBox.setValue(book.getOriginalLanguage().getName());
+            editionCBox.setValue(book.getEdition().getName());
+            genreCBox.setValue(book.getGenre().getName());
+            if(book.getSerie() != null){
+                serieCBox.setValue(book.getSerie().getName());
+            }
+            typeCBox.setValue(book.getType().getName());
+            authors = book.getAuthors();
+            drawers = book.getDrawers();
+            initTabViewAuth();
+            initTabViewDrawer();
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading book");
+            alert.showAndWait();
         }
-        typeCBox.setValue(book.getType().getName());
-        authors = book.getAuthors();
-        drawers = book.getDrawers();
-        initTabViewAuth();
-        initTabViewDrawer();
     }
 
     public void resetAuthor(){
@@ -124,16 +131,30 @@ public class EditBookController {
         initTabViewDrawer();
     }
     public void initCBoxSerie(){
-        ArrayList<Serie> series = bookManager.showSerie();
-        for(Serie serie : series){
-            serieCBox.getItems().add(serie.getName());
+        try {
+            ArrayList<Serie> series = bookManager.showSerie();
+            for (Serie serie : series) {
+                serieCBox.getItems().add(serie.getName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading series");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxEdition(){
-        ArrayList<Edition> editions = bookManager.showEdition();
-        for(Edition edition : editions){
-            editionCBox.getItems().add(edition.getName());
+        try {
+            ArrayList<Edition> editions = bookManager.showEdition();
+            for (Edition edition : editions) {
+                editionCBox.getItems().add(edition.getName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading editions");
+            alert.showAndWait();
         }
     }
     public void initTabViewAuth(){
@@ -152,49 +173,91 @@ public class EditBookController {
 
     @FXML
     public void initCBoxBookSelected(){
-        bookSelected.getItems().clear();
-        for(Book book : bookManager.getAllBook()){
-            bookSelected.getItems().add(book.getTitle());
+        try {
+            bookSelected.getItems().clear();
+            for (Book book : bookManager.getAllBook()) {
+                bookSelected.getItems().add(book.getTitle());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading books");
+            alert.showAndWait();
         }
     }
+
     public void initCBoxAuthor(){
-        ArrayList<Contributor> contributors = bookManager.showAuthor();
-        for(Contributor contributor : contributors){
-            authorCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+        try {
+            ArrayList<Contributor> contributors = bookManager.showAuthor();
+            for (Contributor contributor : contributors) {
+                authorCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading authors");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxDrawer(){
-        ArrayList<Contributor> contributors = bookManager.showDrawer();
-        for(Contributor contributor : contributors){
-            DrawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+        try {
+            ArrayList<Contributor> contributors = bookManager.showDrawer();
+            for (Contributor contributor : contributors) {
+                drawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading drawers");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxLanguage(){
-        ArrayList<Language> languages = bookManager.showLanguage();
-        for(Language language : languages){
-            languageCBox.getItems().add(language.getName());
+        try {
+            ArrayList<Language> languages = bookManager.showLanguage();
+            for (Language language : languages) {
+                languageCBox.getItems().add(language.getName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading languages");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxGenre(){
-        ArrayList<Genre> genres = bookManager.showGenre();
-        for(Genre genre : genres){
-            genreCBox.getItems().add(genre.getName());
+        try {
+            ArrayList<Genre> genres = bookManager.showGenre();
+            for (Genre genre : genres) {
+                genreCBox.getItems().add(genre.getName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading genres");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxType(){
-        ArrayList<Type> types = bookManager.showType();
-        for(Type type : types){
-            typeCBox.getItems().add(type.getName());
+        try {
+            ArrayList<Type> types = bookManager.showType();
+            for (Type type : types) {
+                typeCBox.getItems().add(type.getName());
+            }
+        }catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading types");
+            alert.showAndWait();
         }
     }
     @FXML
     public void onEditBtnClick(){
         try {
-
             Book book = bookManager.getBook(bookSelected.getValue());
             if (!inputTitle.getText().isEmpty() && !inputRecAge.getText().isEmpty() && !(parseInt(inputRecAge.getText()) > 99) && !(parseInt(inputRecAge.getText()) < 1) && !languageCBox.getValue().isEmpty()
                     && !editionCBox.getValue().isEmpty() && !genreCBox.getValue().isEmpty() && !typeCBox.getValue().isEmpty()) {
@@ -215,12 +278,17 @@ public class EditBookController {
                 outputMessage.setText("Success");
                 clearAllSelection();
             } else {
-                outputMessage.setText("Error : Invalid input");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Invalid input");
+                alert.showAndWait();
             }
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
-            outputMessage.setText("Error : Invalid input");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while editing book");
+            alert.showAndWait();
         }
     }
 
@@ -236,15 +304,15 @@ public class EditBookController {
         serieCBox.getSelectionModel().clearSelection();
         typeCBox.getSelectionModel().clearSelection();
         authorCBox.getSelectionModel().clearSelection();
-        DrawerCBox.getSelectionModel().clearSelection();
+        drawerCBox.getSelectionModel().clearSelection();
         resetAuthor();
         resetDrawer();
     }
 
     @FXML
     public void addAuthor(){
-        String authorName = authorCBox.getValue();
-        if(authorName != null) {
+        try {
+            String authorName = authorCBox.getValue();
             String[] authorNameSplit = authorName.split(" ");
             String firstName = authorNameSplit[0];
             String lastName = authorNameSplit[1];
@@ -256,13 +324,18 @@ public class EditBookController {
                 authors.add(author);
                 initTabViewAuth();
             }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while adding author");
+            alert.showAndWait();
         }
     }
 
     @FXML
     public void addDrawer(){
-        String drawerName = DrawerCBox.getValue();
-        if(drawerName != null) {
+        try {
+            String drawerName = drawerCBox.getValue();
             String[] drawerNameSplit = drawerName.split(" ");
             String firstName = drawerNameSplit[0];
             String lastName = drawerNameSplit[1];
@@ -274,8 +347,14 @@ public class EditBookController {
                 drawers.add(drawer);
                 initTabViewDrawer();
             }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while adding drawer");
+            alert.showAndWait();
         }
     }
+
     public Boolean compareContributorIn(ArrayList<Contributor> contributors, Contributor contributor){
         for(Contributor contributor1 : contributors){
             if(contributor1.getPersonId() == contributor.getPersonId()){

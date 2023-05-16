@@ -12,19 +12,18 @@ import java.util.ArrayList;
 public class BookDBAccess implements BookDataAccess{
 
     @Override
-    public ResultSet getData(String sql) {
+    public ResultSet getData(String sql) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet data = statement.executeQuery();
             return data;
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
     @Override
-    public Book getBook(String bookName){
+    public Book getBook(String bookName) throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from book where title = ?";
@@ -58,13 +57,12 @@ public class BookDBAccess implements BookDataAccess{
                 }
             }
             return book;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
     @Override
-    public ArrayList<Book> getAllBook(){
+    public ArrayList<Book> getAllBook() throws SQLException{
         try {
             ResultSet data = getData("select * from book");
             ArrayList<Book> books = new ArrayList<>();
@@ -73,15 +71,13 @@ public class BookDBAccess implements BookDataAccess{
                 books.add(book);
                 }
             return books;
-            }
-            catch (SQLException e) {
-                System.out.println(e.getMessage());
-                throw new RuntimeException(e);
-            }
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
+        }
     }
 
     @Override
-    public void addBook(Book book){
+    public void addBook(Book book) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into book (title,originalLanguage,edition,genre,type,publicationDate," +
@@ -115,16 +111,14 @@ public class BookDBAccess implements BookDataAccess{
             for(Contributor drawer : book.getDrawers()) {
                 addContribution(bookId,drawer.getPersonId());
             }
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
 
     }
 
     @Override
-    public void addContribution(Integer bookId, Integer contributorId){
+    public void addContribution(Integer bookId, Integer contributorId) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into contribution (book,person) values (?,?)";
@@ -136,14 +130,14 @@ public class BookDBAccess implements BookDataAccess{
             statement.setInt(2,contributor.getPersonId());
             statement.executeUpdate();
             statement.close();
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
 
     }
+    
     @Override
-    public void deleteBook(Book book) {
+    public void deleteBook(Book book) throws SQLException {
         try{
             deleteContributionFromBook(book);
             deleteLendingFromBook(book);
@@ -154,12 +148,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.setInt(1, book.getBookId());
             statement.executeUpdate();
             statement.close();
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
-    public void deleteSerie(Serie serie) {
+    public void deleteSerie(Serie serie) throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from book where serie = ?";
@@ -180,10 +173,10 @@ public class BookDBAccess implements BookDataAccess{
             statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            throw new SQLException(exception);
         }
     }
-    public void deleteEdition(Edition edition){
+    public void deleteEdition(Edition edition) throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from book where edition = ?";
@@ -204,11 +197,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.executeUpdate();
             statement.close();
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            throw new SQLException(exception);
         }
     }
 
-    public void updateBook (Book book){
+    public void updateBook (Book book) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "update book set title = ?, originalLanguage = ?, edition = ?, genre = ?, type = ?, " +
@@ -240,13 +233,12 @@ public class BookDBAccess implements BookDataAccess{
                 addContribution(book.getBookId(),drawer.getPersonId());
             }
             statement.close();
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
-    public void deleteExemplarFromBook(Book book){
+    public void deleteExemplarFromBook(Book book) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "delete from exemplar where book = ?";
@@ -254,13 +246,12 @@ public class BookDBAccess implements BookDataAccess{
             statement.setInt(1, book.getBookId());
             statement.executeUpdate();
             statement.close();
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
-    public void deleteLendingFromBook(Book book){
+    public void deleteLendingFromBook(Book book) throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "delete from lending where exemplar in (select exemplarId from exemplar where book = ?)";
@@ -268,12 +259,12 @@ public class BookDBAccess implements BookDataAccess{
             statement.setInt(1, book.getBookId());
             statement.executeUpdate();
             statement.close();
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
-    public void deleteContributionFromBook(Book book) {
+
+    public void deleteContributionFromBook(Book book) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "delete from contribution where book = ?";
@@ -281,13 +272,12 @@ public class BookDBAccess implements BookDataAccess{
             statement.setInt(1, book.getBookId());
             statement.executeUpdate();
             statement.close();
-        }
-        catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
     @Override
-    public ArrayList<Language> showLanguage(){
+    public ArrayList<Language> showLanguage() throws SQLException{
         try{
             ResultSet data = getData("select * from language");
             ArrayList<Language> languages = new ArrayList<>();
@@ -297,14 +287,13 @@ public class BookDBAccess implements BookDataAccess{
             }
             return languages;
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
 
     @Override
-    public ArrayList<Edition> showEdition(){
+    public ArrayList<Edition> showEdition() throws SQLException{
         try{
             ResultSet data = getData("select * from edition");
             ArrayList<Edition> editions = new ArrayList<>();
@@ -316,11 +305,11 @@ public class BookDBAccess implements BookDataAccess{
             }
             return editions;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
     @Override
-    public ArrayList<Genre> showGenre(){
+    public ArrayList<Genre> showGenre() throws SQLException{
         try{
             ResultSet data = getData("select * from genre");
             ArrayList<Genre> genres = new ArrayList<>();
@@ -330,11 +319,11 @@ public class BookDBAccess implements BookDataAccess{
             }
             return genres;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
     @Override
-    public ArrayList<Type> showType(){
+    public ArrayList<Type> showType() throws SQLException{
         try{
             ResultSet data = getData("select * from type");
             ArrayList<Type> types = new ArrayList<>();
@@ -344,11 +333,11 @@ public class BookDBAccess implements BookDataAccess{
             }
             return types;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
     @Override
-    public ArrayList<Serie> showSerie(){
+    public ArrayList<Serie> showSerie() throws SQLException{
         try{
             ResultSet data = getData("select * from serie");
             ArrayList<Serie> series = new ArrayList<>();
@@ -359,12 +348,11 @@ public class BookDBAccess implements BookDataAccess{
             }
             return series;
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Contributor searchContributor(String firstName, String lastName, String personType){
+    public Contributor searchContributor(String firstName, String lastName, String personType) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from person where firstName = ? and lastName = ? and personType = ?";
@@ -380,12 +368,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return contributor;
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public ArrayList<Contributor> showAuthor(){
+    public ArrayList<Contributor> showAuthor() throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from person where personType = ?");
@@ -399,11 +386,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return authors;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public ArrayList<Contributor> showDrawer(){
+    public ArrayList<Contributor> showDrawer() throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from person where personType = ?");
@@ -417,11 +404,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return drawers;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Genre getGenre(String genderName){
+    public Genre getGenre(String genderName) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from genre where name = ?");
@@ -434,11 +421,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return genre;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Type getType(String typeName){
+    public Type getType(String typeName) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from type where name = ?");
@@ -451,11 +438,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return type;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Edition getEdition(Integer editionId){
+    public Edition getEdition(Integer editionId) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from edition where editionId = ?");
@@ -470,11 +457,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return edition;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Edition getEdition(String editionName){
+    public Edition getEdition(String editionName) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from edition where name = ?");
@@ -489,12 +476,12 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return edition;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
     @Override
-    public Book getBookById(Integer bookId) {
+    public Book getBookById(Integer bookId) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from book where bookId = ?");
@@ -509,11 +496,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return book;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Language getLanguage(String languageName){
+    public Language getLanguage(String languageName) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from language where name = ?");
@@ -526,11 +513,11 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return language;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public Serie getSerie(String serieName){
+    public Serie getSerie(String serieName) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from serie where name = ?");
@@ -544,10 +531,10 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return serie;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
-    public Serie getSerie(Integer serieId){
+    public Serie getSerie(Integer serieId) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from serie where serieId = ?");
@@ -561,7 +548,7 @@ public class BookDBAccess implements BookDataAccess{
             statement.close();
             return serie;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 

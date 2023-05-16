@@ -21,7 +21,7 @@ public class UtilsManager {
     public void addSerie(Serie serie){
         utilsDataAccess.addSerie(serie);
     }
-    public ArrayList<Country> getAllContries(){
-        return utilsDataAccess.getAllContries();
+    public ArrayList<Country> getAllCountries(){
+        return utilsDataAccess.getAllCountries();
     }
 }

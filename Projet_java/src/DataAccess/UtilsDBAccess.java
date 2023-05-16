@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class UtilsDBAccess implements UtilsDataAccess{
 
-    public ArrayList<Country> getAllContries(){
+    public ArrayList<Country> getAllCountries(){
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from country";

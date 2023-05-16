@@ -96,13 +96,17 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 ResultSet data = statement.executeQuery();
                 ArrayList<Book> books = new ArrayList<>();
                 while (data.next()) {
-                    Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
-                    data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),bookManager.getGenre(data.getString("genre")),
-                    bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
-                    bookManager.getEdition(data.getInt("edition")));
-                    book.setBookId(data.getInt("bookId"));
-                    if (!listContains(books, book.getTitle())) {
-                        books.add(book);
+                    try {
+                        Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                        data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),bookManager.getGenre(data.getString("genre")),
+                        bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
+                        bookManager.getEdition(data.getInt("edition")));
+                        book.setBookId(data.getInt("bookId"));
+                        if (!listContains(books, book.getTitle())) {
+                            books.add(book);
+                        }
+                    } catch (Exception exception) {
+                        throw new SQLException(exception);
                     }
                 }
             return books;
@@ -118,13 +122,17 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 ResultSet data = statement.executeQuery();
                 ArrayList<Book> books = new ArrayList<>();
                 while (data.next()) {
-                    Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
-                    data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),bookManager.getGenre(data.getString("genre")),
-                    bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
-                    bookManager.getEdition(data.getInt("edition")));
-                    book.setBookId(data.getInt("bookId"));
-                    if (!listContains(books, book.getTitle())) {
-                        books.add(book);
+                    try {
+                        Book book = new Book(data.getString("title"), LocalDate.parse(data.getString("publicationDate")),
+                        data.getInt("recommendedAge"),data.getBoolean("isDiscontinued"),bookManager.getGenre(data.getString("genre")),
+                        bookManager.getType(data.getString("type")), bookManager.getLanguage(data.getString("originalLanguage")),
+                        bookManager.getEdition(data.getInt("edition")));
+                        book.setBookId(data.getInt("bookId"));
+                        if (!listContains(books, book.getTitle())) {
+                            books.add(book);
+                        }
+                    } catch (Exception exception) {
+                        throw new SQLException(exception);
                     }
                 }
             return books;

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class ExceptionSQL extends Exception{
 
-    public ExceptionSQL(SQLException exception){
+    public ExceptionSQL(Exception exception){
         super("There is an error with your request : " + exception.getMessage());
     }
 }

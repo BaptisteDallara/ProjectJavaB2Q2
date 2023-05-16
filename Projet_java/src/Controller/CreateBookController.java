@@ -79,7 +79,10 @@ public class CreateBookController {
             
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing the page");
+            alert.showAndWait();
         }
     }
 
@@ -108,12 +111,17 @@ public class CreateBookController {
                 outputMessage.setText("Success !");
                 clearAllSelection();
             } else {
-                outputMessage.setText("Error : Invalid input");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid input");
+                alert.showAndWait();
             }
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            outputMessage.setText("Error : Invalid input");
+        catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while adding book");
+            alert.showAndWait();
         }
     }
 
@@ -148,8 +156,8 @@ public class CreateBookController {
         tableViewDraw.getItems().setAll(drawers);
     }
     public void addAuthor(){
-        String authorName = authorCBox.getValue();
-        if(authorName != null) {
+        try {
+            String authorName = authorCBox.getValue();
             String[] authorNameSplit = authorName.split(" ");
             String firstName = authorNameSplit[0];
             String lastName = authorNameSplit[1];
@@ -161,12 +169,17 @@ public class CreateBookController {
                 authors.add(author);
                 initTabViewAuth();
             }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while adding author");
+            alert.showAndWait();
         }
     }
 
     public void addDrawer(){
-        String drawerName = DrawerCBox.getValue();
-        if(drawerName != null) {
+        try {
+            String drawerName = DrawerCBox.getValue();
             String[] drawerNameSplit = drawerName.split(" ");
             String firstName = drawerNameSplit[0];
             String lastName = drawerNameSplit[1];
@@ -178,8 +191,14 @@ public class CreateBookController {
                 drawers.add(drawer);
                 initTabViewDrawer();
             }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while adding drawer");
+            alert.showAndWait();
         }
     }
+
     public Boolean compareContributorIn(ArrayList<Contributor> contributors, Contributor contributor){
         for(Contributor contributor1 : contributors){
             if(contributor1.getPersonId() == contributor.getPersonId()){
@@ -188,6 +207,7 @@ public class CreateBookController {
         }
         return false;
     }
+
     public void resetAuthor(){
         authors.clear();
         initTabViewAuth();
@@ -197,53 +217,102 @@ public class CreateBookController {
         drawers.clear();
         initTabViewDrawer();
     }
+
     public void initCBoxAuthor(){
-        ArrayList<Contributor> contributors = bookManager.showAuthor();
-        for(Contributor contributor : contributors){
-            authorCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+        try {
+            ArrayList<Contributor> contributors = bookManager.showAuthor();
+            for(Contributor contributor : contributors){
+                authorCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing author");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxDrawer(){
-        ArrayList<Contributor> contributors = bookManager.showDrawer();
-        for(Contributor contributor : contributors){
-            DrawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+        try {
+            ArrayList<Contributor> contributors = bookManager.showDrawer();
+            for(Contributor contributor : contributors){
+                DrawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing drawer");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxSerie(){
-        ArrayList<Serie> series = bookManager.showSerie();
-        for(Serie serie : series){
-            serieCBox.getItems().add(serie.getName());
+        try {
+            ArrayList<Serie> series = bookManager.showSerie();
+            for(Serie serie : series){
+                serieCBox.getItems().add(serie.getName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing serie");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxEdition(){
-        ArrayList<Edition> editions = bookManager.showEdition();
-        for(Edition edition : editions){
-            editionCBox.getItems().add(edition.getName());
+        try {
+            ArrayList<Edition> editions = bookManager.showEdition();
+            for(Edition edition : editions){
+                editionCBox.getItems().add(edition.getName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing edition");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxLanguage(){
-        ArrayList<Language> languages = bookManager.showLanguage();
-        for(Language language : languages){
-            languageCBox.getItems().add(language.getName());
+        try {
+            ArrayList<Language> languages = bookManager.showLanguage();
+            for(Language language : languages){
+                languageCBox.getItems().add(language.getName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing language");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxGenre(){
-        ArrayList<Genre> genres = bookManager.showGenre();
-        for(Genre genre : genres){
-            genreCBox.getItems().add(genre.getName());
+        try {
+            ArrayList<Genre> genres = bookManager.showGenre();
+            for(Genre genre : genres){
+                genreCBox.getItems().add(genre.getName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing genre");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxType(){
-        ArrayList<Type> types = bookManager.showType();
-        for(Type type : types){
-            typeCBox.getItems().add(type.getName());
+        try {
+            ArrayList<Type> types = bookManager.showType();
+            for(Type type : types){
+                typeCBox.getItems().add(type.getName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing type");
+            alert.showAndWait();
         }
     }
-
 }
