@@ -29,12 +29,12 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onSearchAuthorClick" text="Author" />
                   <MenuItem mnemonicParsing="false" onAction="#onSearchSerieClick" text="Serie" />
-                  <MenuItem mnemonicParsing="false" text="Lending" />
+                  <MenuItem mnemonicParsing="false" onAction="#onSearchLendingClick" text="Lending" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Business">
             <items>
-              <MenuItem mnemonicParsing="false" text="Add Lending" />
+              <MenuItem mnemonicParsing="false" onAction="#onAddLendingClick" text="Add Lending" />
             </items>
           </Menu>
         </menus>

@@ -48,6 +48,10 @@ public class Exemplar {
         return state;
     }
 
+    public String getStateString(){
+        return state.getName();
+    }
+
     public Language getLanguage() {
         return language;
     }

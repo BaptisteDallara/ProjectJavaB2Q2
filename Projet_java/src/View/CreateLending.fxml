@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateLendingController">
+   <children>
+      <TableView fx:id="tabViewAvailableEx" layoutX="198.0" layoutY="31.0" prefHeight="138.0" prefWidth="387.0">
+        <columns>
+          <TableColumn fx:id="bookColumn" prefWidth="120.79998779296875" text="Book" />
+          <TableColumn fx:id="lendingPriceColumn" minWidth="0.0" prefWidth="90.0" text="Lending Price" />
+            <TableColumn fx:id="stateColumn" prefWidth="90.0" text="State" />
+            <TableColumn fx:id="priceColumn" prefWidth="90.0" text="Price" />
+        </columns>
+      </TableView>
+      <Label layoutX="198.0" layoutY="5.0" prefHeight="26.0" prefWidth="387.0" text="Exemplar available for lending :" />
+      <Label fx:id="retardOutput" alignment="TOP_LEFT" layoutX="14.0" layoutY="222.0" prefHeight="26.0" prefWidth="150.0" text="Delay : ?" />
+      <TableView fx:id="tabViewCurrentList" layoutX="198.0" layoutY="222.0" prefHeight="138.0" prefWidth="387.0">
+         <columns>
+            <TableColumn fx:id="bookColumnList" prefWidth="120.79998779296875" text="Book" />
+            <TableColumn fx:id="lendingColumnList" minWidth="0.0" prefWidth="90.0" text="Lending Price" />
+            <TableColumn fx:id="stateColumnList" prefWidth="90.0" text="State" />
+            <TableColumn fx:id="priceColumnList" prefWidth="90.0" text="Price" />
+         </columns>
+      </TableView>
+      <Button layoutX="546.0" layoutY="175.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="14.0" layoutY="326.0" mnemonicParsing="false" text="Lend" />
+      <Label fx:id="ouputMessage" layoutX="65.0" layoutY="325.0" prefHeight="26.0" prefWidth="115.0" />
+      <Label layoutX="14.0" layoutY="244.0" prefHeight="46.0" prefWidth="150.0" text="Total :" />
+      <Label layoutX="198.0" layoutY="197.0" prefHeight="26.0" prefWidth="335.0" text="Current list :" />
+      <TableView fx:id="tableViewBorrower" layoutX="14.0" layoutY="31.0" prefHeight="138.0" prefWidth="150.0">
+        <columns>
+          <TableColumn fx:id="borrowerColumn" prefWidth="149.60001220703126" text="Borrower" />
+        </columns>
+      </TableView>
+      <Button layoutX="63.0" layoutY="175.0" mnemonicParsing="false" text="Select" />
+   </children>
+</AnchorPane>

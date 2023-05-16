@@ -69,6 +69,11 @@ public class MainController {
     public void onAddExemplarClick() {
         changingSecondScene("/View/CreateExemplar.fxml");
     }
+
+    @FXML
+    public void onAddLendingClick() {
+        changingSecondScene("/View/CreateLending.fxml");
+    }
     @FXML
     public void changingSecondScene(String scene){
         try {

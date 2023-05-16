@@ -18,6 +18,7 @@ public class LendingDBAccess implements LendingDataAccess{
             ArrayList<Borrower> readers = new ArrayList<>();
             while (data.next()) {
                 Borrower reader = new Borrower(data.getString("firstName"), data.getString("lastName"), data.getInt("phoneNumber"), data.getString("email"));
+                reader.setPersonId(data.getInt("personId"));
                 readers.add(reader);
             }
             return readers;

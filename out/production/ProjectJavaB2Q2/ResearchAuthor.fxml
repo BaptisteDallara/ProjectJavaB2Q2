@@ -23,12 +23,12 @@
       </Button>
       <Separator layoutX="-11.0" layoutY="155.0" prefHeight="0.0" prefWidth="600.0" />
       <ComboBox fx:id="searchBook" layoutX="349.0" layoutY="80.0" onMouseClicked="#initBook" prefWidth="150.0" promptText="Book" />
-      <TableView fx:id="resultTable" layoutY="170.0" prefHeight="148.0" prefWidth="374.0">
+      <TableView fx:id="resultTable" layoutX="6.0" layoutY="170.0" prefHeight="148.0" prefWidth="368.0">
         <columns>
           <TableColumn fx:id="resultSearch" prefWidth="371.99993896484375" text="ResultSearch" />
         </columns>
       </TableView>
-      <ComboBox fx:id="searchAuthor" layoutX="14.0" layoutY="80.0" prefWidth="150.0" promptText="Author" />
+      <ComboBox fx:id="searchAuthor" layoutX="14.0" layoutY="80.0" onMouseClicked="#onAuthorClicked" prefWidth="150.0" promptText="Author" />
       <ComboBox fx:id="searchSerie" layoutX="187.0" layoutY="80.0" onMouseClicked="#initSerie" prefWidth="150.0" promptText="Serie" />
       <TableView fx:id="tableName" layoutX="374.0" layoutY="170.0" prefHeight="148.0" prefWidth="215.0">
         <columns>
@@ -38,6 +38,6 @@
       <Label fx:id="labelSerie" layoutX="187.0" layoutY="61.0" prefHeight="18.0" prefWidth="249.0" />
       <Label fx:id="labelBook" layoutX="349.0" layoutY="106.0" prefHeight="18.0" prefWidth="301.0" />
       <Label fx:id="labelTable" layoutX="-1.0" layoutY="318.0" prefHeight="18.0" prefWidth="549.0" />
-      <Label layoutX="14.0" layoutY="23.0" prefHeight="18.0" prefWidth="823.0" text="Enter en author, a serie and a book to discover the edition and the different language of this book" />
+      <Label layoutX="12.0" layoutY="14.0" prefHeight="52.0" prefWidth="719.0" text="Enter en author, a serie and a book to get the edition, the genre and the different language of this book" />
    </children>
 </AnchorPane>
