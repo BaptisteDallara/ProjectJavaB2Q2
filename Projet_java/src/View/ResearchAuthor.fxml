@@ -35,9 +35,6 @@
           <TableColumn fx:id="columnName" prefWidth="214.39996337890625" text="TableName" />
         </columns>
       </TableView>
-      <Label fx:id="labelSerie" layoutX="187.0" layoutY="61.0" prefHeight="18.0" prefWidth="249.0" />
-      <Label fx:id="labelBook" layoutX="349.0" layoutY="106.0" prefHeight="18.0" prefWidth="301.0" />
-      <Label fx:id="labelTable" layoutX="-1.0" layoutY="318.0" prefHeight="18.0" prefWidth="549.0" />
       <Label layoutX="12.0" layoutY="14.0" prefHeight="52.0" prefWidth="719.0" text="Enter en author, a serie and a book to get the edition, the genre and the different language of this book" />
    </children>
 </AnchorPane>

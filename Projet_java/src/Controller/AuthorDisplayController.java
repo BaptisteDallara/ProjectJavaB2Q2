@@ -132,25 +132,21 @@ public class AuthorDisplayController {
     @FXML
     public void onButtonSearchClicked(ActionEvent event) {
         try {
-            if (searchAuthor.getValue() == null || searchBook.getValue() == null){
-                labelTable.setText("Please select an author and a book and perhaps a serie"); 
-            } else {
-                labelTable.setText(null);
-                resultTable.getItems().clear();
-                tableName.getItems().clear();
+            labelTable.setText(null);
+            resultTable.getItems().clear();
+            tableName.getItems().clear();
 
-                tableNames = new ArrayList<>();
-                tableNames.add(new ResultResearch("Edition"));
-                tableNames.add(new ResultResearch("Exemplar"));
-                tableNames.add(new ResultResearch("Book"));
-                resultResearch = authorManager.getSearchBookAuthor(searchAuthor.getValue(), searchSerie.getValue(), searchBook.getValue());
+            tableNames = new ArrayList<>();
+            tableNames.add(new ResultResearch("Edition"));
+            tableNames.add(new ResultResearch("Exemplar"));
+            tableNames.add(new ResultResearch("Book"));
+            resultResearch = authorManager.getSearchBookAuthor(searchAuthor.getValue(), searchSerie.getValue(), searchBook.getValue());
             
-                resultSearch.setCellValueFactory(new PropertyValueFactory<>("result"));
-                columnName.setCellValueFactory(new PropertyValueFactory<>("result"));
-                resultTable.getItems().addAll(resultResearch);
-                tableName.getItems().addAll(tableNames);
-            }
-        } catch (ExceptionSQL exceptionSQL) {
+            resultSearch.setCellValueFactory(new PropertyValueFactory<>("result"));
+            columnName.setCellValueFactory(new PropertyValueFactory<>("result"));
+            resultTable.getItems().addAll(resultResearch);
+            tableName.getItems().addAll(tableNames);
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please select at least an author and a book");
