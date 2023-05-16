@@ -82,7 +82,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 authorLastName += " " + authorNameSplit[2];
             }
 
-            if (serie != null) {
+            if (serie != null) { //A retirer
                 Connection connection = SingletonConnexion.getUniqueConnexion();
                 StringBuilder sql = new StringBuilder("select distinct * from book ");
                 sql.append("inner join contribution on book.bookId = contribution.book ");

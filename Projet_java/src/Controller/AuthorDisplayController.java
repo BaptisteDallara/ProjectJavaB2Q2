@@ -39,16 +39,6 @@ public class AuthorDisplayController {
     @FXML
     private ComboBox<String> searchBook;
 
-    @FXML
-    private Label labelBook;
-
-    @FXML
-    private Label labelSerie;
-
-    @FXML
-    private Label labelTable;
-
-
     private AuthorManager authorManager;
     private BookManager bookManager;
     private ArrayList<Serie> series;
@@ -82,7 +72,6 @@ public class AuthorDisplayController {
     @FXML
     public void initSerie(MouseEvent event) {
         try {
-            labelSerie.setText(null);
             searchSerie.getItems().clear();
             series = authorManager.getAllSeries(searchAuthor.getValue());
             for(Serie serie : series){
@@ -100,7 +89,6 @@ public class AuthorDisplayController {
     @FXML
     public void initBook(MouseEvent event){
         try {
-            labelBook.setText(null);
             searchBook.getItems().clear();
             books = authorManager.getAllBooks(searchAuthor.getValue(), searchSerie.getValue(), bookManager);
             for(Book book : books){
@@ -132,7 +120,6 @@ public class AuthorDisplayController {
     @FXML
     public void onButtonSearchClicked(ActionEvent event) {
         try {
-            labelTable.setText(null);
             resultTable.getItems().clear();
             tableName.getItems().clear();
 
