@@ -75,6 +75,10 @@ public class MainController {
         changingSecondScene("/View/CreateLending.fxml");
     }
     @FXML
+    public void onReturnClick() {
+        changingSecondScene("/View/DeleteLending.fxml");
+    }
+    @FXML
     public void changingSecondScene(String scene){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));

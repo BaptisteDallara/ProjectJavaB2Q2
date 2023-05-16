@@ -11,6 +11,7 @@ public class LendingDBAccess implements LendingDataAccess{
 
     private ExemplarDataAccess exemplarDataAccess = new ExemplarDBAccess();
     private BookDataAccess bookDataAccess = new BookDBAccess();
+    private ExemplarDataAccess exemplarDBAccess = new ExemplarDBAccess();
     public ArrayList<Borrower> getAllBorrowers() {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
@@ -24,6 +25,83 @@ public class LendingDBAccess implements LendingDataAccess{
                 readers.add(reader);
             }
             return readers;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void returned(Exemplar exemplar) {
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "update exemplar set lending = null where exemplarId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1,exemplar.getExemplarId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ArrayList<Exemplar> getAllLendedExemplar() {
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            StringBuilder sql = new StringBuilder("select * from exemplar where lending is not null");
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
+            ResultSet data = statement.executeQuery();
+            ArrayList<Exemplar> exemplars = new ArrayList<>();
+            while (data.next()) {
+                Storage position = exemplarDataAccess.getStorage(data.getInt("place"));
+                Book book = bookDataAccess.getBookById(data.getInt("book"));
+                Exemplar exemplar = new Exemplar(book,bookDataAccess.getLanguage(data.getString("language")),data.getInt("nbPages")
+                        ,data.getDouble("price"),data.getDouble("lendingPrice"),new Status(data.getString("state")),position);
+                exemplar.setExemplarId(data.getInt("exemplarId"));
+                Lending lending = getLendingById(data.getInt("lending"));
+                exemplar.setLending(lending);
+                exemplars.add(exemplar);
+            }
+            return exemplars;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Lending getLendingById(Integer lendingId){
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from lending where lendingId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, lendingId);
+            ResultSet data = statement.executeQuery();
+            if(data.next()){
+                Borrower borrower = getBorrowerById(data.getInt("reader"));
+                Lending lending = new Lending(borrower,data.getDate("beginDate").toLocalDate(),data.getDate("endDate").toLocalDate());
+                lending.setReturned(data.getBoolean("isReturned"));
+                lending.setLendingId(data.getInt("lendingId"));
+                return lending;
+            } else {
+                throw new RuntimeException("Lending not found");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Borrower getBorrowerById(Integer borrowerId){
+        try{
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from person where personId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, borrowerId);
+            ResultSet data = statement.executeQuery();
+            if(data.next()){
+                Borrower borrower = new Borrower(data.getString("firstName"),data.getString("lastName"),data.getInt("phoneNumber"),data.getString("email"));
+                borrower.setPersonId(data.getInt("personId"));
+                return borrower;
+            } else {
+                throw new RuntimeException("Borrower not found");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

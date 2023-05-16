@@ -18,6 +18,14 @@ public class LendingManager {
         return dao.getAllAvailableExemplar();
     }
 
+    public ArrayList<Exemplar> getAllLendedExemplar(){
+        return dao.getAllLendedExemplar();
+    }
+
+    public void returned(Exemplar exemplar){
+        dao.returned(exemplar);
+    }
+
     public Boolean getDelay(Borrower selectedBorrower,LocalDate date){
             return dao.getDelay(selectedBorrower,date); }
 

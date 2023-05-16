@@ -35,6 +35,7 @@
           <Menu mnemonicParsing="false" text="Business">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#onAddLendingClick" text="Add Lending" />
+                  <MenuItem mnemonicParsing="false" onAction="#onReturnClick" text="Return" />
             </items>
           </Menu>
         </menus>
