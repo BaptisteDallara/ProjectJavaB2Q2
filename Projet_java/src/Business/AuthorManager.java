@@ -2,7 +2,9 @@ package Business;
 
 import DataAccess.*;
 import Model.*;
+import Exception.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AuthorManager {
@@ -12,19 +14,35 @@ public class AuthorManager {
         this.dao = new AuthorDBAccess();
     }
 
-    public ArrayList<Contributor> getAllAuthor(){
-        return dao.getAllAuthor();
+    public ArrayList<Contributor> getAllAuthor() throws ExceptionSQL{
+        try {
+            return dao.getAllAuthor();
+        } catch (SQLException exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public ArrayList<Serie> getAllSeries(String author){
-        return dao.getAllSeries(author);
+    public ArrayList<Serie> getAllSeries(String author) throws ExceptionSQL{
+        try {
+            return dao.getAllSeries(author);
+        } catch (SQLException exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookDao){
-        return dao.getAllBooks(author, serie, bookDao);
+    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookDao) throws ExceptionSQL{
+        try {
+            return dao.getAllBooks(author, serie, bookDao);
+        } catch (SQLException exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public ArrayList<ResultResearch> getSearchBookAuthor (String author, String serie, String book){
-        return dao.getSearchBookAuthor(author, serie, book);
+    public ArrayList<ResultResearch> getSearchBookAuthor (String author, String serie, String book) throws ExceptionSQL{
+        try {
+            return dao.getSearchBookAuthor(author, serie, book);
+        } catch (SQLException exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 }

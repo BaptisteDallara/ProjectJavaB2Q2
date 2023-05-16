@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Business.AuthorManager;
 import Business.BookManager;
+import Exception.ExceptionSQL;
 import javafx.fxml.FXML;
 
 
@@ -64,15 +65,23 @@ public class AuthorDisplayController {
 
     @FXML
     public void initCBoxAuthor(){
-        ArrayList<Contributor> authors = authorManager.getAllAuthor();
-        for(Contributor author : authors){
-            searchAuthor.getItems().add(author.getFirstName() + " " + author.getLastName());
+        ArrayList<Contributor> authors;
+        try {
+            authors = authorManager.getAllAuthor();
+            for(Contributor author : authors){
+                searchAuthor.getItems().add(author.getFirstName() + " " + author.getLastName());
+            }
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while loading authors");
+            alert.showAndWait();
         }
     }
 
     @FXML
     public void initSerie(MouseEvent event) {
-        if (searchAuthor.getValue() != null){
+        try {
             labelSerie.setText(null);
             searchSerie.getItems().clear();
             series = authorManager.getAllSeries(searchAuthor.getValue());
@@ -80,14 +89,17 @@ public class AuthorDisplayController {
                 searchSerie.getItems().add(serie.getName());
             }
             series.clear();
-        } else {
-            labelSerie.setText("Please select an author");
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please select an author");
+            alert.showAndWait();
         }
     }
 
     @FXML
     public void initBook(MouseEvent event){
-        if (searchAuthor.getValue() != null){
+        try {
             labelBook.setText(null);
             searchBook.getItems().clear();
             books = authorManager.getAllBooks(searchAuthor.getValue(), searchSerie.getValue(), bookManager);
@@ -95,8 +107,11 @@ public class AuthorDisplayController {
                 searchBook.getItems().add(book.getTitle());
             }
             books.clear();
-        } else {
-            labelBook.setText("Please select an author");
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please select at least an author");
+            alert.showAndWait();
         }
     }
 
@@ -106,8 +121,11 @@ public class AuthorDisplayController {
         try {
             searchSerie.getItems().clear();
             searchBook.getItems().clear();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("There was a problem while clearing the serie and book comboboxes");
+            alert.showAndWait();
         }
     }
 
@@ -132,8 +150,11 @@ public class AuthorDisplayController {
                 resultTable.getItems().addAll(resultResearch);
                 tableName.getItems().addAll(tableNames);
             }
-        } catch (Exception e) {
-            labelTable.setText("This book don't have any exemplar");
+        } catch (ExceptionSQL exceptionSQL) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please select at least an author and a book");
+            alert.showAndWait();
         }
     }
 }

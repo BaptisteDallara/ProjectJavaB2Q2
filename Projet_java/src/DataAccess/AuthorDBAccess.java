@@ -2,6 +2,7 @@ package DataAccess;
 
 import Model.*;
 
+import java.security.cert.X509CRL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,18 +15,18 @@ import Business.BookManager;
 
 public class AuthorDBAccess implements AuthorDataAccess{
     
-    public ResultSet getData(String sql){
+    public ResultSet getData(String sql) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet data = statement.executeQuery();
             return data;
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public ArrayList<Contributor> getAllAuthor(){
+    public ArrayList<Contributor> getAllAuthor() throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             PreparedStatement statement = connection.prepareStatement("select * from person where personType = ?");
@@ -38,18 +39,12 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 auteurs.add(author);
             }
             return auteurs;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
-    public void addAuthor(Contributor author){
-
-    }
-    public void deleteAuthor(Contributor author){
-
-    }
     
-    public ArrayList<Serie> getAllSeries(String author){
+    public ArrayList<Serie> getAllSeries(String author) throws SQLException{
         try {
             String[] authorNameSplit = author.split(" ");
             String authorFirstName = authorNameSplit[0];
@@ -73,12 +68,12 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 series.add(serie);
             }
             return series;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
-    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager){
+    public ArrayList<Book> getAllBooks(String author, String serie, BookManager bookManager) throws SQLException{
         try {
             String[] authorNameSplit = author.split(" ");
             String authorFirstName = authorNameSplit[0];
@@ -135,8 +130,8 @@ public class AuthorDBAccess implements AuthorDataAccess{
             return books;
             }
             
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
@@ -149,7 +144,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
         return false;
     }
 
-    public ArrayList<ResultResearch> getSearchBookAuthor(String author, String serie, String book) {
+    public ArrayList<ResultResearch> getSearchBookAuthor(String author, String serie, String book) throws SQLException {
         try {
             String[] authorNameSplit = author.split(" ");
             String authorFirstName = authorNameSplit[0];
@@ -214,8 +209,8 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 return resultResearchs;
             }
             
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 }
