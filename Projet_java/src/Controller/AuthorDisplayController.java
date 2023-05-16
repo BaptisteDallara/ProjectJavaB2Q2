@@ -102,6 +102,16 @@ public class AuthorDisplayController {
 
 
     @FXML
+    public void onAuthorClicked(MouseEvent event) {
+        try {
+            searchSerie.getItems().clear();
+            searchBook.getItems().clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void onButtonSearchClicked(ActionEvent event) {
         try {
             if (searchAuthor.getValue() == null || searchBook.getValue() == null){
@@ -112,9 +122,9 @@ public class AuthorDisplayController {
                 tableName.getItems().clear();
 
                 tableNames = new ArrayList<>();
-                tableNames.add(new ResultResearch("Book"));
                 tableNames.add(new ResultResearch("Edition"));
                 tableNames.add(new ResultResearch("Exemplar"));
+                tableNames.add(new ResultResearch("Book"));
                 resultResearch = authorManager.getSearchBookAuthor(searchAuthor.getValue(), searchSerie.getValue(), searchBook.getValue());
             
                 resultSearch.setCellValueFactory(new PropertyValueFactory<>("result"));

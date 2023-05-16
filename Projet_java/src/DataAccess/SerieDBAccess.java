@@ -41,29 +41,29 @@ public class SerieDBAccess implements SerieDataAccess {
             String author = data.getString(2) + " " + data.getString(3);
             SearchSerie searchSeries = new SearchSerie(data.getString(1), data.getString(4));
             if (data.getString(5).equals("Author")) {
-                if (!containAuthor(searchSeries, author)) {
+                if (!searchSeries.getAuthorList().contains(author)) {
                     searchSeries.setAuthor(author);
                 }
             } else {
-                if (!containDrawer(searchSeries, author)) {
+                if (!searchSeries.getDrawerList().contains(author)) {
                     searchSeries.setDrawer(author);
                 }
             }
             while (data.next()) {
-                if (!containTitle(searchSeries, data.getString(1))) {
+                if (!searchSeries.getTitle().contains(data.getString(1))) {
                     searchSeries.setTitle(data.getString(1));
                 }
                 author = data.getString(2) + " " + data.getString(3);
                 if (data.getString(5).equals("Author")) {
-                    if (!containAuthor(searchSeries, author)) {
+                    if (!searchSeries.getAuthorList().contains(author)) {
                         searchSeries.setAuthor(author);
                     }
                 } else {
-                    if (!containDrawer(searchSeries, author)) {
+                    if (!searchSeries.getDrawerList().contains(author)) {
                         searchSeries.setDrawer(author);
                     }
                 }
-                if (!containEdition(searchSeries, data.getString(4))) {
+                if (!searchSeries.getEdition().contains(data.getString(4))) {
                     searchSeries.setEdition(data.getString(4));
                 }
             }
@@ -72,7 +72,6 @@ public class SerieDBAccess implements SerieDataAccess {
             resultResearchs.add(resultTitle);
             ResultResearch resultAuthor = new ResultResearch(searchSeries.getAuthor());
             resultResearchs.add(resultAuthor);
-            System.out.println(resultResearchs.get(0).getResult());
             ResultResearch resultDrawer = new ResultResearch(searchSeries.getDrawer());
             resultResearchs.add(resultDrawer);
             ResultResearch resultEdition = new ResultResearch(searchSeries.getEdition());
@@ -81,45 +80,5 @@ public class SerieDBAccess implements SerieDataAccess {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public boolean containTitle(SearchSerie searchSerie, String title) {
-        ArrayList<String> titles = searchSerie.getTitleList();
-        for (String title1 : titles) {
-            if (title1.equals(title)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean containEdition(SearchSerie searchSerie, String editor) {
-        ArrayList<String> editors = searchSerie.getEditionList();
-        for (String editor1 : editors) {
-            if (editor1.equals(editor)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean containAuthor(SearchSerie searchSerie, String author) {
-        ArrayList<String> authors = searchSerie.getAuthorList();
-        for (String author1 : authors) {
-            if (author1.equals(author)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean containDrawer(SearchSerie searchSerie, String drawer) {
-        ArrayList<String> drawers = searchSerie.getDrawerList();
-        for (String drawer1 : drawers) {
-            if (drawer1.equals(drawer)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    }   
 }

@@ -3,7 +3,6 @@ package DataAccess;
 import Model.*;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Business.BookManager;

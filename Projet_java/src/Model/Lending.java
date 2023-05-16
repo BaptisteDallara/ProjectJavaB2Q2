@@ -31,6 +31,11 @@ public class Lending {
         this.isReturn = true;
     }
 
+    public LocalDate getBeginDate(){
+        return beginDate;
+    }
 
-
+    public int getLendingId(){
+        return lendingId;
+    }
 }

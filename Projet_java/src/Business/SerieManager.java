@@ -19,20 +19,4 @@ public class SerieManager {
     public ArrayList<ResultResearch> getSearchSerie (String serie){
         return dao.getSearchSerie(serie);
     }
-
-    public boolean containTitle(SearchSerie searchSerie, String title){
-        return dao.containTitle(searchSerie, title);
-    }
-
-    public boolean containEdition(SearchSerie searchSerie, String editor){
-        return dao.containEdition(searchSerie, editor);
-    }
-
-    public boolean containAuthor(SearchSerie searchSerie, String author){
-        return dao.containAuthor(searchSerie, author);
-    }
-
-    public boolean containDrawer(SearchSerie searchSerie, String drawer){
-        return dao.containDrawer(searchSerie, drawer);
-    }
 }

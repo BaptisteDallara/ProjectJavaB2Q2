@@ -1,18 +1,14 @@
 package Model;
 
 public class SearchBookAuthor {
-    private String title;
     private String edition;
     private String language;
+    private String genre;
 
-    public SearchBookAuthor(String title, String edition, String language) {
-        this.title = title;
+    public SearchBookAuthor(String edition, String language, String genre) {
         this.edition = edition;
         this.language = language;
-    }
-
-    public String getTitle() {
-        return title;
+        this.genre = genre;
     }
 
     public String getEdition() {
@@ -21,6 +17,10 @@ public class SearchBookAuthor {
 
     public String getLanguage() {
         return language;
+    }
+
+    public String getGenre() {
+        return genre;
     }
 
     public void setLanguage(String language) {

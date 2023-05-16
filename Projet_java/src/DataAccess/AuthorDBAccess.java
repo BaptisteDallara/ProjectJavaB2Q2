@@ -160,7 +160,7 @@ public class AuthorDBAccess implements AuthorDataAccess{
 
             if (serie != null) {
                 Connection connection = SingletonConnexion.getUniqueConnexion();
-                StringBuilder sql = new StringBuilder("select distinct title, edition.name, exemplar.language from book ");
+                StringBuilder sql = new StringBuilder("select distinct edition.name, exemplar.language, book.genre from book ");
                 sql.append("inner join contribution on book.bookId = contribution.book ");
                 sql.append("inner join person on person.personId = contribution.person ");
                 sql.append("inner join serie on serie.serieId = book.serie ");
@@ -176,19 +176,19 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 data.next();
                 SearchBookAuthor searchBookAuthor = new SearchBookAuthor(data.getString(1), data.getString(2), data.getString(3));
                 while (data.next()) {
-                    searchBookAuthor.setLanguage(data.getString(3));
+                    searchBookAuthor.setLanguage(data.getString(2));
                 }
                 ArrayList<ResultResearch> resultResearchs = new ArrayList<>();
-                ResultResearch resultTitle = new ResultResearch(searchBookAuthor.getTitle());
-                resultResearchs.add(resultTitle);
                 ResultResearch resultEdition = new ResultResearch(searchBookAuthor.getEdition());
                 resultResearchs.add(resultEdition);
                 ResultResearch resultLanguage = new ResultResearch(searchBookAuthor.getLanguage());
                 resultResearchs.add(resultLanguage);
+                ResultResearch resultGenre = new ResultResearch(searchBookAuthor.getGenre());
+                resultResearchs.add(resultGenre);
                 return resultResearchs;
             } else {
                 Connection connection = SingletonConnexion.getUniqueConnexion();
-                StringBuilder sql = new StringBuilder("select distinct title, edition.name, exemplar.language from book ");
+                StringBuilder sql = new StringBuilder("select distinct edition.name, exemplar.language, book.genre from book ");
                 sql.append("inner join contribution on book.bookId = contribution.book ");
                 sql.append("inner join person on person.personId = contribution.person ");
                 sql.append("inner join edition on edition.editionId = book.edition ");
@@ -202,15 +202,15 @@ public class AuthorDBAccess implements AuthorDataAccess{
                 data.next();
                 SearchBookAuthor searchBookAuthor = new SearchBookAuthor(data.getString(1), data.getString(2), data.getString(3));
                 while (data.next()) {
-                    searchBookAuthor.setLanguage(data.getString("language.name"));
+                    searchBookAuthor.setLanguage(data.getString(2));
                 }
                 ArrayList<ResultResearch> resultResearchs = new ArrayList<>();
-                ResultResearch resultTitle = new ResultResearch(searchBookAuthor.getTitle());
-                resultResearchs.add(resultTitle);
                 ResultResearch resultEdition = new ResultResearch(searchBookAuthor.getEdition());
                 resultResearchs.add(resultEdition);
                 ResultResearch resultLanguage = new ResultResearch(searchBookAuthor.getLanguage());
                 resultResearchs.add(resultLanguage);
+                ResultResearch resultGenre = new ResultResearch(searchBookAuthor.getGenre());
+                resultResearchs.add(resultGenre);
                 return resultResearchs;
             }
             
