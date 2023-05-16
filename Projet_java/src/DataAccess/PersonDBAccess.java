@@ -143,8 +143,18 @@ public class PersonDBAccess implements PersonDataAccess{
     public void deleteLending(Borrower borrower){
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
-            String sql = "delete from lending where reader = ?";
+            String sql = "select exemplar from lending where reader = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1,borrower.getPersonId());
+            ResultSet data = statement.executeQuery();
+            while (data.next()){
+                sql = "update exemplar set lending = null where exemplarId = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setInt(1,data.getInt("exemplar"));
+                statement.executeUpdate();
+            }
+            sql = "delete from lending where reader = ?";
+            statement = connection.prepareStatement(sql);
             statement.setInt(1,borrower.getPersonId());
             statement.executeUpdate();
         } catch (Exception exception){

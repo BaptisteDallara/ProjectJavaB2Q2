@@ -152,6 +152,7 @@ public class BookDBAccess implements BookDataAccess{
             throw new SQLException(exception);
         }
     }
+
     public void deleteSerie(Serie serie) throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
@@ -254,10 +255,20 @@ public class BookDBAccess implements BookDataAccess{
     public void deleteLendingFromBook(Book book) throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
-            String sql = "delete from lending where exemplar in (select exemplarId from exemplar where book = ?)";
+            String sql = "select exemplarId from exemplar where book = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, book.getBookId());
-            statement.executeUpdate();
+            ResultSet data = statement.executeQuery();
+            while (data.next()) {
+                sql = "update exemplar set lending = null where exemplarId = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setInt(1, data.getInt("exemplarId"));
+                statement.executeUpdate();
+                sql = "delete from lending where exemplar = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setInt(1, data.getInt("exemplarId"));
+                statement.executeUpdate();
+            }
             statement.close();
         } catch (SQLException exception) {
             throw new SQLException(exception);

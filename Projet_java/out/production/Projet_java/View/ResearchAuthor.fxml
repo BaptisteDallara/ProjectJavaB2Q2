@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AuthorDisplayController">
+   <children>
+      <Button layoutX="499.0" layoutY="80.0" mnemonicParsing="false" onAction="#onButtonSearchClicked" prefHeight="9.0" prefWidth="7.0">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icon/loop-icon-1024x1024-9c5qko4q.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Separator layoutX="-11.0" layoutY="155.0" prefHeight="0.0" prefWidth="600.0" />
+      <ComboBox fx:id="searchBook" layoutX="349.0" layoutY="80.0" onMouseClicked="#initBook" prefWidth="150.0" promptText="Book" />
+      <TableView fx:id="resultTable" layoutX="6.0" layoutY="170.0" prefHeight="148.0" prefWidth="368.0">
+        <columns>
+          <TableColumn fx:id="resultSearch" prefWidth="371.99993896484375" text="ResultSearch" />
+        </columns>
+      </TableView>
+      <ComboBox fx:id="searchAuthor" layoutX="14.0" layoutY="80.0" onMouseClicked="#onAuthorClicked" prefWidth="150.0" promptText="Author" />
+      <ComboBox fx:id="searchSerie" layoutX="187.0" layoutY="80.0" onMouseClicked="#initSerie" prefWidth="150.0" promptText="Serie" />
+      <TableView fx:id="tableName" layoutX="374.0" layoutY="170.0" prefHeight="148.0" prefWidth="215.0">
+        <columns>
+          <TableColumn fx:id="columnName" prefWidth="214.39996337890625" text="TableName" />
+        </columns>
+      </TableView>
+      <Label layoutX="12.0" layoutY="14.0" prefHeight="52.0" prefWidth="719.0" text="Enter en author, a serie and a book to get the edition, the genre and the different language of this book" />
+   </children>
+</AnchorPane>
