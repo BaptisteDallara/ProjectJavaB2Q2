@@ -15,5 +15,15 @@ public class Borrower extends Person{
     public Borrower(String firstName, String lastName,Integer phoneNumber,String email){
         this(firstName,lastName,null,phoneNumber,email);
     }
+    public String getDeath(){
+        return "";
+    }
 
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }

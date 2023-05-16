@@ -14,55 +14,55 @@ public class MainController {
     private AnchorPane secondaryPane;
     @FXML
     public void initialize(){
-        changingSecondScene("../View/HomeView.fxml");
+        changingSecondScene("/View/HomeView.fxml");
     }
 
     @FXML
     public void onHomeClick() {
-        changingSecondScene("../View/HomeView.fxml");
+        changingSecondScene("/View/HomeView.fxml");
     }
     @FXML
     public void onCreateBookClick(){
-        changingSecondScene("../View/CreateBook.fxml");
+        changingSecondScene("/View/CreateBook.fxml");
     }
 
     @FXML
     public void onListBookClick() {
-        changingSecondScene("../View/BookListView.fxml");
+        changingSecondScene("/View/BookListView.fxml");
     }
 
     @FXML
     public void onSearchAuthorClick() {
-        changingSecondScene("../View/ResearchAuthor.fxml");
+        changingSecondScene("/View/ResearchAuthor.fxml");
     }
 
     @FXML
     public void onSearchSerieClick() {
-        changingSecondScene("../View/ResearchSerie.fxml");
+        changingSecondScene("/View/ResearchSerie.fxml");
     }
 
     @FXML
     public void onDeleteBookClick() {
-        changingSecondScene("../View/DeleteBook.fxml");
+        changingSecondScene("/View/DeleteBook.fxml");
     }
 
     @FXML
     public void onEditBookClick() {
-        changingSecondScene("../View/EditBookView.fxml");
+        changingSecondScene("/View/EditBookView.fxml");
     }
 
     @FXML
     public void onBookUtilsClick() {
-        changingSecondScene("../View/BookUtilsView.fxml");
+        changingSecondScene("/View/BookUtilsView.fxml");
     }
     @FXML
     public void onAddPersonClick() {
-        changingSecondScene("../View/CreatePerson.fxml");
+        changingSecondScene("/View/CreatePerson.fxml");
     }
 
     @FXML
     public void onAddExemplarClick() {
-        changingSecondScene("../View/CreateExemplar.fxml");
+        changingSecondScene("/View/CreateExemplar.fxml");
     }
     @FXML
     public void changingSecondScene(String scene){

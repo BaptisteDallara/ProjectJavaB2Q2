@@ -2,6 +2,7 @@ package Business;
 
 import DataAccess.PersonDBAccess;
 import DataAccess.PersonDataAccess;
+import Model.Borrower;
 import Model.Contributor;
 import Model.Country;
 import Model.Person;
@@ -23,5 +24,17 @@ public class PersonManager {
 
     public ArrayList<Person> getAllPerson(){
         return personDataAccess.getAllPerson();
+    }
+
+    public void addContributor(Contributor person){
+        personDataAccess.addContributor(person);
+    }
+
+    public void deletePerson(Person person){
+        personDataAccess.deletePerson(person);
+    }
+
+    public void addBorrower(Borrower borrower){
+        personDataAccess.addBorrower(borrower);
     }
 }

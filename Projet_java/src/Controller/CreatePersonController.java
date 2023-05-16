@@ -6,11 +6,7 @@ import DataAccess.BookDataAccess;
 import Model.*;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
@@ -55,6 +51,8 @@ public class CreatePersonController {
 
     @FXML
     private TableView<Person> tableViewPerson;
+    @FXML
+    private Label outputMessage;
     private PersonManager personManager;
 
     @FXML
@@ -65,6 +63,69 @@ public class CreatePersonController {
         initTableViewPerson();
     }
 
+    @FXML
+    public void onDeleteButtonClick() {
+        try {
+            Person person = tableViewPerson.getSelectionModel().getSelectedItem();
+            if (person != null) {
+                personManager.deletePerson(person);
+                outputMessage.setText("Person deleted");
+                initTableViewPerson();
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            throw new RuntimeException(exception);
+        }
+    }
+
+    @FXML
+    public void addPerson(){
+        try{
+            if(!personType.getValue().isEmpty()) {
+                if(!inputFName.getText().isEmpty() && !inputLName.getText().isEmpty()) {
+                    if (personType.getValue().equals("Author") || personType.getValue().equals("Drawer")) {
+                        Contributor person = new Contributor(inputFName.getText(),inputLName.getText());
+                        person.setNationality(new Country(nationalityCBox.getValue()));
+                        if(bithDatePicker.getValue() != null){
+                            person.setBirthday(bithDatePicker.getValue());
+                        }
+                        if(deathDatePicker.getValue() != null){
+                            person.setDeath(deathDatePicker.getValue());
+                        }
+                        person.setPersonType(personType.getValue());
+                        personManager.addContributor(person);
+                    } else {
+                        Borrower person = new Borrower(inputFName.getText(),inputLName.getText(),Integer.parseInt(inputPhoneNumber.getText())
+                                            ,inputEmail.getText());
+                        if(bithDatePicker.getValue() != null){
+                            person.setBirthday(bithDatePicker.getValue());
+                        }
+                        person.setPersonType(personType.getValue());
+                        personManager.addBorrower(person);
+                    }
+                }
+                outputMessage.setText("Success");
+                clearAllSelection();
+                initTableViewPerson();
+            } else {
+                throw new RuntimeException();
+            }
+        } catch (Exception exception){
+            System.out.println(exception.getMessage());
+            throw new RuntimeException(exception);
+        }
+    }
+
+
+    public void clearAllSelection(){
+        inputPhoneNumber.clear();
+        inputEmail.clear();
+        inputFName.clear();
+        inputLName.clear();
+        nationalityCBox.getSelectionModel().clearSelection();
+        bithDatePicker.getEditor().clear();
+        deathDatePicker.getEditor().clear();
+    }
     public void initTableViewPerson(){
         tableViewPerson.getItems().clear();
         personColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
@@ -76,6 +137,7 @@ public class CreatePersonController {
 
     @FXML
     public void initForms(){
+        clearAllSelection();
         resetForm();
         String type = personType.getValue();
         switch (type){
