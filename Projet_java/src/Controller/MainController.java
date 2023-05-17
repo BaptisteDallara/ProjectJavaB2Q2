@@ -1,10 +1,14 @@
 package Controller;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Objects;
 
 public class MainController {
@@ -14,7 +18,13 @@ public class MainController {
     private AnchorPane secondaryPane;
     @FXML
     public void initialize(){
-        changingSecondScene("/View/HomeView.fxml");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/View/HomeView.fxml")));
+            Parent root = fxmlLoader.load();
+            secondaryPane.getChildren().setAll(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -84,10 +94,56 @@ public class MainController {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));
             Parent root = fxmlLoader.load();
             secondaryPane.getChildren().setAll(root);
+            /*Thread thread = new LoadingThread(scene, secondaryPane);
+            thread.start();*/
         }
         catch (IOException exception){
             System.out.println("Error : " + exception.getMessage());
         }
     }
+
+    /*
+    public Scene loadingScene(String scene) throws IOException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));
+            Parent root = fxmlLoader.load();
+            return new Scene(root);
+        } catch (IOException exception) {
+            System.out.println("Error : " + exception.getMessage());
+            throw new IOException();
+        }
+    }
+
+    @FXML void loadCreateBook(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/View/Loading.fxml")));
+            Parent root = fxmlLoader.load();
+            secondaryPane.getChildren().setAll(root);
+            Task<Scene> loadSceneTask = createLoadSceneTask();
+            loadSceneTask.setOnSucceeded(event -> {
+                FXMLLoader fxmlLoader1 = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/View/CreateBook.fxml")));
+                Parent realScene = null;
+                try {
+                    realScene = fxmlLoader1.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                secondaryPane.getChildren().setAll(realScene);
+            });
+            new Thread(loadSceneTask).start();
+
+        } catch (IOException exception){
+            System.out.println("Error : " + exception.getMessage());
+        }
+    }
+    private Task<Scene> createLoadSceneTask(){
+        return new Task<>() {
+            @Override
+            protected Scene call() throws Exception {
+                return null;
+            }
+        };
+    }
+*/
 
 }
