@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class SerieDBAccess implements SerieDataAccess {
     
-    public ArrayList<Serie> getAllSeries(){
+    public ArrayList<Serie> getAllSeries() throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select distinct * from serie ");
@@ -20,12 +20,12 @@ public class SerieDBAccess implements SerieDataAccess {
                 series.add(serie);
             }
             return series;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
-    public ArrayList<ResultResearch> getSearchSerie (String serie){
+    public ArrayList<ResultResearch> getSearchSerie (String serie) throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select book.title, person.firstName, person.lastName, edition.name, person.personType from book ");
@@ -77,8 +77,8 @@ public class SerieDBAccess implements SerieDataAccess {
             ResultResearch resultEdition = new ResultResearch(searchSeries.getEdition());
             resultResearchs.add(resultEdition);
             return resultResearchs;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }   
 }

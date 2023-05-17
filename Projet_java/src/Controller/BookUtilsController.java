@@ -107,7 +107,6 @@ public class BookUtilsController {
         try {
             Edition edition = new Edition(inputEditionName.getText(), new Country(countryCBox.getSelectionModel().getSelectedItem()));
             utilsManager.addEdition(edition);
-            outputEditionMessage.setText("Success");
             inputEditionName.clear();
             countryCBox.getSelectionModel().clearSelection();
             initTableViewEdition();
@@ -121,21 +120,30 @@ public class BookUtilsController {
 
     @FXML
     public void addSerie(){
-        if(!inputSerieName.getText().isEmpty()) {
+        try {
             Serie serie = new Serie(inputSerieName.getText());
             utilsManager.addSerie(serie);
-            outputSerieMessage.setText("Success");
             inputSerieName.clear();
             initTableViewSerie();
-        } else {
-            outputSerieMessage.setText("Please enter a name");
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Please enter a name for the serie");
+            alert.showAndWait();
         }
     }
 
     public void initCBoxCountry(){
-        ArrayList<Country> countries = utilsManager.getAllCountries();
-        for(Country country : countries){
-            countryCBox.getItems().add(country.getName());
+        try {
+            ArrayList<Country> countries = utilsManager.getAllCountries();
+            for(Country country : countries){
+                countryCBox.getItems().add(country.getName());
+            }
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the countries");
+            alert.showAndWait();
         }
     }
 }

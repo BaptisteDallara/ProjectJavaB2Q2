@@ -1,6 +1,7 @@
 package Business;
 
 import DataAccess.*;
+import Exception.ExceptionSQL;
 import Model.*;
 
 import java.util.ArrayList;
@@ -12,11 +13,19 @@ public class SerieManager {
         this.dao = new SerieDBAccess();
     }
 
-    public ArrayList<Serie> getAllSeries(){
-        return dao.getAllSeries();
+    public ArrayList<Serie> getAllSeries() throws ExceptionSQL{
+        try {
+            return dao.getAllSeries();
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public ArrayList<ResultResearch> getSearchSerie (String serie){
-        return dao.getSearchSerie(serie);
+    public ArrayList<ResultResearch> getSearchSerie (String serie) throws ExceptionSQL{
+        try {
+            return dao.getSearchSerie(serie);
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 }

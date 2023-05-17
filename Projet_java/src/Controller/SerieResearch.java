@@ -3,6 +3,7 @@ package Controller;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -18,9 +19,6 @@ public class SerieResearch {
 
     @FXML
     private Button buttonSerie;
-
-    @FXML
-    private Label labelSearchSerie;
 
     @FXML
     private TableView<ResultResearch> resultTable;
@@ -49,18 +47,25 @@ public class SerieResearch {
 
     @FXML
     public void initSeries() {
-        ArrayList<Serie> series = serieManager.getAllSeries();
-        for(Serie serie : series){
-            serieCB.getItems().add(serie.getName());
+        try {
+            ArrayList<Serie> series = serieManager.getAllSeries();
+            for(Serie serie : series){
+                serieCB.getItems().add(serie.getName());
+            }
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while loading series");
+            alert.showAndWait();
         }
     }
 
     @FXML
     public void onSearchSerieClicked(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
         try {
             if (serieCB.getValue() != null) {
-                labelSearchSerie.setText(null);
-
                 resultTable.getItems().clear();
                 tableName.getItems().clear();
 
@@ -76,10 +81,12 @@ public class SerieResearch {
                 resultColumn.setCellValueFactory(new PropertyValueFactory<>("result"));
                 resultTable.getItems().addAll(resultResearch);
             } else {
-                labelSearchSerie.setText("Please select a serie");
+                alert.setHeaderText("Please select a serie");
+                alert.showAndWait();
             }
-        } catch (Exception e) {
-            
+        } catch (Exception exception) {
+            alert.setHeaderText("Error while searching serie");
+            alert.showAndWait();
         }
     }
 

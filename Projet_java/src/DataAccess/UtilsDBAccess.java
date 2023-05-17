@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class UtilsDBAccess implements UtilsDataAccess{
 
-    public ArrayList<Country> getAllCountries(){
+    public ArrayList<Country> getAllCountries() throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from country";
@@ -22,12 +22,11 @@ public class UtilsDBAccess implements UtilsDataAccess{
             }
             return countries;
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+            throw new SQLException(exception);
         }
     }
 
-    public void addSerie(Serie serie) {
+    public void addSerie(Serie serie) throws SQLException {
         try {
             if(!serieAlreadyExist(serie.getName())) {
                 Connection connection = SingletonConnexion.getUniqueConnexion();
@@ -37,11 +36,11 @@ public class UtilsDBAccess implements UtilsDataAccess{
                 statement.executeUpdate();
             }
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            throw new SQLException(exception);
         }
     }
 
-    public void addEdition(Edition edition){
+    public void addEdition(Edition edition) throws SQLException{
         try {
             if(!editionAlreadyExist(edition)){
                 Connection connection = SingletonConnexion.getUniqueConnexion();
@@ -52,25 +51,26 @@ public class UtilsDBAccess implements UtilsDataAccess{
                 statement.executeUpdate();
             }
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            throw new SQLException(exception);
         }
     }
-     public Boolean editionAlreadyExist(Edition edition) {
-         try {
-             Connection connection = SingletonConnexion.getUniqueConnexion();
-             String sql = "select * from edition where name = ? and country = ?";
-             PreparedStatement statement = connection.prepareStatement(sql);
-             statement.setString(1, edition.getName());
-             statement.setString(2, edition.getCountry().getName());
-             ResultSet data = statement.executeQuery();
-             return data.next();
-         } catch (SQLException exception) {
-             System.out.println(exception.getMessage());
-         }
-         return false;
-     }
-    public Boolean serieAlreadyExist(String name) {
-    	try {
+
+    public Boolean editionAlreadyExist(Edition edition) throws SQLException {
+        try {
+            Connection connection = SingletonConnexion.getUniqueConnexion();
+            String sql = "select * from edition where name = ? and country = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, edition.getName());
+            statement.setString(2, edition.getCountry().getName());
+            ResultSet data = statement.executeQuery();
+            return data.next();
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
+        }
+    }
+
+    public Boolean serieAlreadyExist(String name) throws SQLException {
+        try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from serie where name = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -78,9 +78,8 @@ public class UtilsDBAccess implements UtilsDataAccess{
             ResultSet data = statement.executeQuery();
             return data.next();
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            throw new SQLException(exception);
         }
-        return false;
     }
 
 }
