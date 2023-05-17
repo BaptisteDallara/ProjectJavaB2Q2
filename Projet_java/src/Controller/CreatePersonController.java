@@ -73,13 +73,17 @@ public class CreatePersonController {
                 initTableViewPerson();
             }
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException(exception);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when deleting the person");
+            alert.showAndWait();
         }
     }
 
     @FXML
     public void addPerson(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
         try{
             if(!personType.getValue().isEmpty()) {
                 if(!inputFName.getText().isEmpty() && !inputLName.getText().isEmpty()) {
@@ -96,34 +100,55 @@ public class CreatePersonController {
                             person.setPersonType(personType.getValue());
                             personManager.addContributor(person);
                         } else {
-                            outputMessage.setText("Error : nationality ");
-                            throw new RuntimeException(); // a changer
+                            alert.setHeaderText("Incorrect nationality");
+                            alert.showAndWait();
+                            throw new Exception();
                         }
                     } else {
-                        if(!(Integer.parseInt(inputPhoneNumber.getText()) < 0)&& !inputEmail.getText().isEmpty()) {
-                            Borrower person = new Borrower(inputFName.getText(), inputLName.getText(), Integer.parseInt(inputPhoneNumber.getText())
-                                    , inputEmail.getText());
+                        Borrower person = new Borrower(inputFName.getText(), inputLName.getText());
+                            if (!inputEmail.getText().isEmpty()) {
+                                if (!inputEmail.getText().contains("@")) {
+                                    alert.setHeaderText("Incorrect email don't forget @");
+                                    alert.showAndWait();
+                                    throw new Exception();
+                                } else {
+                                    person.setEmail(inputEmail.getText());
+                                }
+                            }
+                            if (!inputPhoneNumber.getText().isEmpty()) {
+                                if (inputPhoneNumber.getText().length() != 10 || Integer.parseInt(inputPhoneNumber.getText()) < 0) {
+                                    alert.setHeaderText("Incorrect phone number");
+                                    alert.showAndWait();
+                                    throw new Exception();
+                                } else {
+                                    person.setPhoneNumber(Integer.parseInt(inputPhoneNumber.getText()));
+                                }
+                            } else {
+                                alert.setHeaderText("Please choose a phone number");
+                                alert.showAndWait();
+                                throw new Exception();
+                            }
                             if (bithDatePicker.getValue() != null) {
                                 person.setBirthday(bithDatePicker.getValue());
                             }
                             person.setPersonType(personType.getValue());
                             personManager.addBorrower(person);
-                        } else {
-                            outputMessage.setText("Error : phone/email");
-                            throw new RuntimeException(); // a changer errorInput
-                        }
                     }
                     outputMessage.setText("Success");
                     clearAllSelection();
                     initTableViewPerson();
                 } else {
-                    outputMessage.setText("Incorrect Name");
-                    throw new RuntimeException();
+                    alert.setHeaderText("Incorrect name or first name");
+                    alert.showAndWait();
+                    throw new Exception();
                 }
+            } else {
+                alert.setHeaderText("Incorrect person type");
+                alert.showAndWait();
             }
         } catch (Exception exception){
-            outputMessage.setText("Need select type");
-            System.out.println(exception.getMessage());
+            alert.setHeaderText("Error when adding the person");
+            alert.showAndWait();
         }
     }
 
@@ -137,13 +162,21 @@ public class CreatePersonController {
         bithDatePicker.getEditor().clear();
         deathDatePicker.getEditor().clear();
     }
+
     public void initTableViewPerson(){
-        tableViewPerson.getItems().clear();
-        personColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-        personTypeColumn.setCellValueFactory(new PropertyValueFactory<>("personType"));
-        bithdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
-        deathColumn.setCellValueFactory(new PropertyValueFactory<>("death"));
-        tableViewPerson.getItems().addAll(personManager.getAllPerson());
+        try {
+            tableViewPerson.getItems().clear();
+            personColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+            personTypeColumn.setCellValueFactory(new PropertyValueFactory<>("personType"));
+            bithdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
+            deathColumn.setCellValueFactory(new PropertyValueFactory<>("death"));
+            tableViewPerson.getItems().addAll(personManager.getAllPerson());
+        } catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when initializing the table");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -186,10 +219,16 @@ public class CreatePersonController {
     }
 
     public void initNationalityCBox(){
-        ArrayList<Country> nationalities = personManager.getNationality();
-        for (Country country : nationalities){
-            nationalityCBox.getItems().add(country.getName());
+        try {
+            ArrayList<Country> nationalities = personManager.getNationality();
+            for (Country country : nationalities){
+                nationalityCBox.getItems().add(country.getName());
+            }
+        } catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while initializing the table");
+            alert.showAndWait();
         }
     }
-
 }

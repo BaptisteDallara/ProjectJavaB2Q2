@@ -40,7 +40,7 @@ public abstract class Person {
 
     public String getBirthday(){
         if(birthday == null){
-            return "";
+            return null;
         }
         return birthday.toString();
     }

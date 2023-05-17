@@ -29,7 +29,7 @@ public class Contributor extends Person{
 
     public String getDeath(){
         if(death == null){
-            return "";
+            return null;
         }
         return death.toString();
     }

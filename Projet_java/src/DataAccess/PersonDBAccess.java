@@ -6,12 +6,13 @@ import DataAccess.BookDataAccess;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.sql.*;
 
 public class PersonDBAccess implements PersonDataAccess{
 
     private BookDataAccess bookDBAccess = new BookDBAccess();
     @Override
-    public ArrayList<Country> getNationality(){
+    public ArrayList<Country> getNationality() throws SQLException{
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             ArrayList<Country> countries = new ArrayList<>();
@@ -24,13 +25,12 @@ public class PersonDBAccess implements PersonDataAccess{
             }
             return countries;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public void addContributor(Contributor person) {
+    public void addContributor(Contributor person) throws Exception {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into person (firstName,lastName,phoneNumber,email,personType,birthday,death) values (?,?,?,?,?,?,?)";
@@ -41,7 +41,7 @@ public class PersonDBAccess implements PersonDataAccess{
             statement.setNull(4, java.sql.Types.VARCHAR);
             statement.setString(5,person.getPersonType());
             if(person.getBirthday() == null){
-                statement.setNull(6, java.sql.Types.DATE);
+                statement.setNull(6, Types.DATE);
             }
             else{
                 java.sql.Date sqlPubDate = java.sql.Date.valueOf(person.getBirthday());
@@ -55,39 +55,46 @@ public class PersonDBAccess implements PersonDataAccess{
                 statement.setDate(7,sqlPubDate);
             }
             statement.executeUpdate();
-
         } catch (Exception exception){
-            throw new RuntimeException(exception);
+            throw new Exception();
         }
     }
 
     @Override
-    public void addBorrower(Borrower person) {
+    public void addBorrower(Borrower person) throws Exception {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into person (firstName,lastName,phoneNumber,email,personType,birthday,death) values (?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,person.getFirstName());
             statement.setString(2,person.getLastName());
-            statement.setInt(3,person.getPhoneNumber());
-            statement.setString(4,person.getEmail());
+            if (person.getPhoneNumber() == null){
+                statement.setNull(3, java.sql.Types.INTEGER);
+            } else{
+                statement.setInt(3,person.getPhoneNumber());
+            }
+
+            if (person.getEmail() == null){
+                statement.setNull(4, java.sql.Types.VARCHAR);
+            } else{
+                statement.setString(4,person.getEmail());
+            }
             statement.setString(5,"Reader");
             if(person.getBirthday() == null){
                 statement.setNull(6, java.sql.Types.DATE);
-            }
-            else{
+            } else{
                 java.sql.Date sqlPubDate = java.sql.Date.valueOf(person.getBirthday());
                 statement.setDate(6,sqlPubDate);
             }
             statement.setNull(7, java.sql.Types.DATE);
             statement.executeUpdate();
         } catch (Exception exception){
-            throw new RuntimeException(exception);
+            throw new Exception();
         }
     }
 
     @Override
-    public ArrayList<Person> getAllPerson() {
+    public ArrayList<Person> getAllPerson() throws Exception {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             ArrayList<Person> persons = new ArrayList<>();
@@ -117,13 +124,12 @@ public class PersonDBAccess implements PersonDataAccess{
             return persons;
             }
             catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+                throw new Exception(e);
+            }
         }
-    }
 
     @Override
-    public void deletePerson(Person person) {
+    public void deletePerson(Person person) throws Exception {
         try{
             if(person.getPersonType().equals("Reader")) {
                 deleteLending((Borrower) person);
@@ -136,11 +142,11 @@ public class PersonDBAccess implements PersonDataAccess{
             statement.setInt(1,person.getPersonId());
             statement.executeUpdate();
         } catch (Exception exception){
-            throw new RuntimeException(exception);
+            throw new Exception(exception);
         }
     }
 
-    public void deleteLending(Borrower borrower){
+    public void deleteLending(Borrower borrower) throws Exception{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select exemplar from lending where reader = ?";
@@ -158,11 +164,11 @@ public class PersonDBAccess implements PersonDataAccess{
             statement.setInt(1,borrower.getPersonId());
             statement.executeUpdate();
         } catch (Exception exception){
-            throw new RuntimeException(exception);
+            throw new Exception(exception);
         }
     }
 
-    public void deleteContribution(Contributor contributor) {
+    public void deleteContribution(Contributor contributor) throws Exception {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "delete from contribution where person = ?";
@@ -170,7 +176,7 @@ public class PersonDBAccess implements PersonDataAccess{
             statement.setInt(1,contributor.getPersonId());
             statement.executeUpdate();
         } catch (Exception exception){
-            throw new RuntimeException(exception);
+            throw new Exception(exception);
         }
     }
 }
