@@ -14,7 +14,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LendingResearch">
    <children>
       <Label layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="543.0" text="Choose a borrower, a date and the lending after this date" />
-      <ComboBox fx:id="borrowerCb" layoutX="14.0" layoutY="55.0" onMouseClicked="#onBorrowerCLicked" prefWidth="150.0" promptText="Borrower" />
+      <ComboBox fx:id="borrowerCb" layoutX="14.0" layoutY="55.0" prefWidth="150.0" promptText="Borrower" />
       <DatePicker fx:id="dateLendingBegin" editable="false" layoutX="164.0" layoutY="55.0" onMouseClicked="#onDateClicked" />
       <ComboBox fx:id="lendingCb" layoutX="390.0" layoutY="55.0" onMouseClicked="#onLendingClick" prefWidth="150.0" promptText="Lending" />
       <Button fx:id="buttonSearch" layoutX="541.0" layoutY="54.0" mnemonicParsing="false" onAction="#onSearchButtonClick" prefHeight="26.0" prefWidth="29.0">
@@ -37,6 +37,5 @@
         </columns>
       </TableView>
       <Separator layoutY="109.0" prefHeight="0.0" prefWidth="600.0" />
-      <Label fx:id="labelLending" layoutX="376.0" layoutY="81.0" prefHeight="18.0" prefWidth="345.0" />
    </children>
 </AnchorPane>

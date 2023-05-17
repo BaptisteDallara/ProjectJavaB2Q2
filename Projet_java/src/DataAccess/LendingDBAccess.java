@@ -12,7 +12,8 @@ public class LendingDBAccess implements LendingDataAccess{
     private ExemplarDataAccess exemplarDataAccess = new ExemplarDBAccess();
     private BookDataAccess bookDataAccess = new BookDBAccess();
     private ExemplarDataAccess exemplarDBAccess = new ExemplarDBAccess();
-    public ArrayList<Borrower> getAllBorrowers() {
+
+    public ArrayList<Borrower> getAllBorrowers() throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select distinct firstName, lastName, phoneNumber, email, personId from person where personType = 'Reader'");
@@ -26,12 +27,12 @@ public class LendingDBAccess implements LendingDataAccess{
             }
             return readers;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public void returned(Exemplar exemplar) {
+    public void returned(Exemplar exemplar) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "update exemplar set lending = null where exemplarId = ?";
@@ -39,12 +40,12 @@ public class LendingDBAccess implements LendingDataAccess{
             statement.setInt(1,exemplar.getExemplarId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public ArrayList<Exemplar> getAllLendedExemplar() {
+    public ArrayList<Exemplar> getAllLendedExemplar() throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select * from exemplar where lending is not null");
@@ -63,11 +64,11 @@ public class LendingDBAccess implements LendingDataAccess{
             }
             return exemplars;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
-    public Lending getLendingById(Integer lendingId){
+    public Lending getLendingById(Integer lendingId) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from lending where lendingId = ?";
@@ -84,11 +85,11 @@ public class LendingDBAccess implements LendingDataAccess{
                 throw new RuntimeException("Lending not found");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
-    public Borrower getBorrowerById(Integer borrowerId){
+    public Borrower getBorrowerById(Integer borrowerId) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from person where personId = ?";
@@ -103,12 +104,12 @@ public class LendingDBAccess implements LendingDataAccess{
                 throw new RuntimeException("Borrower not found");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public Boolean getDelay(Borrower selectedBorrower,LocalDate date) {
+    public Boolean getDelay(Borrower selectedBorrower,LocalDate date) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from lending where reader = ? and isReturned = false and endDate < ?";
@@ -118,12 +119,12 @@ public class LendingDBAccess implements LendingDataAccess{
             ResultSet data = statement.executeQuery();
             return data.next();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public void addLending(Exemplar exemplar, Borrower borrower) {
+    public void addLending(Exemplar exemplar, Borrower borrower) throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into lending (reader, exemplar, beginDate, endDate, isReturned) values (?,?,?,?,?)";
@@ -136,11 +137,11 @@ public class LendingDBAccess implements LendingDataAccess{
             statement.executeUpdate();
             editExemplarLending(exemplar,borrower);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
-    public void editExemplarLending(Exemplar exemplar,Borrower borrower){
+    public void editExemplarLending(Exemplar exemplar,Borrower borrower) throws SQLException{
         try{
             Integer lendingId = getLendingId(exemplar,borrower);
             Connection connection = SingletonConnexion.getUniqueConnexion();
@@ -150,11 +151,11 @@ public class LendingDBAccess implements LendingDataAccess{
             statement.setInt(2, exemplar.getExemplarId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
-    public Integer getLendingId(Exemplar exemplar,Borrower borrower){
+    public Integer getLendingId(Exemplar exemplar,Borrower borrower) throws SQLException{
             try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select lendingId from lending where reader = ? and exemplar = ?";
@@ -165,11 +166,11 @@ public class LendingDBAccess implements LendingDataAccess{
             data.next();
             return data.getInt("lendingId");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
-    public ArrayList<Lending> getAllLendings(String borrower, LocalDate date) {
+    public ArrayList<Lending> getAllLendings(String borrower, LocalDate date) throws SQLException {
         try {
             String[] borrowerSplit = borrower.split(" ");
             String borrowerFirstName = borrowerSplit[0];
@@ -199,12 +200,12 @@ public class LendingDBAccess implements LendingDataAccess{
             }
             return lendings;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public ArrayList<Exemplar> getAllAvailableExemplar() {
+    public ArrayList<Exemplar> getAllAvailableExemplar() throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select * from exemplar where lending is null");
@@ -222,12 +223,12 @@ public class LendingDBAccess implements LendingDataAccess{
                 exemplars.add(exemplar);
             }
             return exemplars;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new SQLException(e);
         }
     }
 
-    public ArrayList<ResultResearch> getSearchLending(int lendingId) {
+    public ArrayList<ResultResearch> getSearchLending(int lendingId) throws SQLException {
         try {
             Connection connection = SingletonConnexion.getUniqueConnexion();
             StringBuilder sql = new StringBuilder("select exemplarId, title, beginDate, endDate, isReturned from book ");
@@ -255,7 +256,7 @@ public class LendingDBAccess implements LendingDataAccess{
             results.add(result);
             return results;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 }

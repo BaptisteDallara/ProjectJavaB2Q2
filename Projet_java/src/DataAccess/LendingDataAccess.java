@@ -2,17 +2,19 @@ package DataAccess;
 
 import java.util.*;
 import Model.*;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public interface LendingDataAccess {
-    public ArrayList<Borrower> getAllBorrowers();
-    public ArrayList<Exemplar> getAllAvailableExemplar();
-    public Boolean getDelay(Borrower selectedBorrower,LocalDate date);
-    public ArrayList<Exemplar> getAllLendedExemplar();
-    public void returned(Exemplar exemplar);
-    public void addLending(Exemplar exemplar,Borrower borrower);
+    public ArrayList<Borrower> getAllBorrowers() throws SQLException;
+    public ArrayList<Exemplar> getAllAvailableExemplar() throws SQLException;
+    public Boolean getDelay(Borrower selectedBorrower,LocalDate date) throws SQLException;
+    public ArrayList<Exemplar> getAllLendedExemplar() throws SQLException;
+    public void returned(Exemplar exemplar) throws SQLException;
+    public void addLending(Exemplar exemplar,Borrower borrower) throws SQLException;
 
-    public ArrayList<Lending> getAllLendings(String borrower, LocalDate date);
+    public ArrayList<Lending> getAllLendings(String borrower, LocalDate date) throws SQLException;
 
-    public ArrayList<ResultResearch> getSearchLending(int lendingId);
+    public ArrayList<ResultResearch> getSearchLending(int lendingId) throws SQLException;
 }

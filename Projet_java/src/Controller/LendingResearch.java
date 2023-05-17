@@ -2,12 +2,14 @@ package Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import Model.*;
@@ -24,9 +26,6 @@ public class LendingResearch {
 
     @FXML
     private Button buttonSearch;
-
-    @FXML
-    private Label labelLending;
 
     @FXML
     private DatePicker dateLendingBegin;
@@ -56,15 +55,17 @@ public class LendingResearch {
 
     @FXML
     public void initCBoxBorrower(){
-        ArrayList<Borrower> borrowers = lendingManager.getAllBorrowers();
-        for(Borrower borrower : borrowers){
-            borrowerCb.getItems().add(borrower.getFirstName() + " " + borrower.getLastName());
+        try {
+            ArrayList<Borrower> borrowers = lendingManager.getAllBorrowers();
+            for(Borrower borrower : borrowers){
+                borrowerCb.getItems().add(borrower.getFirstName() + " " + borrower.getLastName());
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error while loading borrowers");
+            alert.showAndWait();
         }
-    }
-
-    @FXML
-    public void onBorrowerCLicked(MouseEvent event) {
-
     }
 
     @FXML
@@ -74,15 +75,17 @@ public class LendingResearch {
 
     @FXML
     public void onLendingClick(MouseEvent event) {
-        if (borrowerCb.getValue() == null || dateLendingBegin.getValue() == null){
-            labelLending.setText("Veuillez remplir tous les champs");
-        } else {
-            labelLending.setText(null);
+        try {
+            lendingCb.getItems().clear();
             lendings = lendingManager.getAllLendings(borrowerCb.getValue(), dateLendingBegin.getValue());
             for(Lending lending : lendings){
                 lendingCb.getItems().add(lending.getBeginDate().toString() + " " + lending.getLendingId());
             }
-            lendings.clear();
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("There is no lending for this borrower and at or after this date");
+            alert.showAndWait();
         }
     }
 
@@ -107,7 +110,10 @@ public class LendingResearch {
             resultColumn.setCellValueFactory(new PropertyValueFactory<ResultResearch, String>("result"));
             tableResult.getItems().setAll(resultResearch);
         } catch (Exception e) {
-            labelLending.setText("Veuillez remplir tous les champs");
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Please fill all fields");
+            alert.showAndWait();
         }
     }
 }

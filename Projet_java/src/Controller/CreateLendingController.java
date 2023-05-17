@@ -4,6 +4,7 @@ import Business.LendingManager;
 import Model.*;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -72,26 +73,40 @@ public class CreateLendingController {
     }
 
     public void reinitalize() {
-        ouputMessage.setText("");
-        currentList = new ArrayList<>();
-        if(tableViewBorrower.getSelectionModel().getSelectedItem() != null){
-            selectedBorrower = tableViewBorrower.getSelectionModel().getSelectedItem();
-            if(lendingManager.getDelay(selectedBorrower, LocalDate.now())){
-                delayOutput.setText("Delay : yes");
-            } else {
-                delayOutput.setText("Delay : none");
+        try {
+            ouputMessage.setText(null);
+            currentList = new ArrayList<>();
+            if(tableViewBorrower.getSelectionModel().getSelectedItem() != null){
+                selectedBorrower = tableViewBorrower.getSelectionModel().getSelectedItem();
+                if(lendingManager.getDelay(selectedBorrower, LocalDate.now())){
+                    delayOutput.setText("Delay : yes");
+                } else {
+                    delayOutput.setText("Delay : none");
+                }
             }
+            initTableViewBorrower();
+            initTableViewAvailable();
+            initTableViewCurrentList();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the borrowers and the exemplars"); 
         }
-        initTableViewBorrower();
-        initTableViewAvailable();
-        initTableViewCurrentList();
+        
     }
 
 
     public void initTableViewBorrower() {
-        tableViewBorrower.getItems().clear();
-        borrowerColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-        tableViewBorrower.getItems().addAll(lendingManager.getAllBorrowers());
+        try {
+            tableViewBorrower.getItems().clear();
+            borrowerColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+            tableViewBorrower.getItems().addAll(lendingManager.getAllBorrowers());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the borrowers");
+            alert.showAndWait();
+        }
     }
 
     public void addCurrentList(){
@@ -106,42 +121,52 @@ public class CreateLendingController {
             } else {
                 throw new Exception();
             }
-        } catch (Exception e){
-            ouputMessage.setText("Select a borrower");
+        } catch (Exception exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when adding the exemplar to the current list");
+            alert.showAndWait();
         }
     }
 
     public void addLending(){
         try {
-            if (selectedBorrower != null) {
-                Double TotalPrice = 0.0;
-                for (Exemplar exemplar : currentList) {
-                    TotalPrice += exemplar.getLendingPrice();
-                    lendingManager.addLending(exemplar, selectedBorrower);
-                }
-                reinitalize();
-                tableViewBorrower.getSelectionModel().clearSelection();
-                StringBuilder totalText = new StringBuilder("Total : ").append(TotalPrice).append(" €\n");
-                totalText.append("Return date : ");
-                totalText.append(LocalDate.now().plusDays(15));
-                totalOutput.setText(totalText.toString());
-                ouputMessage.setText("Lending added");
-                selectedBorrower = null;
-            } else {
-                throw new Exception();
+            Double TotalPrice = 0.0;
+            for (Exemplar exemplar : currentList) {
+                TotalPrice += exemplar.getLendingPrice();
+                lendingManager.addLending(exemplar, selectedBorrower);
             }
+            reinitalize();
+            tableViewBorrower.getSelectionModel().clearSelection();
+            StringBuilder totalText = new StringBuilder("Total : ").append(TotalPrice).append(" €\n");
+            totalText.append("Return date : ");
+            totalText.append(LocalDate.now().plusDays(15));
+            totalOutput.setText(totalText.toString());
+            ouputMessage.setText("Lending added");
+            selectedBorrower = null;
         } catch (Exception e){
-            ouputMessage.setText("Select a borrower");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when adding the lending, Please Verify your input");
+            alert.showAndWait();
         }
     }
 
     public void initTableViewAvailable() {
-        tabViewAvailableEx.getItems().clear();
-        bookColumn.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
-        lendingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("lendingPrice"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        stateColumn.setCellValueFactory(new PropertyValueFactory<>("stateString"));
-        tabViewAvailableEx.getItems().addAll(lendingManager.getAllAvailableExemplar());
+        try {
+            tabViewAvailableEx.getItems().clear();
+            bookColumn.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
+            lendingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("lendingPrice"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+            stateColumn.setCellValueFactory(new PropertyValueFactory<>("stateString"));
+            tabViewAvailableEx.getItems().addAll(lendingManager.getAllAvailableExemplar());
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error when loading the available exemplars");
+            alert.showAndWait();
+        }
+        
     }
 
     public void initTableViewCurrentList() {
