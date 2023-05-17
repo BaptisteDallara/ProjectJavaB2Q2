@@ -2,6 +2,7 @@ package Business;
 
 import DataAccess.ExemplarDBAccess;
 import DataAccess.ExemplarDataAccess;
+import Exception.ExceptionSQL;
 import Model.Exemplar;
 import Model.Status;
 import Model.Storage;
@@ -16,24 +17,44 @@ public class ExemplarManager {
 
     }
 
-    public void addExemplar(Exemplar exemplar){
-        exemplarDataAccess.addExemplar(exemplar);
+    public void addExemplar(Exemplar exemplar) throws ExceptionSQL{
+        try {
+            exemplarDataAccess.addExemplar(exemplar);
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public ArrayList<Status> getAllStatus(){
-        return exemplarDataAccess.getAllStatus();
+    public ArrayList<Status> getAllStatus() throws ExceptionSQL{
+        try {
+            return exemplarDataAccess.getAllStatus();
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public ArrayList<Exemplar> getAllExemplar(){
-        return exemplarDataAccess.getAllExemplar();
+    public ArrayList<Exemplar> getAllExemplar() throws ExceptionSQL{
+        try {
+            return exemplarDataAccess.getAllExemplar();
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public Storage getPosition(Integer room, Integer rackNumber, Integer line){
-        return exemplarDataAccess.getPosition(room,rackNumber,line);
+    public Storage getPosition(Integer room, Integer rackNumber, Integer line) throws ExceptionSQL{
+        try {
+            return exemplarDataAccess.getPosition(room,rackNumber,line);
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
-    public void deleteExemplar(Exemplar exemplar){
-        exemplarDataAccess.deleteExemplar(exemplar);
+    public void deleteExemplar(Exemplar exemplar) throws ExceptionSQL{
+        try {
+            exemplarDataAccess.deleteExemplar(exemplar);
+        } catch (Exception exception) {
+            throw new ExceptionSQL(exception);
+        }
     }
 
 }

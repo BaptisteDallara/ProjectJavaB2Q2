@@ -203,6 +203,7 @@ public class EditBookController {
     public void initCBoxDrawer(){
         try {
             ArrayList<Contributor> contributors = bookManager.showDrawer();
+            System.out.println(contributors.get(0).getLastName());
             for (Contributor contributor : contributors) {
                 drawerCBox.getItems().add(contributor.getFirstName() + " " + contributor.getLastName());
             }

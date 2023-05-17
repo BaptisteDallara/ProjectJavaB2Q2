@@ -111,14 +111,23 @@ public class ExemplarController {
         }
     }
 
-    public void initTabViewExemplar(){
-        tabViewExemplar.getItems().clear();
-        bookColumn.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
-        languageColumn.setCellValueFactory(new PropertyValueFactory<>("languageName"));
-        pageColumn.setCellValueFactory(new PropertyValueFactory<>("nbPages"));
-        positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        tabViewExemplar.getItems().addAll(exemplarManager.getAllExemplar()); }
+    public void initTabViewExemplar() {
+        try {
+            tabViewExemplar.getItems().clear();
+            bookColumn.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
+            languageColumn.setCellValueFactory(new PropertyValueFactory<>("languageName"));
+            pageColumn.setCellValueFactory(new PropertyValueFactory<>("nbPages"));
+            positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+            tabViewExemplar.getItems().addAll(exemplarManager.getAllExemplar()); 
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing exemplar table");
+            alert.showAndWait();
+        }
+        
+    }
 
     public void initLanguageCBox(){
         try {
@@ -126,8 +135,7 @@ public class ExemplarController {
             for (Language language : languages) {
                 languageCBox.getItems().add(language.getName());
             }
-        }
-        catch (Exception e){
+        } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error while initializing language combobox");
@@ -136,9 +144,16 @@ public class ExemplarController {
     }
 
     public void initStateCBox(){
-        ArrayList<Status> states = exemplarManager.getAllStatus();
-        for(Status state : states){
-            stateCBox.getItems().add(state.getName());
+        try {
+            ArrayList<Status> states = exemplarManager.getAllStatus();
+            for (Status state : states) {
+                stateCBox.getItems().add(state.getName());
+            }
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while initializing state combobox");
+            alert.showAndWait();
         }
     }
 
@@ -148,8 +163,7 @@ public class ExemplarController {
             for (Book book : books) {
                 bookCBox.getItems().add(book.getTitle());
             }
-        }
-        catch (Exception e){
+        } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error while initializing book combobox");
@@ -159,9 +173,15 @@ public class ExemplarController {
 
     @FXML
     public void onDeleteExemplarClick() {
-        Exemplar exemplar = tabViewExemplar.getSelectionModel().getSelectedItem();
-        exemplarManager.deleteExemplar(exemplar);
-        initTabViewExemplar();
+        try {
+            Exemplar exemplar = tabViewExemplar.getSelectionModel().getSelectedItem();
+            exemplarManager.deleteExemplar(exemplar);
+            initTabViewExemplar();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error while deleting exemplar");
+            alert.showAndWait();
+        }
     }
-
 }

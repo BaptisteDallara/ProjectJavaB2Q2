@@ -30,7 +30,7 @@
          </columns>
       </TableView>
       <ComboBox fx:id="authorCBox" layoutX="388.0" layoutY="33.0" prefWidth="150.0" promptText="Author" />
-      <ComboBox fx:id="DrawerCBox" layoutX="388.0" layoutY="104.0" prefWidth="150.0" promptText="Drawer" />
+      <ComboBox fx:id="drawerCBox" layoutX="388.0" layoutY="104.0" prefWidth="150.0" promptText="Drawer" />
       <Button fx:id="btnAddAuthor" layoutX="499.0" layoutY="69.0" mnemonicParsing="false" onAction="#addAuthor" text="Add" />
       <Button fx:id="btnAddDrawer" layoutX="499.0" layoutY="140.0" mnemonicParsing="false" onAction="#addDrawer" text="Add" />
       <TableView fx:id="tableViewDraw" layoutX="425.0" layoutY="171.0" prefHeight="186.0" prefWidth="158.0">

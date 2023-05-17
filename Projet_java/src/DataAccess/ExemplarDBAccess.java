@@ -8,6 +8,7 @@ import Model.Storage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ExemplarDBAccess implements ExemplarDataAccess{
@@ -15,22 +16,22 @@ public class ExemplarDBAccess implements ExemplarDataAccess{
     private BookDataAccess bookDBAccess = new BookDBAccess();
 
     @Override
-    public void deleteExemplar(Exemplar exemplar) {
+    public void deleteExemplar(Exemplar exemplar) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "delete from exemplar where exemplarId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1,exemplar.getExemplarId());
             statement.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
     @Override
-    public ArrayList<Exemplar> getAllExemplar() {
-        ArrayList<Exemplar> exemplarList = new ArrayList<>();
+    public ArrayList<Exemplar> getAllExemplar() throws SQLException {
         try{
+            ArrayList<Exemplar> exemplarList = new ArrayList<>();
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from exemplar";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -43,14 +44,14 @@ public class ExemplarDBAccess implements ExemplarDataAccess{
                 exemplar.setExemplarId(data.getInt("exemplarId"));
                 exemplarList.add(exemplar);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return exemplarList;
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
-        return exemplarList;
     }
 
         @Override
-        public Storage getStorage(Integer positionId){
+        public Storage getStorage(Integer positionId) throws SQLException{
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from storage where storageId = ?";
@@ -63,14 +64,13 @@ public class ExemplarDBAccess implements ExemplarDataAccess{
                 position.setStorageId(data.getInt("storageId"));
             }
             return position;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
     @Override
-    public void addExemplar(Exemplar exemplar) {
+    public void addExemplar(Exemplar exemplar) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "insert into exemplar (book,language,nbPages,price,lendingPrice,state,place) values (?,?,?,?,?,?,?)";
@@ -83,13 +83,13 @@ public class ExemplarDBAccess implements ExemplarDataAccess{
             statement.setString(6,exemplar.getState().getName());
             statement.setInt(7,exemplar.getStorage().getStorageId());
             statement.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
     @Override
-    public Storage getPosition(Integer room, Integer rackNumber, Integer line) {
+    public Storage getPosition(Integer room, Integer rackNumber, Integer line) throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from storage where room = ? and rackNumber = ? and lineNumber = ?";
@@ -122,14 +122,13 @@ public class ExemplarDBAccess implements ExemplarDataAccess{
                 }
             }
             return position;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 
     @Override
-    public ArrayList<Status> getAllStatus() {
+    public ArrayList<Status> getAllStatus() throws SQLException {
         try{
             Connection connection = SingletonConnexion.getUniqueConnexion();
             String sql = "select * from status";
@@ -142,9 +141,8 @@ public class ExemplarDBAccess implements ExemplarDataAccess{
 
             }
             return statusList;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+        } catch (SQLException exception) {
+            throw new SQLException(exception);
         }
     }
 }
