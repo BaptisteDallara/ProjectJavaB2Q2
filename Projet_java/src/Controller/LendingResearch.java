@@ -82,8 +82,8 @@ public class LendingResearch {
                 lendingCb.getItems().add(lending.getBeginDate().toString() + " " + lending.getLendingId());
             }
         } catch (Exception e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Dialog");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
             alert.setHeaderText("There is no lending for this borrower and at or after this date");
             alert.showAndWait();
         }
@@ -110,8 +110,8 @@ public class LendingResearch {
             resultColumn.setCellValueFactory(new PropertyValueFactory<ResultResearch, String>("result"));
             tableResult.getItems().setAll(resultResearch);
         } catch (Exception e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Dialog");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
             alert.setHeaderText("Please fill all fields");
             alert.showAndWait();
         }

@@ -82,8 +82,8 @@ public class CreatePersonController {
 
     @FXML
     public void addPerson(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
         try{
             if(!personType.getValue().isEmpty()) {
                 if(!inputFName.getText().isEmpty() && !inputLName.getText().isEmpty()) {
@@ -147,8 +147,10 @@ public class CreatePersonController {
                 alert.showAndWait();
             }
         } catch (Exception exception){
-            alert.setHeaderText("Error when adding the person");
-            alert.showAndWait();
+            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+            alert1.setTitle("Error Dialog");
+            alert1.setHeaderText("Error when adding the person");
+            alert1.showAndWait();
         }
     }
 

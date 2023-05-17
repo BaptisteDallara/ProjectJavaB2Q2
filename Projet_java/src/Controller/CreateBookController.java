@@ -112,8 +112,8 @@ public class CreateBookController {
                     clearAllSelection();
                 }
                 else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
                 alert.setHeaderText("Invalid input");
                 alert.showAndWait();
             }
@@ -156,6 +156,7 @@ public class CreateBookController {
         columnDrawerLName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         tableViewDraw.getItems().setAll(drawers);
     }
+    
     public void addAuthor(){
         try {
             String authorName = authorCBox.getValue();

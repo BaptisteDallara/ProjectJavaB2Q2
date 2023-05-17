@@ -112,7 +112,7 @@ public class BookUtilsController {
             initTableViewEdition();
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Dialog");
+            alert.setTitle("Information Dialog");
             alert.setHeaderText("Please enter a name and select a country");
             alert.showAndWait();
         }
@@ -126,8 +126,8 @@ public class BookUtilsController {
             inputSerieName.clear();
             initTableViewSerie();
         } catch (Exception exception) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Dialog");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
             alert.setHeaderText("Please enter a name for the serie");
             alert.showAndWait();
         }

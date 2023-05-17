@@ -62,8 +62,8 @@ public class SerieResearch {
 
     @FXML
     public void onSearchSerieClicked(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
         try {
             if (serieCB.getValue() != null) {
                 resultTable.getItems().clear();
@@ -85,8 +85,10 @@ public class SerieResearch {
                 alert.showAndWait();
             }
         } catch (Exception exception) {
-            alert.setHeaderText("Error while searching serie");
-            alert.showAndWait();
+            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+            alert1.setTitle("Error");
+            alert1.setHeaderText("Error while searching serie");
+            alert1.showAndWait();
         }
     }
 

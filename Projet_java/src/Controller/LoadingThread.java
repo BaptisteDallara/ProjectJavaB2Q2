@@ -2,6 +2,7 @@ package Controller;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
 public class LoadingThread extends Thread{
@@ -23,7 +24,10 @@ public class LoadingThread extends Thread{
                     nbCaractLoad++;
                 }
             } catch (InterruptedException e){
-                throw new RuntimeException(e);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error while loading the welcome text");
+                alert.showAndWait();
             }
     }
 }

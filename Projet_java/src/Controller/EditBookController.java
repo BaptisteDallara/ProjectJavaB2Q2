@@ -279,8 +279,8 @@ public class EditBookController {
                 outputMessage.setText("Success");
                 clearAllSelection();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Dialog");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
                 alert.setHeaderText("Invalid input");
                 alert.showAndWait();
             }

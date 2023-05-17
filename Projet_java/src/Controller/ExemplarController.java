@@ -97,8 +97,8 @@ public class ExemplarController {
                 outputMessage.setText("Success");
                 initTabViewExemplar();
             } else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
                 alert.setHeaderText("Input incorrect");
                 alert.showAndWait();
             }

@@ -79,8 +79,8 @@ public class AuthorDisplayController {
             }
             series.clear();
         } catch (Exception exception) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
             alert.setHeaderText("Please select an author");
             alert.showAndWait();
         }
@@ -96,8 +96,8 @@ public class AuthorDisplayController {
             }
             books.clear();
         } catch (Exception exception) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
             alert.setHeaderText("Please select at least an author");
             alert.showAndWait();
         }
@@ -134,8 +134,8 @@ public class AuthorDisplayController {
             resultTable.getItems().addAll(resultResearch);
             tableName.getItems().addAll(tableNames);
         } catch (Exception exception) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
             alert.setHeaderText("Please select at least an author and a book");
             alert.showAndWait();
         }
