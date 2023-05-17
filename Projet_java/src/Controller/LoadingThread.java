@@ -1,29 +1,29 @@
 package Controller;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
-
-import java.io.IOException;
-import java.util.Objects;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.scene.control.Label;
 
 public class LoadingThread extends Thread{
-    private String scene;
-    private AnchorPane secondaryPane;
+    private Label welcomeText;
+    private Integer nbCaractLoad;
 
-    public LoadingThread(String scene, AnchorPane secondaryPane) {
-        this.scene = scene;
-        this.secondaryPane = secondaryPane;
+    public LoadingThread(Label welcomeText) {
+        this.welcomeText = welcomeText;
+        nbCaractLoad = 0;
     }
 
     @Override
-    public void run() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(scene)));
-            Parent root = fxmlLoader.load();
-            secondaryPane.getChildren().setAll(root);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        public void run() {
+            try {
+                String text = " Welcome";
+                for(int i = 0; i < text.length() -1;i++){
+                    Thread.sleep(500);
+                    Platform.runLater(() -> welcomeText.setText(welcomeText.getText() + text.charAt(nbCaractLoad)));
+                    nbCaractLoad++;
+                }
+            } catch (InterruptedException e){
+                throw new RuntimeException(e);
+            }
     }
 }
